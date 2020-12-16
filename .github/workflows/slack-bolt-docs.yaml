@@ -13,11 +13,12 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: slackapi/bolt-python
-          path: bolt-python
+#          path: bolt-python
       - uses: actions/setup-python@v2
         with:
           python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
       - name: Install dependencies
+#        working-directory: bolt-python
         run: |
           ls
           pwd
