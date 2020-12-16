@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: '0 0 * * 0'
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout tools repo
+        uses: actions/checkout@v2
+        with:
+          repository: slackapi/bolt-python/
+          path: bolt-python
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+      - name: Install dependencies
+        run: |
+          python setup.py install
+          pip install -U pip
+          pip install pdoc3
+          pip install -e [async,adapter]
+      - name: Generate docs(main)
+        run: |
+          pdoc3 slack_bolt --html
+      - name: Deploy docs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./html
+
+#      - name: Get Latest Release
+#        run: |
+#          BOLT_LATEST_RELEASE=$(curl -Ls https://api.github.com/repos/slackapi/bolt-python/releases/latest | jq -r .tag_name)
+
+#          pip install "pytest>=5,<6" "pytest-cov>=2,<3"
+
+#      # https://github.com/marketplace/actions/github-pages-action
