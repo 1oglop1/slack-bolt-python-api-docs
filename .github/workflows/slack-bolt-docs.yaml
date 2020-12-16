@@ -19,10 +19,11 @@ jobs:
           python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
       - name: Install dependencies
         run: |
-          python setup.py install
+          ls
+          pwd
           pip install -U pip
           pip install pdoc3
-          pip install -e [async,adapter]
+          pip install -e .[async,adapter]
       - name: Generate docs(main)
         run: |
           pdoc3 slack_bolt --html
