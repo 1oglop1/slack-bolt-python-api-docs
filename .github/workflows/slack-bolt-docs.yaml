@@ -12,7 +12,7 @@ jobs:
       - name: Checkout tools repo
         uses: actions/checkout@v2
         with:
-          repository: slackapi/bolt-python/
+          repository: slackapi/bolt-python
           path: bolt-python
       - uses: actions/setup-python@v2
         with:
