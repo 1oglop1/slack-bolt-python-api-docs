@@ -36,7 +36,9 @@ from slack_bolt.oauth.async_oauth_flow import AsyncOAuthFlow
 
 def to_async_bolt_request(req: Request, body: bytes) -&gt; AsyncBoltRequest:
     return AsyncBoltRequest(
-        body=body.decode(&#34;utf-8&#34;), query=req.query_params, headers=req.headers,
+        body=body.decode(&#34;utf-8&#34;),
+        query=req.query_params,
+        headers=req.headers,
     )
 
 
@@ -84,7 +86,10 @@ class AsyncSlackRequestHandler:
             bolt_resp = await self.app.async_dispatch(to_async_bolt_request(req, body))
             return to_starlette_response(bolt_resp)
 
-        return Response(status_code=404, content=&#34;Not found&#34;,)</code></pre>
+        return Response(
+            status_code=404,
+            content=&#34;Not found&#34;,
+        )</code></pre>
 </details>
 </section>
 <section>
@@ -105,7 +110,9 @@ class AsyncSlackRequestHandler:
 </summary>
 <pre><code class="python">def to_async_bolt_request(req: Request, body: bytes) -&gt; AsyncBoltRequest:
     return AsyncBoltRequest(
-        body=body.decode(&#34;utf-8&#34;), query=req.query_params, headers=req.headers,
+        body=body.decode(&#34;utf-8&#34;),
+        query=req.query_params,
+        headers=req.headers,
     )</code></pre>
 </details>
 </dd>
@@ -177,7 +184,10 @@ class AsyncSlackRequestHandler:
             bolt_resp = await self.app.async_dispatch(to_async_bolt_request(req, body))
             return to_starlette_response(bolt_resp)
 
-        return Response(status_code=404, content=&#34;Not found&#34;,)</code></pre>
+        return Response(
+            status_code=404,
+            content=&#34;Not found&#34;,
+        )</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -209,7 +219,10 @@ class AsyncSlackRequestHandler:
         bolt_resp = await self.app.async_dispatch(to_async_bolt_request(req, body))
         return to_starlette_response(bolt_resp)
 
-    return Response(status_code=404, content=&#34;Not found&#34;,)</code></pre>
+    return Response(
+        status_code=404,
+        content=&#34;Not found&#34;,
+    )</code></pre>
 </details>
 </dd>
 </dl>

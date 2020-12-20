@@ -35,7 +35,9 @@ from slack_bolt.oauth import OAuthFlow
 
 def to_bolt_request(req: Request, body: bytes) -&gt; BoltRequest:
     return BoltRequest(
-        body=body.decode(&#34;utf-8&#34;), query=req.query_params, headers=req.headers,
+        body=body.decode(&#34;utf-8&#34;),
+        query=req.query_params,
+        headers=req.headers,
     )
 
 
@@ -81,7 +83,10 @@ class SlackRequestHandler:
             bolt_resp = self.app.dispatch(to_bolt_request(req, body))
             return to_starlette_response(bolt_resp)
 
-        return Response(status_code=404, content=&#34;Not found&#34;,)</code></pre>
+        return Response(
+            status_code=404,
+            content=&#34;Not found&#34;,
+        )</code></pre>
 </details>
 </section>
 <section>
@@ -102,7 +107,9 @@ class SlackRequestHandler:
 </summary>
 <pre><code class="python">def to_bolt_request(req: Request, body: bytes) -&gt; BoltRequest:
     return BoltRequest(
-        body=body.decode(&#34;utf-8&#34;), query=req.query_params, headers=req.headers,
+        body=body.decode(&#34;utf-8&#34;),
+        query=req.query_params,
+        headers=req.headers,
     )</code></pre>
 </details>
 </dd>
@@ -172,7 +179,10 @@ class SlackRequestHandler:
             bolt_resp = self.app.dispatch(to_bolt_request(req, body))
             return to_starlette_response(bolt_resp)
 
-        return Response(status_code=404, content=&#34;Not found&#34;,)</code></pre>
+        return Response(
+            status_code=404,
+            content=&#34;Not found&#34;,
+        )</code></pre>
 </details>
 <h3>Methods</h3>
 <dl>
@@ -202,7 +212,10 @@ class SlackRequestHandler:
         bolt_resp = self.app.dispatch(to_bolt_request(req, body))
         return to_starlette_response(bolt_resp)
 
-    return Response(status_code=404, content=&#34;Not found&#34;,)</code></pre>
+    return Response(
+        status_code=404,
+        content=&#34;Not found&#34;,
+    )</code></pre>
 </details>
 </dd>
 </dl>

@@ -49,7 +49,10 @@ from slack_bolt.request.payload_utils import (
 class ListenerErrorHandler(metaclass=ABCMeta):
     @abstractmethod
     def handle(
-        self, error: Exception, request: BoltRequest, response: Optional[BoltResponse],
+        self,
+        error: Exception,
+        request: BoltRequest,
+        response: Optional[BoltResponse],
     ) -&gt; None:
         &#34;&#34;&#34;Handles an unhandled exception.
 
@@ -68,7 +71,10 @@ class CustomListenerErrorHandler(ListenerErrorHandler):
         self.arg_names = inspect.getfullargspec(func).args
 
     def handle(
-        self, error: Exception, request: BoltRequest, response: Optional[BoltResponse],
+        self,
+        error: Exception,
+        request: BoltRequest,
+        response: Optional[BoltResponse],
     ):
         all_available_args = {
             &#34;logger&#34;: self.logger,
@@ -123,7 +129,10 @@ class DefaultListenerErrorHandler(ListenerErrorHandler):
         self.logger = logger
 
     def handle(
-        self, error: Exception, request: BoltRequest, response: Optional[BoltResponse],
+        self,
+        error: Exception,
+        request: BoltRequest,
+        response: Optional[BoltResponse],
     ):
         message = f&#34;Failed to run listener function (error: {error})&#34;
         self.logger.exception(message)</code></pre>
@@ -155,7 +164,10 @@ class DefaultListenerErrorHandler(ListenerErrorHandler):
         self.arg_names = inspect.getfullargspec(func).args
 
     def handle(
-        self, error: Exception, request: BoltRequest, response: Optional[BoltResponse],
+        self,
+        error: Exception,
+        request: BoltRequest,
+        response: Optional[BoltResponse],
     ):
         all_available_args = {
             &#34;logger&#34;: self.logger,
@@ -232,7 +244,10 @@ class DefaultListenerErrorHandler(ListenerErrorHandler):
         self.logger = logger
 
     def handle(
-        self, error: Exception, request: BoltRequest, response: Optional[BoltResponse],
+        self,
+        error: Exception,
+        request: BoltRequest,
+        response: Optional[BoltResponse],
     ):
         message = f&#34;Failed to run listener function (error: {error})&#34;
         self.logger.exception(message)</code></pre>
@@ -262,7 +277,10 @@ class DefaultListenerErrorHandler(ListenerErrorHandler):
 <pre><code class="python">class ListenerErrorHandler(metaclass=ABCMeta):
     @abstractmethod
     def handle(
-        self, error: Exception, request: BoltRequest, response: Optional[BoltResponse],
+        self,
+        error: Exception,
+        request: BoltRequest,
+        response: Optional[BoltResponse],
     ) -&gt; None:
         &#34;&#34;&#34;Handles an unhandled exception.
 
@@ -295,7 +313,10 @@ class DefaultListenerErrorHandler(ListenerErrorHandler):
 </summary>
 <pre><code class="python">@abstractmethod
 def handle(
-    self, error: Exception, request: BoltRequest, response: Optional[BoltResponse],
+    self,
+    error: Exception,
+    request: BoltRequest,
+    response: Optional[BoltResponse],
 ) -&gt; None:
     &#34;&#34;&#34;Handles an unhandled exception.
 

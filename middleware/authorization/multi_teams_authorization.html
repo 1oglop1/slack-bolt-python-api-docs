@@ -47,7 +47,9 @@ class MultiTeamsAuthorization(Authorization):
     authorize: Authorize
 
     def __init__(
-        self, *, authorize: Authorize,
+        self,
+        *,
+        authorize: Authorize,
     ):
         &#34;&#34;&#34;Multi-workspace authorization.
 
@@ -57,7 +59,11 @@ class MultiTeamsAuthorization(Authorization):
         self.logger = get_bolt_logger(MultiTeamsAuthorization)
 
     def process(
-        self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
+        next: Callable[[], BoltResponse],
     ) -&gt; BoltResponse:
         if _is_no_auth_required(req):
             return next()
@@ -121,7 +127,9 @@ class MultiTeamsAuthorization(Authorization):
     authorize: Authorize
 
     def __init__(
-        self, *, authorize: Authorize,
+        self,
+        *,
+        authorize: Authorize,
     ):
         &#34;&#34;&#34;Multi-workspace authorization.
 
@@ -131,7 +139,11 @@ class MultiTeamsAuthorization(Authorization):
         self.logger = get_bolt_logger(MultiTeamsAuthorization)
 
     def process(
-        self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
+        next: Callable[[], BoltResponse],
     ) -&gt; BoltResponse:
         if _is_no_auth_required(req):
             return next()
@@ -194,7 +206,11 @@ class MultiTeamsAuthorization(Authorization):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def process(
-    self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+    self,
+    *,
+    req: BoltRequest,
+    resp: BoltResponse,
+    next: Callable[[], BoltResponse],
 ) -&gt; BoltResponse:
     if _is_no_auth_required(req):
         return next()

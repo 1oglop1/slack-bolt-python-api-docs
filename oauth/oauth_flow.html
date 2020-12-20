@@ -162,7 +162,9 @@ class OAuthFlow:
                 authorization_url=authorization_url,
                 # Installation Management
                 installation_store=SQLite3InstallationStore(
-                    database=database, client_id=client_id, logger=logger,
+                    database=database,
+                    client_id=client_id,
+                    logger=logger,
                 ),
                 installation_store_bot_only=installation_store_bot_only,
                 # state parameter related configurations
@@ -315,17 +317,17 @@ class OAuthFlow:
                 client_secret=self.settings.client_secret,
                 redirect_uri=self.settings.redirect_uri,  # can be None
             )
-            installed_enterprise: Dict[str, str] = oauth_response.get(
-                &#34;enterprise&#34;
-            ) or {}
-            is_enterprise_install: bool = oauth_response.get(
-                &#34;is_enterprise_install&#34;
-            ) or False
+            installed_enterprise: Dict[str, str] = (
+                oauth_response.get(&#34;enterprise&#34;) or {}
+            )
+            is_enterprise_install: bool = (
+                oauth_response.get(&#34;is_enterprise_install&#34;) or False
+            )
             installed_team: Dict[str, str] = oauth_response.get(&#34;team&#34;) or {}
             installer: Dict[str, str] = oauth_response.get(&#34;authed_user&#34;) or {}
-            incoming_webhook: Dict[str, str] = oauth_response.get(
-                &#34;incoming_webhook&#34;
-            ) or {}
+            incoming_webhook: Dict[str, str] = (
+                oauth_response.get(&#34;incoming_webhook&#34;) or {}
+            )
 
             bot_token: Optional[str] = oauth_response.get(&#34;access_token&#34;)
             # NOTE: oauth.v2.access doesn&#39;t include bot_id in response
@@ -504,7 +506,9 @@ class OAuthFlow:
                 authorization_url=authorization_url,
                 # Installation Management
                 installation_store=SQLite3InstallationStore(
-                    database=database, client_id=client_id, logger=logger,
+                    database=database,
+                    client_id=client_id,
+                    logger=logger,
                 ),
                 installation_store_bot_only=installation_store_bot_only,
                 # state parameter related configurations
@@ -657,17 +661,17 @@ class OAuthFlow:
                 client_secret=self.settings.client_secret,
                 redirect_uri=self.settings.redirect_uri,  # can be None
             )
-            installed_enterprise: Dict[str, str] = oauth_response.get(
-                &#34;enterprise&#34;
-            ) or {}
-            is_enterprise_install: bool = oauth_response.get(
-                &#34;is_enterprise_install&#34;
-            ) or False
+            installed_enterprise: Dict[str, str] = (
+                oauth_response.get(&#34;enterprise&#34;) or {}
+            )
+            is_enterprise_install: bool = (
+                oauth_response.get(&#34;is_enterprise_install&#34;) or False
+            )
             installed_team: Dict[str, str] = oauth_response.get(&#34;team&#34;) or {}
             installer: Dict[str, str] = oauth_response.get(&#34;authed_user&#34;) or {}
-            incoming_webhook: Dict[str, str] = oauth_response.get(
-                &#34;incoming_webhook&#34;
-            ) or {}
+            incoming_webhook: Dict[str, str] = (
+                oauth_response.get(&#34;incoming_webhook&#34;) or {}
+            )
 
             bot_token: Optional[str] = oauth_response.get(&#34;access_token&#34;)
             # NOTE: oauth.v2.access doesn&#39;t include bot_id in response
@@ -810,7 +814,9 @@ def sqlite3(
             authorization_url=authorization_url,
             # Installation Management
             installation_store=SQLite3InstallationStore(
-                database=database, client_id=client_id, logger=logger,
+                database=database,
+                client_id=client_id,
+                logger=logger,
             ),
             installation_store_bot_only=installation_store_bot_only,
             # state parameter related configurations
@@ -1043,17 +1049,17 @@ def logger(self) -&gt; Logger:
             client_secret=self.settings.client_secret,
             redirect_uri=self.settings.redirect_uri,  # can be None
         )
-        installed_enterprise: Dict[str, str] = oauth_response.get(
-            &#34;enterprise&#34;
-        ) or {}
-        is_enterprise_install: bool = oauth_response.get(
-            &#34;is_enterprise_install&#34;
-        ) or False
+        installed_enterprise: Dict[str, str] = (
+            oauth_response.get(&#34;enterprise&#34;) or {}
+        )
+        is_enterprise_install: bool = (
+            oauth_response.get(&#34;is_enterprise_install&#34;) or False
+        )
         installed_team: Dict[str, str] = oauth_response.get(&#34;team&#34;) or {}
         installer: Dict[str, str] = oauth_response.get(&#34;authed_user&#34;) or {}
-        incoming_webhook: Dict[str, str] = oauth_response.get(
-            &#34;incoming_webhook&#34;
-        ) or {}
+        incoming_webhook: Dict[str, str] = (
+            oauth_response.get(&#34;incoming_webhook&#34;) or {}
+        )
 
         bot_token: Optional[str] = oauth_response.get(&#34;access_token&#34;)
         # NOTE: oauth.v2.access doesn&#39;t include bot_id in response

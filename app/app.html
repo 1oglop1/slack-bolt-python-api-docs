@@ -104,6 +104,7 @@ class App:
         signing_secret: Optional[str] = None,
         # for single-workspace apps
         token: Optional[str] = None,
+        token_verification_enabled: bool = True,
         client: Optional[WebClient] = None,
         # for multi-workspace apps
         authorize: Optional[Callable[..., AuthorizeResult]] = None,
@@ -123,6 +124,7 @@ class App:
         :param process_before_response: True if this app runs on Function as a Service. (Default: False)
         :param signing_secret: The Signing Secret value used for verifying requests from Slack.
         :param token: The bot access token required only for single-workspace app.
+        :param token_verification_enabled: Verifies the validity of the given token if True.
         :param client: The singleton slack_sdk.WebClient instance for this app.
         :param authorize: The function to authorize an incoming request from Slack
             by checking if there is a team/user in the installation data.
@@ -250,14 +252,17 @@ class App:
             ),
             listener_executor=listener_executor,
             lazy_listener_runner=ThreadLazyListenerRunner(
-                logger=self._framework_logger, executor=listener_executor,
+                logger=self._framework_logger,
+                executor=listener_executor,
             ),
         )
 
         self._init_middleware_list_done = False
-        self._init_middleware_list()
+        self._init_middleware_list(
+            token_verification_enabled=token_verification_enabled
+        )
 
-    def _init_middleware_list(self):
+    def _init_middleware_list(self, token_verification_enabled: bool):
         if self._init_middleware_list_done:
             return
         self._middleware_list.append(
@@ -268,7 +273,9 @@ class App:
         if self._oauth_flow is None:
             if self._token is not None:
                 try:
-                    auth_test_result = self._client.auth_test(token=self._token)
+                    auth_test_result = None
+                    if token_verification_enabled:
+                        auth_test_result = self._client.auth_test(token=self._token)
                     self._middleware_list.append(
                         SingleTeamAuthorization(auth_test_result=auth_test_result)
                     )
@@ -328,7 +335,10 @@ class App:
         :return: None
         &#34;&#34;&#34;
         self._development_server = SlackAppDevelopmentServer(
-            port=port, path=path, app=self, oauth_flow=self.oauth_flow,
+            port=port,
+            path=path,
+            app=self,
+            oauth_flow=self.oauth_flow,
         )
         self._development_server.start()
 
@@ -433,7 +443,10 @@ class App:
         step = callback_id
         if isinstance(callback_id, (str, Pattern)):
             step = WorkflowStep(
-                callback_id=callback_id, edit=edit, save=save, execute=execute,
+                callback_id=callback_id,
+                edit=edit,
+                save=save,
+                execute=execute,
             )
         elif not isinstance(step, WorkflowStep):
             raise BoltError(&#34;Invalid step object&#34;)
@@ -453,7 +466,8 @@ class App:
         :return: None
         &#34;&#34;&#34;
         self._listener_runner.listener_error_handler = CustomListenerErrorHandler(
-            logger=self._framework_logger, func=func,
+            logger=self._framework_logger,
+            func=func,
         )
         return func
 
@@ -886,7 +900,11 @@ class App:
 
 class SlackAppDevelopmentServer:
     def __init__(
-        self, port: int, path: str, app: App, oauth_flow: Optional[OAuthFlow] = None,
+        self,
+        port: int,
+        path: str,
+        app: App,
+        oauth_flow: Optional[OAuthFlow] = None,
     ):
         &#34;&#34;&#34;Slack App Development Server
 
@@ -997,7 +1015,7 @@ class SlackAppDevelopmentServer:
 <dl>
 <dt id="slack_bolt.app.app.App"><code class="flex name class">
 <span>class <span class="ident">App</span></span>
-<span>(</span><span>*, logger: Optional[logging.Logger] = None, name: Optional[str] = None, process_before_response: bool = False, signing_secret: Optional[str] = None, token: Optional[str] = None, client: Optional[slack_sdk.web.client.WebClient] = None, authorize: Optional[Callable[..., <a title="slack_bolt.authorization.authorize_result.AuthorizeResult" href="../authorization/authorize_result.html#slack_bolt.authorization.authorize_result.AuthorizeResult">AuthorizeResult</a>]] = None, installation_store: Optional[slack_sdk.oauth.installation_store.installation_store.InstallationStore] = None, installation_store_bot_only: Optional[bool] = None, oauth_settings: Optional[<a title="slack_bolt.oauth.oauth_settings.OAuthSettings" href="../oauth/oauth_settings.html#slack_bolt.oauth.oauth_settings.OAuthSettings">OAuthSettings</a>] = None, oauth_flow: Optional[<a title="slack_bolt.oauth.oauth_flow.OAuthFlow" href="../oauth/oauth_flow.html#slack_bolt.oauth.oauth_flow.OAuthFlow">OAuthFlow</a>] = None, verification_token: Optional[str] = None)</span>
+<span>(</span><span>*, logger: Optional[logging.Logger] = None, name: Optional[str] = None, process_before_response: bool = False, signing_secret: Optional[str] = None, token: Optional[str] = None, token_verification_enabled: bool = True, client: Optional[slack_sdk.web.client.WebClient] = None, authorize: Optional[Callable[..., <a title="slack_bolt.authorization.authorize_result.AuthorizeResult" href="../authorization/authorize_result.html#slack_bolt.authorization.authorize_result.AuthorizeResult">AuthorizeResult</a>]] = None, installation_store: Optional[slack_sdk.oauth.installation_store.installation_store.InstallationStore] = None, installation_store_bot_only: Optional[bool] = None, oauth_settings: Optional[<a title="slack_bolt.oauth.oauth_settings.OAuthSettings" href="../oauth/oauth_settings.html#slack_bolt.oauth.oauth_settings.OAuthSettings">OAuthSettings</a>] = None, oauth_flow: Optional[<a title="slack_bolt.oauth.oauth_flow.OAuthFlow" href="../oauth/oauth_flow.html#slack_bolt.oauth.oauth_flow.OAuthFlow">OAuthFlow</a>] = None, verification_token: Optional[str] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Bolt App that provides functionalities to register middleware/listeners</p>
@@ -1006,6 +1024,7 @@ If absent, the source file name will be used instead.
 :param process_before_response: True if this app runs on Function as a Service. (Default: False)
 :param signing_secret: The Signing Secret value used for verifying requests from Slack.
 :param token: The bot access token required only for single-workspace app.
+:param token_verification_enabled: Verifies the validity of the given token if True.
 :param client: The singleton slack_sdk.WebClient instance for this app.
 :param authorize: The function to authorize an incoming request from Slack
 by checking if there is a team/user in the installation data.
@@ -1033,6 +1052,7 @@ This can used only for ssl_check requests.</p></div>
         signing_secret: Optional[str] = None,
         # for single-workspace apps
         token: Optional[str] = None,
+        token_verification_enabled: bool = True,
         client: Optional[WebClient] = None,
         # for multi-workspace apps
         authorize: Optional[Callable[..., AuthorizeResult]] = None,
@@ -1052,6 +1072,7 @@ This can used only for ssl_check requests.</p></div>
         :param process_before_response: True if this app runs on Function as a Service. (Default: False)
         :param signing_secret: The Signing Secret value used for verifying requests from Slack.
         :param token: The bot access token required only for single-workspace app.
+        :param token_verification_enabled: Verifies the validity of the given token if True.
         :param client: The singleton slack_sdk.WebClient instance for this app.
         :param authorize: The function to authorize an incoming request from Slack
             by checking if there is a team/user in the installation data.
@@ -1179,14 +1200,17 @@ This can used only for ssl_check requests.</p></div>
             ),
             listener_executor=listener_executor,
             lazy_listener_runner=ThreadLazyListenerRunner(
-                logger=self._framework_logger, executor=listener_executor,
+                logger=self._framework_logger,
+                executor=listener_executor,
             ),
         )
 
         self._init_middleware_list_done = False
-        self._init_middleware_list()
+        self._init_middleware_list(
+            token_verification_enabled=token_verification_enabled
+        )
 
-    def _init_middleware_list(self):
+    def _init_middleware_list(self, token_verification_enabled: bool):
         if self._init_middleware_list_done:
             return
         self._middleware_list.append(
@@ -1197,7 +1221,9 @@ This can used only for ssl_check requests.</p></div>
         if self._oauth_flow is None:
             if self._token is not None:
                 try:
-                    auth_test_result = self._client.auth_test(token=self._token)
+                    auth_test_result = None
+                    if token_verification_enabled:
+                        auth_test_result = self._client.auth_test(token=self._token)
                     self._middleware_list.append(
                         SingleTeamAuthorization(auth_test_result=auth_test_result)
                     )
@@ -1257,7 +1283,10 @@ This can used only for ssl_check requests.</p></div>
         :return: None
         &#34;&#34;&#34;
         self._development_server = SlackAppDevelopmentServer(
-            port=port, path=path, app=self, oauth_flow=self.oauth_flow,
+            port=port,
+            path=path,
+            app=self,
+            oauth_flow=self.oauth_flow,
         )
         self._development_server.start()
 
@@ -1362,7 +1391,10 @@ This can used only for ssl_check requests.</p></div>
         step = callback_id
         if isinstance(callback_id, (str, Pattern)):
             step = WorkflowStep(
-                callback_id=callback_id, edit=edit, save=save, execute=execute,
+                callback_id=callback_id,
+                edit=edit,
+                save=save,
+                execute=execute,
             )
         elif not isinstance(step, WorkflowStep):
             raise BoltError(&#34;Invalid step object&#34;)
@@ -1382,7 +1414,8 @@ This can used only for ssl_check requests.</p></div>
         :return: None
         &#34;&#34;&#34;
         self._listener_runner.listener_error_handler = CustomListenerErrorHandler(
-            logger=self._framework_logger, func=func,
+            logger=self._framework_logger,
+            func=func,
         )
         return func
 
@@ -2206,7 +2239,8 @@ when getting an unhandled error in Bolt app.
     :return: None
     &#34;&#34;&#34;
     self._listener_runner.listener_error_handler = CustomListenerErrorHandler(
-        logger=self._framework_logger, func=func,
+        logger=self._framework_logger,
+        func=func,
     )
     return func</code></pre>
 </details>
@@ -2468,7 +2502,10 @@ For production, consider using a production-ready WSGI server such as Gunicorn.<
     :return: None
     &#34;&#34;&#34;
     self._development_server = SlackAppDevelopmentServer(
-        port=port, path=path, app=self, oauth_flow=self.oauth_flow,
+        port=port,
+        path=path,
+        app=self,
+        oauth_flow=self.oauth_flow,
     )
     self._development_server.start()</code></pre>
 </details>
@@ -2499,7 +2536,10 @@ For production, consider using a production-ready WSGI server such as Gunicorn.<
     step = callback_id
     if isinstance(callback_id, (str, Pattern)):
         step = WorkflowStep(
-            callback_id=callback_id, edit=edit, save=save, execute=execute,
+            callback_id=callback_id,
+            edit=edit,
+            save=save,
+            execute=execute,
         )
     elif not isinstance(step, WorkflowStep):
         raise BoltError(&#34;Invalid step object&#34;)
@@ -2632,7 +2672,11 @@ along with a production-grade server when running the app for end users.
 </summary>
 <pre><code class="python">class SlackAppDevelopmentServer:
     def __init__(
-        self, port: int, path: str, app: App, oauth_flow: Optional[OAuthFlow] = None,
+        self,
+        port: int,
+        path: str,
+        app: App,
+        oauth_flow: Optional[OAuthFlow] = None,
     ):
         &#34;&#34;&#34;Slack App Development Server
 

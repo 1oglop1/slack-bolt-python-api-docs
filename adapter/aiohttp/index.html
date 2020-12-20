@@ -36,7 +36,9 @@ from slack_bolt.response import BoltResponse
 
 async def to_bolt_request(request: web.Request) -&gt; AsyncBoltRequest:
     return AsyncBoltRequest(
-        body=await request.text(), query=request.query_string, headers=request.headers,
+        body=await request.text(),
+        query=request.query_string,
+        headers=request.headers,
     )
 
 
@@ -121,7 +123,9 @@ async def to_aiohttp_response(bolt_resp: BoltResponse) -&gt; web.Response:
 </summary>
 <pre><code class="python">async def to_bolt_request(request: web.Request) -&gt; AsyncBoltRequest:
     return AsyncBoltRequest(
-        body=await request.text(), query=request.query_string, headers=request.headers,
+        body=await request.text(),
+        query=request.query_string,
+        headers=request.headers,
     )</code></pre>
 </details>
 </dd>

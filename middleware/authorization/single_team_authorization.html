@@ -53,7 +53,11 @@ class SingleTeamAuthorization(Authorization):
         self.logger = get_bolt_logger(SingleTeamAuthorization)
 
     def process(
-        self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
+        next: Callable[[], BoltResponse],
     ) -&gt; BoltResponse:
         if _is_no_auth_required(req):
             return next()
@@ -120,7 +124,11 @@ class SingleTeamAuthorization(Authorization):
         self.logger = get_bolt_logger(SingleTeamAuthorization)
 
     def process(
-        self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
+        next: Callable[[], BoltResponse],
     ) -&gt; BoltResponse:
         if _is_no_auth_required(req):
             return next()
@@ -173,7 +181,11 @@ class SingleTeamAuthorization(Authorization):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def process(
-    self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+    self,
+    *,
+    req: BoltRequest,
+    resp: BoltResponse,
+    next: Callable[[], BoltResponse],
 ) -&gt; BoltResponse:
     if _is_no_auth_required(req):
         return next()

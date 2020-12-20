@@ -42,7 +42,11 @@ class WorkflowStepMiddleware(Middleware):  # type:ignore
         self.listener_runner = listener_runner
 
     def process(
-        self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
+        next: Callable[[], BoltResponse],
     ) -&gt; BoltResponse:
 
         if self.step.edit.matches(req=req, resp=resp):
@@ -61,7 +65,10 @@ class WorkflowStepMiddleware(Middleware):  # type:ignore
         return next()
 
     def _run(
-        self, listener: Listener, req: BoltRequest, resp: BoltResponse,
+        self,
+        listener: Listener,
+        req: BoltRequest,
+        resp: BoltResponse,
     ) -&gt; Optional[BoltResponse]:
         resp, next_was_not_called = listener.run_middleware(req=req, resp=resp)
         if next_was_not_called:
@@ -100,7 +107,11 @@ class WorkflowStepMiddleware(Middleware):  # type:ignore
         self.listener_runner = listener_runner
 
     def process(
-        self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
+        next: Callable[[], BoltResponse],
     ) -&gt; BoltResponse:
 
         if self.step.edit.matches(req=req, resp=resp):
@@ -119,7 +130,10 @@ class WorkflowStepMiddleware(Middleware):  # type:ignore
         return next()
 
     def _run(
-        self, listener: Listener, req: BoltRequest, resp: BoltResponse,
+        self,
+        listener: Listener,
+        req: BoltRequest,
+        resp: BoltResponse,
     ) -&gt; Optional[BoltResponse]:
         resp, next_was_not_called = listener.run_middleware(req=req, resp=resp)
         if next_was_not_called:
@@ -148,7 +162,11 @@ class WorkflowStepMiddleware(Middleware):  # type:ignore
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def process(
-    self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+    self,
+    *,
+    req: BoltRequest,
+    resp: BoltResponse,
+    next: Callable[[], BoltResponse],
 ) -&gt; BoltResponse:
 
     if self.step.edit.matches(req=req, resp=resp):

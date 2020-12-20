@@ -110,7 +110,9 @@ def to_bolt_request(event) -&gt; BoltRequest:
     headers = event.get(&#34;headers&#34;, {})
     headers[&#34;cookie&#34;] = cookies
     return BoltRequest(
-        body=body, query=event.get(&#34;queryStringParameters&#34;, {}), headers=headers,
+        body=body,
+        query=event.get(&#34;queryStringParameters&#34;, {}),
+        headers=headers,
     )
 
 
@@ -188,7 +190,9 @@ def not_found() -&gt; Dict[str, Any]:
     headers = event.get(&#34;headers&#34;, {})
     headers[&#34;cookie&#34;] = cookies
     return BoltRequest(
-        body=body, query=event.get(&#34;queryStringParameters&#34;, {}), headers=headers,
+        body=body,
+        query=event.get(&#34;queryStringParameters&#34;, {}),
+        headers=headers,
     )</code></pre>
 </details>
 </dd>

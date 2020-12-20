@@ -39,12 +39,17 @@ from slack_bolt.response import BoltResponse
 def to_bolt_request(req: HttpRequest) -&gt; BoltRequest:
     raw_body: bytes = req.body
     body: str = raw_body.decode(&#34;utf-8&#34;) if raw_body else &#34;&#34;
-    return BoltRequest(body=body, query=req.META[&#34;QUERY_STRING&#34;], headers=req.headers,)
+    return BoltRequest(
+        body=body,
+        query=req.META[&#34;QUERY_STRING&#34;],
+        headers=req.headers,
+    )
 
 
 def to_django_response(bolt_resp: BoltResponse) -&gt; HttpResponse:
     resp: HttpResponse = HttpResponse(
-        status=bolt_resp.status, content=bolt_resp.body.encode(&#34;utf-8&#34;),
+        status=bolt_resp.status,
+        content=bolt_resp.body.encode(&#34;utf-8&#34;),
     )
     for k, v in bolt_resp.first_headers_without_set_cookie().items():
         resp[k] = v
@@ -106,7 +111,11 @@ class SlackRequestHandler:
 <pre><code class="python">def to_bolt_request(req: HttpRequest) -&gt; BoltRequest:
     raw_body: bytes = req.body
     body: str = raw_body.decode(&#34;utf-8&#34;) if raw_body else &#34;&#34;
-    return BoltRequest(body=body, query=req.META[&#34;QUERY_STRING&#34;], headers=req.headers,)</code></pre>
+    return BoltRequest(
+        body=body,
+        query=req.META[&#34;QUERY_STRING&#34;],
+        headers=req.headers,
+    )</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.adapter.django.handler.to_django_response"><code class="name flex">
@@ -120,7 +129,8 @@ class SlackRequestHandler:
 </summary>
 <pre><code class="python">def to_django_response(bolt_resp: BoltResponse) -&gt; HttpResponse:
     resp: HttpResponse = HttpResponse(
-        status=bolt_resp.status, content=bolt_resp.body.encode(&#34;utf-8&#34;),
+        status=bolt_resp.status,
+        content=bolt_resp.body.encode(&#34;utf-8&#34;),
     )
     for k, v in bolt_resp.first_headers_without_set_cookie().items():
         resp[k] = v

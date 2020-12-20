@@ -47,7 +47,11 @@ class RequestVerification(Middleware):  # type: ignore
         self.logger = get_bolt_logger(RequestVerification)
 
     def process(
-        self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
+        next: Callable[[], BoltResponse],
     ) -&gt; BoltResponse:
         if self._can_skip(req.mode, req.body):
             return next()
@@ -112,7 +116,11 @@ x-slack-signature, x-slack-request-timestamp, and its body data.</p>
         self.logger = get_bolt_logger(RequestVerification)
 
     def process(
-        self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
+        next: Callable[[], BoltResponse],
     ) -&gt; BoltResponse:
         if self._can_skip(req.mode, req.body):
             return next()
@@ -164,7 +172,11 @@ x-slack-signature, x-slack-request-timestamp, and its body data.</p>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def process(
-    self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+    self,
+    *,
+    req: BoltRequest,
+    resp: BoltResponse,
+    next: Callable[[], BoltResponse],
 ) -&gt; BoltResponse:
     if self._can_skip(req.mode, req.body):
         return next()

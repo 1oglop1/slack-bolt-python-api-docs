@@ -36,7 +36,9 @@ from slack_bolt.request import BoltRequest
 
 
 def build_runnable_function(
-    func: Callable[..., None], logger: Logger, request: BoltRequest,
+    func: Callable[..., None],
+    logger: Logger,
+    request: BoltRequest,
 ) -&gt; Callable[[], None]:
     arg_names = inspect.getfullargspec(func).args
 
@@ -74,7 +76,9 @@ def build_runnable_function(
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def build_runnable_function(
-    func: Callable[..., None], logger: Logger, request: BoltRequest,
+    func: Callable[..., None],
+    logger: Logger,
+    request: BoltRequest,
 ) -&gt; Callable[[], None]:
     arg_names = inspect.getfullargspec(func).args
 

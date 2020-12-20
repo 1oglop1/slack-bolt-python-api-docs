@@ -39,7 +39,9 @@ class AsyncConfigure:
         self.body = body
 
     async def __call__(
-        self, *, blocks: Optional[Sequence[Union[dict, Block]]] = None,
+        self,
+        *,
+        blocks: Optional[Sequence[Union[dict, Block]]] = None,
     ) -&gt; None:
         await self.client.views_open(
             trigger_id=self.body[&#34;trigger_id&#34;],
@@ -77,7 +79,9 @@ class AsyncConfigure:
         self.body = body
 
     async def __call__(
-        self, *, blocks: Optional[Sequence[Union[dict, Block]]] = None,
+        self,
+        *,
+        blocks: Optional[Sequence[Union[dict, Block]]] = None,
     ) -&gt; None:
         await self.client.views_open(
             trigger_id=self.body[&#34;trigger_id&#34;],

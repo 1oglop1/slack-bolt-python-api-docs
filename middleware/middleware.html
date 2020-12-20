@@ -36,7 +36,11 @@ from slack_bolt.response import BoltResponse
 class Middleware(metaclass=ABCMeta):
     @abstractmethod
     def process(
-        self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
+        next: Callable[[], BoltResponse],
     ) -&gt; BoltResponse:
         raise NotImplementedError()
 
@@ -66,7 +70,11 @@ class Middleware(metaclass=ABCMeta):
 <pre><code class="python">class Middleware(metaclass=ABCMeta):
     @abstractmethod
     def process(
-        self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
+        next: Callable[[], BoltResponse],
     ) -&gt; BoltResponse:
         raise NotImplementedError()
 
@@ -113,7 +121,11 @@ def name(self) -&gt; str:
 </summary>
 <pre><code class="python">@abstractmethod
 def process(
-    self, *, req: BoltRequest, resp: BoltResponse, next: Callable[[], BoltResponse],
+    self,
+    *,
+    req: BoltRequest,
+    resp: BoltResponse,
+    next: Callable[[], BoltResponse],
 ) -&gt; BoltResponse:
     raise NotImplementedError()</code></pre>
 </details>

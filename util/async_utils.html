@@ -34,7 +34,10 @@ from slack_bolt.version import __version__ as bolt_version
 
 
 def create_async_web_client(token: Optional[str] = None) -&gt; AsyncWebClient:
-    return AsyncWebClient(token=token, user_agent_prefix=f&#34;Bolt-Async/{bolt_version}&#34;,)</code></pre>
+    return AsyncWebClient(
+        token=token,
+        user_agent_prefix=f&#34;Bolt-Async/{bolt_version}&#34;,
+    )</code></pre>
 </details>
 </section>
 <section>
@@ -54,7 +57,10 @@ def create_async_web_client(token: Optional[str] = None) -&gt; AsyncWebClient:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def create_async_web_client(token: Optional[str] = None) -&gt; AsyncWebClient:
-    return AsyncWebClient(token=token, user_agent_prefix=f&#34;Bolt-Async/{bolt_version}&#34;,)</code></pre>
+    return AsyncWebClient(
+        token=token,
+        user_agent_prefix=f&#34;Bolt-Async/{bolt_version}&#34;,
+    )</code></pre>
 </details>
 </dd>
 </dl>

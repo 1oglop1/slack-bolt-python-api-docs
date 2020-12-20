@@ -38,7 +38,10 @@ from slack_bolt.version import __version__ as bolt_version
 
 
 def create_web_client(token: Optional[str] = None) -&gt; WebClient:
-    return WebClient(token=token, user_agent_prefix=f&#34;Bolt/{bolt_version}&#34;,)
+    return WebClient(
+        token=token,
+        user_agent_prefix=f&#34;Bolt/{bolt_version}&#34;,
+    )
 
 
 def convert_to_dict_list(objects: Sequence[Union[Dict, JsonObject]]) -&gt; Sequence[Dict]:
@@ -156,7 +159,10 @@ def get_boot_message(development_server: bool = False) -&gt; str:
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def create_web_client(token: Optional[str] = None) -&gt; WebClient:
-    return WebClient(token=token, user_agent_prefix=f&#34;Bolt/{bolt_version}&#34;,)</code></pre>
+    return WebClient(
+        token=token,
+        user_agent_prefix=f&#34;Bolt/{bolt_version}&#34;,
+    )</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.util.utils.get_boot_message"><code class="name flex">

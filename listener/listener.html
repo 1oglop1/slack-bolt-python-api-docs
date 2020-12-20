@@ -42,7 +42,12 @@ class Listener(metaclass=ABCMeta):
     lazy_functions: Sequence[Callable[..., None]]
     auto_acknowledgement: bool
 
-    def matches(self, *, req: BoltRequest, resp: BoltResponse,) -&gt; bool:
+    def matches(
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
+    ) -&gt; bool:
         is_matched: bool = False
         for matcher in self.matchers:
             is_matched = matcher.matches(req, resp)
@@ -51,7 +56,10 @@ class Listener(metaclass=ABCMeta):
         return is_matched
 
     def run_middleware(
-        self, *, req: BoltRequest, resp: BoltResponse,
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
     ) -&gt; Tuple[BoltResponse, bool]:
         &#34;&#34;&#34;
 
@@ -109,7 +117,12 @@ class Listener(metaclass=ABCMeta):
     lazy_functions: Sequence[Callable[..., None]]
     auto_acknowledgement: bool
 
-    def matches(self, *, req: BoltRequest, resp: BoltResponse,) -&gt; bool:
+    def matches(
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
+    ) -&gt; bool:
         is_matched: bool = False
         for matcher in self.matchers:
             is_matched = matcher.matches(req, resp)
@@ -118,7 +131,10 @@ class Listener(metaclass=ABCMeta):
         return is_matched
 
     def run_middleware(
-        self, *, req: BoltRequest, resp: BoltResponse,
+        self,
+        *,
+        req: BoltRequest,
+        resp: BoltResponse,
     ) -&gt; Tuple[BoltResponse, bool]:
         &#34;&#34;&#34;
 
@@ -188,7 +204,12 @@ class Listener(metaclass=ABCMeta):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def matches(self, *, req: BoltRequest, resp: BoltResponse,) -&gt; bool:
+<pre><code class="python">def matches(
+    self,
+    *,
+    req: BoltRequest,
+    resp: BoltResponse,
+) -&gt; bool:
     is_matched: bool = False
     for matcher in self.matchers:
         is_matched = matcher.matches(req, resp)
@@ -234,7 +255,10 @@ def run_ack_function(
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def run_middleware(
-    self, *, req: BoltRequest, resp: BoltResponse,
+    self,
+    *,
+    req: BoltRequest,
+    resp: BoltResponse,
 ) -&gt; Tuple[BoltResponse, bool]:
     &#34;&#34;&#34;
 

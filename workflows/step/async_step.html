@@ -75,7 +75,11 @@ class AsyncWorkflowStep:
 
     @classmethod
     def _build_listener(
-        cls, callback_id: str, app_name: str, listener: AsyncListener, name: str,
+        cls,
+        callback_id: str,
+        app_name: str,
+        listener: AsyncListener,
+        name: str,
     ) -&gt; AsyncListener:
         if isinstance(listener, AsyncListener):
             return listener
@@ -142,7 +146,9 @@ def _build_edit_listener_middleware(callback_id: str) -&gt; AsyncMiddleware:
         next: Callable[[], Awaitable[BoltResponse]],
     ):
         context[&#34;configure&#34;] = AsyncConfigure(
-            callback_id=callback_id, client=client, body=body,
+            callback_id=callback_id,
+            client=client,
+            body=body,
         )
         return await next()
 
@@ -161,7 +167,10 @@ def _build_save_listener_middleware() -&gt; AsyncMiddleware:
         body: dict,
         next: Callable[[], Awaitable[BoltResponse]],
     ):
-        context[&#34;update&#34;] = AsyncUpdate(client=client, body=body,)
+        context[&#34;update&#34;] = AsyncUpdate(
+            client=client,
+            body=body,
+        )
         return await next()
 
     return AsyncCustomMiddleware(app_name=__name__, func=save_listener_middleware)
@@ -179,8 +188,14 @@ def _build_execute_listener_middleware() -&gt; AsyncMiddleware:
         body: dict,
         next: Callable[[], Awaitable[BoltResponse]],
     ):
-        context[&#34;complete&#34;] = AsyncComplete(client=client, body=body,)
-        context[&#34;fail&#34;] = AsyncFail(client=client, body=body,)
+        context[&#34;complete&#34;] = AsyncComplete(
+            client=client,
+            body=body,
+        )
+        context[&#34;fail&#34;] = AsyncFail(
+            client=client,
+            body=body,
+        )
         return await next()
 
     return AsyncCustomMiddleware(app_name=__name__, func=execute_listener_middleware)</code></pre>
@@ -234,7 +249,11 @@ def _build_execute_listener_middleware() -&gt; AsyncMiddleware:
 
     @classmethod
     def _build_listener(
-        cls, callback_id: str, app_name: str, listener: AsyncListener, name: str,
+        cls,
+        callback_id: str,
+        app_name: str,
+        listener: AsyncListener,
+        name: str,
     ) -&gt; AsyncListener:
         if isinstance(listener, AsyncListener):
             return listener

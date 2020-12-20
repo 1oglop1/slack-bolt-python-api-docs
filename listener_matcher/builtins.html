@@ -83,7 +83,8 @@ class BuiltinListenerMatcher(ListenerMatcher):
 
 
 def build_listener_matcher(
-    func: Callable[..., bool], asyncio: bool,
+    func: Callable[..., bool],
+    asyncio: bool,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     if asyncio:
         from .async_builtins import AsyncBuiltinListenerMatcher
@@ -101,7 +102,8 @@ def build_listener_matcher(
 
 
 def event(
-    constraints: Union[str, Pattern, Dict[str, str]], asyncio: bool = False,
+    constraints: Union[str, Pattern, Dict[str, str]],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     if isinstance(constraints, (str, Pattern)):
         event_type: Union[str, Pattern] = constraints
@@ -138,7 +140,8 @@ def event(
 
 
 def workflow_step_execute(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return (
@@ -156,7 +159,8 @@ def workflow_step_execute(
 
 
 def command(
-    command: Union[str, Pattern], asyncio: bool = False,
+    command: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return is_slash_command(body) and _matches(command, body[&#34;command&#34;])
@@ -192,7 +196,8 @@ def shortcut(
 
 
 def global_shortcut(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return is_global_shortcut(body) and _matches(callback_id, body[&#34;callback_id&#34;])
@@ -201,7 +206,8 @@ def global_shortcut(
 
 
 def message_shortcut(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return is_message_shortcut(body) and _matches(callback_id, body[&#34;callback_id&#34;])
@@ -285,12 +291,16 @@ def block_action(
     return build_listener_matcher(func, asyncio)
 
 
-def _attachment_action(callback_id: Union[str, Pattern], body: Dict[str, Any],) -&gt; bool:
+def _attachment_action(
+    callback_id: Union[str, Pattern],
+    body: Dict[str, Any],
+) -&gt; bool:
     return is_attachment_action(body) and _matches(callback_id, body[&#34;callback_id&#34;])
 
 
 def attachment_action(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return _attachment_action(callback_id, body)
@@ -298,12 +308,16 @@ def attachment_action(
     return build_listener_matcher(func, asyncio)
 
 
-def _dialog_submission(callback_id: Union[str, Pattern], body: Dict[str, Any],) -&gt; bool:
+def _dialog_submission(
+    callback_id: Union[str, Pattern],
+    body: Dict[str, Any],
+) -&gt; bool:
     return is_dialog_submission(body) and _matches(callback_id, body[&#34;callback_id&#34;])
 
 
 def dialog_submission(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return _dialog_submission(callback_id, body)
@@ -312,13 +326,15 @@ def dialog_submission(
 
 
 def _dialog_cancellation(
-    callback_id: Union[str, Pattern], body: Dict[str, Any],
+    callback_id: Union[str, Pattern],
+    body: Dict[str, Any],
 ) -&gt; bool:
     return is_dialog_cancellation(body) and _matches(callback_id, body[&#34;callback_id&#34;])
 
 
 def dialog_cancellation(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return _dialog_cancellation(callback_id, body)
@@ -327,13 +343,15 @@ def dialog_cancellation(
 
 
 def _workflow_step_edit(
-    callback_id: Union[str, Pattern], body: Dict[str, Any],
+    callback_id: Union[str, Pattern],
+    body: Dict[str, Any],
 ) -&gt; bool:
     return is_workflow_step_edit(body) and _matches(callback_id, body[&#34;callback_id&#34;])
 
 
 def workflow_step_edit(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return _workflow_step_edit(callback_id, body)
@@ -363,7 +381,8 @@ def view(
 
 
 def view_submission(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return is_view_submission(body) and _matches(
@@ -374,7 +393,8 @@ def view_submission(
 
 
 def view_closed(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return is_view_closed(body) and _matches(
@@ -385,7 +405,8 @@ def view_closed(
 
 
 def workflow_step_save(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return is_workflow_step_save(body) and _matches(
@@ -422,12 +443,16 @@ def options(
         )
 
 
-def _block_suggestion(action_id: Union[str, Pattern], body: Dict[str, Any],) -&gt; bool:
+def _block_suggestion(
+    action_id: Union[str, Pattern],
+    body: Dict[str, Any],
+) -&gt; bool:
     return is_block_suggestion(body) and _matches(action_id, body[&#34;action_id&#34;])
 
 
 def block_suggestion(
-    action_id: Union[str, Pattern], asyncio: bool = False,
+    action_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return _block_suggestion(action_id, body)
@@ -435,12 +460,16 @@ def block_suggestion(
     return build_listener_matcher(func, asyncio)
 
 
-def _dialog_suggestion(callback_id: Union[str, Pattern], body: Dict[str, Any],) -&gt; bool:
+def _dialog_suggestion(
+    callback_id: Union[str, Pattern],
+    body: Dict[str, Any],
+) -&gt; bool:
     return is_dialog_suggestion(body) and _matches(callback_id, body[&#34;callback_id&#34;])
 
 
 def dialog_suggestion(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return _dialog_suggestion(callback_id, body)
@@ -534,7 +563,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def attachment_action(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return _attachment_action(callback_id, body)
@@ -571,7 +601,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def block_suggestion(
-    action_id: Union[str, Pattern], asyncio: bool = False,
+    action_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return _block_suggestion(action_id, body)
@@ -589,7 +620,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def build_listener_matcher(
-    func: Callable[..., bool], asyncio: bool,
+    func: Callable[..., bool],
+    asyncio: bool,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     if asyncio:
         from .async_builtins import AsyncBuiltinListenerMatcher
@@ -612,7 +644,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def command(
-    command: Union[str, Pattern], asyncio: bool = False,
+    command: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return is_slash_command(body) and _matches(command, body[&#34;command&#34;])
@@ -630,7 +663,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def dialog_cancellation(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return _dialog_cancellation(callback_id, body)
@@ -648,7 +682,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def dialog_submission(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return _dialog_submission(callback_id, body)
@@ -666,7 +701,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def dialog_suggestion(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return _dialog_suggestion(callback_id, body)
@@ -684,7 +720,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def event(
-    constraints: Union[str, Pattern, Dict[str, str]], asyncio: bool = False,
+    constraints: Union[str, Pattern, Dict[str, str]],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     if isinstance(constraints, (str, Pattern)):
         event_type: Union[str, Pattern] = constraints
@@ -730,7 +767,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def global_shortcut(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return is_global_shortcut(body) and _matches(callback_id, body[&#34;callback_id&#34;])
@@ -748,7 +786,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def message_shortcut(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return is_message_shortcut(body) and _matches(callback_id, body[&#34;callback_id&#34;])
@@ -856,7 +895,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def view_closed(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return is_view_closed(body) and _matches(
@@ -876,7 +916,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def view_submission(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return is_view_submission(body) and _matches(
@@ -896,7 +937,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def workflow_step_edit(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return _workflow_step_edit(callback_id, body)
@@ -914,7 +956,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def workflow_step_execute(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return (
@@ -937,7 +980,8 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def workflow_step_save(
-    callback_id: Union[str, Pattern], asyncio: bool = False,
+    callback_id: Union[str, Pattern],
+    asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     def func(body: Dict[str, Any]) -&gt; bool:
         return is_workflow_step_save(body) and _matches(

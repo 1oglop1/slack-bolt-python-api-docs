@@ -38,7 +38,8 @@ from slack_bolt.request.internals import (
 
 
 def build_async_context(
-    context: AsyncBoltContext, payload: Dict[str, Any],
+    context: AsyncBoltContext,
+    payload: Dict[str, Any],
 ) -&gt; AsyncBoltContext:
     enterprise_id = extract_enterprise_id(payload)
     if enterprise_id:
@@ -74,7 +75,8 @@ def build_async_context(
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def build_async_context(
-    context: AsyncBoltContext, payload: Dict[str, Any],
+    context: AsyncBoltContext,
+    payload: Dict[str, Any],
 ) -&gt; AsyncBoltContext:
     enterprise_id = extract_enterprise_id(payload)
     if enterprise_id:

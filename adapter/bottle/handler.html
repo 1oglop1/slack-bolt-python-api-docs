@@ -38,7 +38,11 @@ def to_bolt_request(req: Request) -&gt; BoltRequest:
     body = req.body.read()
     if isinstance(body, bytes):
         body = body.decode(&#34;utf-8&#34;)
-    return BoltRequest(body=body, query=req.query_string, headers=req.headers,)
+    return BoltRequest(
+        body=body,
+        query=req.query_string,
+        headers=req.headers,
+    )
 
 
 def set_response(bolt_resp: BoltResponse, resp: Response) -&gt; None:
@@ -109,7 +113,11 @@ class SlackRequestHandler:
     body = req.body.read()
     if isinstance(body, bytes):
         body = body.decode(&#34;utf-8&#34;)
-    return BoltRequest(body=body, query=req.query_string, headers=req.headers,)</code></pre>
+    return BoltRequest(
+        body=body,
+        query=req.query_string,
+        headers=req.headers,
+    )</code></pre>
 </details>
 </dd>
 </dl>

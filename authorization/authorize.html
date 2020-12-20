@@ -57,7 +57,10 @@ class Authorize:
 
 class CallableAuthorize(Authorize):
     def __init__(
-        self, *, logger: Logger, func: Callable[..., AuthorizeResult],
+        self,
+        *,
+        logger: Logger,
+        func: Callable[..., AuthorizeResult],
     ):
         self.logger = logger
         self.func = func
@@ -281,7 +284,10 @@ class InstallationStoreAuthorize(Authorize):
 </summary>
 <pre><code class="python">class CallableAuthorize(Authorize):
     def __init__(
-        self, *, logger: Logger, func: Callable[..., AuthorizeResult],
+        self,
+        *,
+        logger: Logger,
+        func: Callable[..., AuthorizeResult],
     ):
         self.logger = logger
         self.func = func
