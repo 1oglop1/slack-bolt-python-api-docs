@@ -27,7 +27,7 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">from abc import ABCMeta, abstractmethod
-from typing import Callable
+from typing import Callable, Optional
 
 from slack_bolt.request import BoltRequest
 from slack_bolt.response import BoltResponse
@@ -41,7 +41,7 @@ class Middleware(metaclass=ABCMeta):
         req: BoltRequest,
         resp: BoltResponse,
         next: Callable[[], BoltResponse],
-    ) -&gt; BoltResponse:
+    ) -&gt; Optional[BoltResponse]:
         raise NotImplementedError()
 
     @property
@@ -75,7 +75,7 @@ class Middleware(metaclass=ABCMeta):
         req: BoltRequest,
         resp: BoltResponse,
         next: Callable[[], BoltResponse],
-    ) -&gt; BoltResponse:
+    ) -&gt; Optional[BoltResponse]:
         raise NotImplementedError()
 
     @property
@@ -111,7 +111,7 @@ def name(self) -&gt; str:
 <h3>Methods</h3>
 <dl>
 <dt id="slack_bolt.middleware.middleware.Middleware.process"><code class="name flex">
-<span>def <span class="ident">process</span></span>(<span>self, *, req: <a title="slack_bolt.request.request.BoltRequest" href="../request/request.html#slack_bolt.request.request.BoltRequest">BoltRequest</a>, resp: <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, next: Callable[[], <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]) ‑> <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a></span>
+<span>def <span class="ident">process</span></span>(<span>self, *, req: <a title="slack_bolt.request.request.BoltRequest" href="../request/request.html#slack_bolt.request.request.BoltRequest">BoltRequest</a>, resp: <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, next: Callable[[], <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]) ‑> Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -126,7 +126,7 @@ def process(
     req: BoltRequest,
     resp: BoltResponse,
     next: Callable[[], BoltResponse],
-) -&gt; BoltResponse:
+) -&gt; Optional[BoltResponse]:
     raise NotImplementedError()</code></pre>
 </details>
 </dd>

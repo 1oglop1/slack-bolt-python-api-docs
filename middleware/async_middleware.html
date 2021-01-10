@@ -27,7 +27,7 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">from abc import ABCMeta, abstractmethod
-from typing import Callable, Awaitable
+from typing import Callable, Awaitable, Optional
 
 from slack_bolt.request.async_request import AsyncBoltRequest
 from slack_bolt.response import BoltResponse
@@ -41,7 +41,7 @@ class AsyncMiddleware(metaclass=ABCMeta):
         req: AsyncBoltRequest,
         resp: BoltResponse,
         next: Callable[[], Awaitable[BoltResponse]],
-    ) -&gt; BoltResponse:
+    ) -&gt; Optional[BoltResponse]:
         raise NotImplementedError()
 
     @property
@@ -75,7 +75,7 @@ class AsyncMiddleware(metaclass=ABCMeta):
         req: AsyncBoltRequest,
         resp: BoltResponse,
         next: Callable[[], Awaitable[BoltResponse]],
-    ) -&gt; BoltResponse:
+    ) -&gt; Optional[BoltResponse]:
         raise NotImplementedError()
 
     @property
@@ -111,7 +111,7 @@ def name(self) -&gt; str:
 <h3>Methods</h3>
 <dl>
 <dt id="slack_bolt.middleware.async_middleware.AsyncMiddleware.async_process"><code class="name flex">
-<span>async def <span class="ident">async_process</span></span>(<span>self, *, req: <a title="slack_bolt.request.async_request.AsyncBoltRequest" href="../request/async_request.html#slack_bolt.request.async_request.AsyncBoltRequest">AsyncBoltRequest</a>, resp: <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, next: Callable[[], Awaitable[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]) ‑> <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a></span>
+<span>async def <span class="ident">async_process</span></span>(<span>self, *, req: <a title="slack_bolt.request.async_request.AsyncBoltRequest" href="../request/async_request.html#slack_bolt.request.async_request.AsyncBoltRequest">AsyncBoltRequest</a>, resp: <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, next: Callable[[], Awaitable[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]) ‑> Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -126,7 +126,7 @@ async def async_process(
     req: AsyncBoltRequest,
     resp: BoltResponse,
     next: Callable[[], Awaitable[BoltResponse]],
-) -&gt; BoltResponse:
+) -&gt; Optional[BoltResponse]:
     raise NotImplementedError()</code></pre>
 </details>
 </dd>

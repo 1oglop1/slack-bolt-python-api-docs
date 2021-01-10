@@ -71,9 +71,10 @@ class ThreadListenerRunner:
         response: BoltResponse,
         listener_name: str,
         listener: Listener,
+        starting_time: Optional[float] = None,
     ) -&gt; Optional[BoltResponse]:
         ack = request.context.ack
-        starting_time = time.time()
+        starting_time = starting_time if starting_time is not None else time.time()
         if self.process_before_response:
             if not request.lazy_only:
                 try:
@@ -255,9 +256,10 @@ class ThreadListenerRunner:
         response: BoltResponse,
         listener_name: str,
         listener: Listener,
+        starting_time: Optional[float] = None,
     ) -&gt; Optional[BoltResponse]:
         ack = request.context.ack
-        starting_time = time.time()
+        starting_time = starting_time if starting_time is not None else time.time()
         if self.process_before_response:
             if not request.lazy_only:
                 try:
@@ -418,7 +420,7 @@ class ThreadListenerRunner:
 <h3>Methods</h3>
 <dl>
 <dt id="slack_bolt.listener.thread_runner.ThreadListenerRunner.run"><code class="name flex">
-<span>def <span class="ident">run</span></span>(<span>self, request: <a title="slack_bolt.request.request.BoltRequest" href="../request/request.html#slack_bolt.request.request.BoltRequest">BoltRequest</a>, response: <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, listener_name: str, listener: <a title="slack_bolt.listener.listener.Listener" href="listener.html#slack_bolt.listener.listener.Listener">Listener</a>) ‑> Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]</span>
+<span>def <span class="ident">run</span></span>(<span>self, request: <a title="slack_bolt.request.request.BoltRequest" href="../request/request.html#slack_bolt.request.request.BoltRequest">BoltRequest</a>, response: <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, listener_name: str, listener: <a title="slack_bolt.listener.listener.Listener" href="listener.html#slack_bolt.listener.listener.Listener">Listener</a>, starting_time: Optional[float] = None) ‑> Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -432,9 +434,10 @@ class ThreadListenerRunner:
     response: BoltResponse,
     listener_name: str,
     listener: Listener,
+    starting_time: Optional[float] = None,
 ) -&gt; Optional[BoltResponse]:
     ack = request.context.ack
-    starting_time = time.time()
+    starting_time = starting_time if starting_time is not None else time.time()
     if self.process_before_response:
         if not request.lazy_only:
             try:

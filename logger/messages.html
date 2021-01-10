@@ -26,7 +26,8 @@
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">from typing import Union
+<pre><code class="python">import time
+from typing import Union
 
 from slack_sdk.web import SlackResponse
 
@@ -111,6 +112,13 @@ def warning_bot_only_conflicts() -&gt; str:
     )
 
 
+def warning_skip_uncommon_arg_name(arg_name: str) -&gt; str:
+    return (
+        f&#34;Bolt skips injecting a value to the first keyword argument ({arg_name}). &#34;
+        &#34;If it is self/cls of a method, we recommend using the common names.&#34;
+    )
+
+
 # -------------------------------
 # Info
 # -------------------------------
@@ -138,7 +146,14 @@ def debug_running_lazy_listener(func_name: str) -&gt; str:
 
 
 def debug_responding(status: int, body: str, millis: int) -&gt; str:
-    return f&#39;Responding with status: {status} body: &#34;{body}&#34; ({millis} millis)&#39;</code></pre>
+    return f&#39;Responding with status: {status} body: &#34;{body}&#34; ({millis} millis)&#39;
+
+
+def debug_return_listener_middleware_response(
+    listener_name: str, status: int, body: str, starting_time: float
+) -&gt; str:
+    millis = int((time.time() - starting_time) * 1000)
+    return f&#34;Responding with listener middleware&#39;s response - listener: {listener_name}, status: {status}, body: {body} ({millis} millis)&#34;</code></pre>
 </details>
 </section>
 <section>
@@ -185,6 +200,22 @@ def debug_responding(status: int, body: str, millis: int) -&gt; str:
 </summary>
 <pre><code class="python">def debug_responding(status: int, body: str, millis: int) -&gt; str:
     return f&#39;Responding with status: {status} body: &#34;{body}&#34; ({millis} millis)&#39;</code></pre>
+</details>
+</dd>
+<dt id="slack_bolt.logger.messages.debug_return_listener_middleware_response"><code class="name flex">
+<span>def <span class="ident">debug_return_listener_middleware_response</span></span>(<span>listener_name: str, status: int, body: str, starting_time: float) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def debug_return_listener_middleware_response(
+    listener_name: str, status: int, body: str, starting_time: float
+) -&gt; str:
+    millis = int((time.time() - starting_time) * 1000)
+    return f&#34;Responding with listener middleware&#39;s response - listener: {listener_name}, status: {status}, body: {body} ({millis} millis)&#34;</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.logger.messages.debug_running_lazy_listener"><code class="name flex">
@@ -388,6 +419,22 @@ def debug_responding(status: int, body: str, millis: int) -&gt; str:
     return &#34;As you gave both `installation_store` and `oauth_settings`/`auth_flow`, the top level one is unused.&#34;</code></pre>
 </details>
 </dd>
+<dt id="slack_bolt.logger.messages.warning_skip_uncommon_arg_name"><code class="name flex">
+<span>def <span class="ident">warning_skip_uncommon_arg_name</span></span>(<span>arg_name: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def warning_skip_uncommon_arg_name(arg_name: str) -&gt; str:
+    return (
+        f&#34;Bolt skips injecting a value to the first keyword argument ({arg_name}). &#34;
+        &#34;If it is self/cls of a method, we recommend using the common names.&#34;
+    )</code></pre>
+</details>
+</dd>
 <dt id="slack_bolt.logger.messages.warning_token_skipped"><code class="name flex">
 <span>def <span class="ident">warning_token_skipped</span></span>(<span>) ‑> str</span>
 </code></dt>
@@ -437,6 +484,7 @@ def debug_responding(status: int, body: str, millis: int) -&gt; str:
 <li><code><a title="slack_bolt.logger.messages.debug_applying_middleware" href="#slack_bolt.logger.messages.debug_applying_middleware">debug_applying_middleware</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.debug_checking_listener" href="#slack_bolt.logger.messages.debug_checking_listener">debug_checking_listener</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.debug_responding" href="#slack_bolt.logger.messages.debug_responding">debug_responding</a></code></li>
+<li><code><a title="slack_bolt.logger.messages.debug_return_listener_middleware_response" href="#slack_bolt.logger.messages.debug_return_listener_middleware_response">debug_return_listener_middleware_response</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.debug_running_lazy_listener" href="#slack_bolt.logger.messages.debug_running_lazy_listener">debug_running_lazy_listener</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.debug_running_listener" href="#slack_bolt.logger.messages.debug_running_listener">debug_running_listener</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_auth_test_failure" href="#slack_bolt.logger.messages.error_auth_test_failure">error_auth_test_failure</a></code></li>
@@ -452,6 +500,7 @@ def debug_responding(status: int, body: str, millis: int) -&gt; str:
 <li><code><a title="slack_bolt.logger.messages.warning_client_prioritized_and_token_skipped" href="#slack_bolt.logger.messages.warning_client_prioritized_and_token_skipped">warning_client_prioritized_and_token_skipped</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.warning_did_not_call_ack" href="#slack_bolt.logger.messages.warning_did_not_call_ack">warning_did_not_call_ack</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.warning_installation_store_conflicts" href="#slack_bolt.logger.messages.warning_installation_store_conflicts">warning_installation_store_conflicts</a></code></li>
+<li><code><a title="slack_bolt.logger.messages.warning_skip_uncommon_arg_name" href="#slack_bolt.logger.messages.warning_skip_uncommon_arg_name">warning_skip_uncommon_arg_name</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.warning_token_skipped" href="#slack_bolt.logger.messages.warning_token_skipped">warning_token_skipped</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.warning_unhandled_request" href="#slack_bolt.logger.messages.warning_unhandled_request">warning_unhandled_request</a></code></li>
 </ul>

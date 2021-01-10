@@ -60,6 +60,7 @@ class AsyncOAuthSettings:
     redirect_uri: Optional[str]
     # Handler configuration
     install_path: str
+    install_page_rendering_enabled: bool
     redirect_uri_path: str
     callback_options: Optional[CallbackOptions] = None
     success_url: Optional[str]
@@ -91,6 +92,7 @@ class AsyncOAuthSettings:
         redirect_uri: Optional[str] = None,
         # Handler configuration
         install_path: str = &#34;/slack/install&#34;,
+        install_page_rendering_enabled: bool = True,
         redirect_uri_path: str = &#34;/slack/oauth_redirect&#34;,
         callback_options: Optional[CallbackOptions] = None,
         success_url: Optional[str] = None,
@@ -114,6 +116,7 @@ class AsyncOAuthSettings:
         :param user_scopes: Check the value in Settings &gt; Manage Distribution
         :param redirect_uri: Check the value in Features &gt; OAuth &amp; Permissions &gt; Redirect URLs
         :param install_path: The endpoint to start an OAuth flow (Default: /slack/install)
+        :param install_page_rendering_enabled: Renders a web page for install_path access if True
         :param redirect_uri_path: The path of Redirect URL (Default: /slack/oauth_redirect)
         :param callback_options: Give success/failure functions f you want to customize callback functions.
         :param success_url: Set a complete URL if you want to redirect end-users when an installation completes.
@@ -147,6 +150,7 @@ class AsyncOAuthSettings:
         self.install_path = install_path or os.environ.get(
             &#34;SLACK_INSTALL_PATH&#34;, &#34;/slack/install&#34;
         )
+        self.install_page_rendering_enabled = install_page_rendering_enabled
         self.redirect_uri_path = redirect_uri_path or os.environ.get(
             &#34;SLACK_REDIRECT_URI_PATH&#34;, &#34;/slack/oauth_redirect&#34;
         )
@@ -204,7 +208,7 @@ class AsyncOAuthSettings:
 <dl>
 <dt id="slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings"><code class="flex name class">
 <span>class <span class="ident">AsyncOAuthSettings</span></span>
-<span>(</span><span>*, client_id: Optional[str] = None, client_secret: Optional[str] = None, scopes: Union[Sequence[str], str, NoneType] = None, user_scopes: Union[Sequence[str], str, NoneType] = None, redirect_uri: Optional[str] = None, install_path: str = '/slack/install', redirect_uri_path: str = '/slack/oauth_redirect', callback_options: Optional[<a title="slack_bolt.oauth.callback_options.CallbackOptions" href="callback_options.html#slack_bolt.oauth.callback_options.CallbackOptions">CallbackOptions</a>] = None, success_url: Optional[str] = None, failure_url: Optional[str] = None, authorization_url: Optional[str] = None, installation_store: Optional[slack_sdk.oauth.installation_store.async_installation_store.AsyncInstallationStore] = None, installation_store_bot_only: bool = False, state_store: Optional[slack_sdk.oauth.state_store.async_state_store.AsyncOAuthStateStore] = None, state_cookie_name: str = 'slack-app-oauth-state', state_expiration_seconds: int = 600, logger: logging.Logger = &lt;Logger slack_bolt.oauth.async_oauth_settings (WARNING)&gt;)</span>
+<span>(</span><span>*, client_id: Optional[str] = None, client_secret: Optional[str] = None, scopes: Union[Sequence[str], str, NoneType] = None, user_scopes: Union[Sequence[str], str, NoneType] = None, redirect_uri: Optional[str] = None, install_path: str = '/slack/install', install_page_rendering_enabled: bool = True, redirect_uri_path: str = '/slack/oauth_redirect', callback_options: Optional[<a title="slack_bolt.oauth.callback_options.CallbackOptions" href="callback_options.html#slack_bolt.oauth.callback_options.CallbackOptions">CallbackOptions</a>] = None, success_url: Optional[str] = None, failure_url: Optional[str] = None, authorization_url: Optional[str] = None, installation_store: Optional[slack_sdk.oauth.installation_store.async_installation_store.AsyncInstallationStore] = None, installation_store_bot_only: bool = False, state_store: Optional[slack_sdk.oauth.state_store.async_state_store.AsyncOAuthStateStore] = None, state_cookie_name: str = 'slack-app-oauth-state', state_expiration_seconds: int = 600, logger: logging.Logger = &lt;Logger slack_bolt.oauth.async_oauth_settings (WARNING)&gt;)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>The settings for Slack App installation (OAuth flow).</p>
@@ -214,6 +218,7 @@ class AsyncOAuthSettings:
 :param user_scopes: Check the value in Settings &gt; Manage Distribution
 :param redirect_uri: Check the value in Features &gt; OAuth &amp; Permissions &gt; Redirect URLs
 :param install_path: The endpoint to start an OAuth flow (Default: /slack/install)
+:param install_page_rendering_enabled: Renders a web page for install_path access if True
 :param redirect_uri_path: The path of Redirect URL (Default: /slack/oauth_redirect)
 :param callback_options: Give success/failure functions f you want to customize callback functions.
 :param success_url: Set a complete URL if you want to redirect end-users when an installation completes.
@@ -238,6 +243,7 @@ class AsyncOAuthSettings:
     redirect_uri: Optional[str]
     # Handler configuration
     install_path: str
+    install_page_rendering_enabled: bool
     redirect_uri_path: str
     callback_options: Optional[CallbackOptions] = None
     success_url: Optional[str]
@@ -269,6 +275,7 @@ class AsyncOAuthSettings:
         redirect_uri: Optional[str] = None,
         # Handler configuration
         install_path: str = &#34;/slack/install&#34;,
+        install_page_rendering_enabled: bool = True,
         redirect_uri_path: str = &#34;/slack/oauth_redirect&#34;,
         callback_options: Optional[CallbackOptions] = None,
         success_url: Optional[str] = None,
@@ -292,6 +299,7 @@ class AsyncOAuthSettings:
         :param user_scopes: Check the value in Settings &gt; Manage Distribution
         :param redirect_uri: Check the value in Features &gt; OAuth &amp; Permissions &gt; Redirect URLs
         :param install_path: The endpoint to start an OAuth flow (Default: /slack/install)
+        :param install_page_rendering_enabled: Renders a web page for install_path access if True
         :param redirect_uri_path: The path of Redirect URL (Default: /slack/oauth_redirect)
         :param callback_options: Give success/failure functions f you want to customize callback functions.
         :param success_url: Set a complete URL if you want to redirect end-users when an installation completes.
@@ -325,6 +333,7 @@ class AsyncOAuthSettings:
         self.install_path = install_path or os.environ.get(
             &#34;SLACK_INSTALL_PATH&#34;, &#34;/slack/install&#34;
         )
+        self.install_page_rendering_enabled = install_page_rendering_enabled
         self.redirect_uri_path = redirect_uri_path or os.environ.get(
             &#34;SLACK_REDIRECT_URI_PATH&#34;, &#34;/slack/oauth_redirect&#34;
         )
@@ -397,6 +406,10 @@ class AsyncOAuthSettings:
 <div class="desc"></div>
 </dd>
 <dt id="slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.failure_url"><code class="name">var <span class="ident">failure_url</span> : Optional[str]</code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.install_page_rendering_enabled"><code class="name">var <span class="ident">install_page_rendering_enabled</span> : bool</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -484,6 +497,7 @@ class AsyncOAuthSettings:
 <li><code><a title="slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.client_id" href="#slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.client_id">client_id</a></code></li>
 <li><code><a title="slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.client_secret" href="#slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.client_secret">client_secret</a></code></li>
 <li><code><a title="slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.failure_url" href="#slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.failure_url">failure_url</a></code></li>
+<li><code><a title="slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.install_page_rendering_enabled" href="#slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.install_page_rendering_enabled">install_page_rendering_enabled</a></code></li>
 <li><code><a title="slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.install_path" href="#slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.install_path">install_path</a></code></li>
 <li><code><a title="slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.installation_store" href="#slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.installation_store">installation_store</a></code></li>
 <li><code><a title="slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.installation_store_bot_only" href="#slack_bolt.oauth.async_oauth_settings.AsyncOAuthSettings.installation_store_bot_only">installation_store_bot_only</a></code></li>

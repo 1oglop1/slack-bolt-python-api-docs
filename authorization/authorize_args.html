@@ -39,7 +39,7 @@ class AuthorizeArgs:
     logger: Logger
     client: WebClient
     enterprise_id: Optional[str]
-    team_id: str
+    team_id: Optional[str]
     user_id: Optional[str]
 
     def __init__(
@@ -47,7 +47,7 @@ class AuthorizeArgs:
         *,
         context: BoltContext,
         enterprise_id: Optional[str],
-        team_id: str,
+        team_id: Optional[str],  # can be None for org-wide installed apps
         user_id: Optional[str],
     ):
         &#34;&#34;&#34;The whole arguments that are passed to Authorize functions.
@@ -76,7 +76,7 @@ class AuthorizeArgs:
 <dl>
 <dt id="slack_bolt.authorization.authorize_args.AuthorizeArgs"><code class="flex name class">
 <span>class <span class="ident">AuthorizeArgs</span></span>
-<span>(</span><span>*, context: <a title="slack_bolt.context.context.BoltContext" href="../context/context.html#slack_bolt.context.context.BoltContext">BoltContext</a>, enterprise_id: Optional[str], team_id: str, user_id: Optional[str])</span>
+<span>(</span><span>*, context: <a title="slack_bolt.context.context.BoltContext" href="../context/context.html#slack_bolt.context.context.BoltContext">BoltContext</a>, enterprise_id: Optional[str], team_id: Optional[str], user_id: Optional[str])</span>
 </code></dt>
 <dd>
 <div class="desc"><p>The whole arguments that are passed to Authorize functions.</p>
@@ -93,7 +93,7 @@ class AuthorizeArgs:
     logger: Logger
     client: WebClient
     enterprise_id: Optional[str]
-    team_id: str
+    team_id: Optional[str]
     user_id: Optional[str]
 
     def __init__(
@@ -101,7 +101,7 @@ class AuthorizeArgs:
         *,
         context: BoltContext,
         enterprise_id: Optional[str],
-        team_id: str,
+        team_id: Optional[str],  # can be None for org-wide installed apps
         user_id: Optional[str],
     ):
         &#34;&#34;&#34;The whole arguments that are passed to Authorize functions.
@@ -136,7 +136,7 @@ class AuthorizeArgs:
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="slack_bolt.authorization.authorize_args.AuthorizeArgs.team_id"><code class="name">var <span class="ident">team_id</span> : str</code></dt>
+<dt id="slack_bolt.authorization.authorize_args.AuthorizeArgs.team_id"><code class="name">var <span class="ident">team_id</span> : Optional[str]</code></dt>
 <dd>
 <div class="desc"></div>
 </dd>

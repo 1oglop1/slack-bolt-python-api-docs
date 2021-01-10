@@ -61,7 +61,7 @@ class AsyncListener(metaclass=ABCMeta):
         *,
         req: AsyncBoltRequest,
         resp: BoltResponse,
-    ) -&gt; Tuple[BoltResponse, bool]:
+    ) -&gt; Tuple[Optional[BoltResponse], bool]:
         &#34;&#34;&#34;Runs an async middleware.
 
         :param req: The incoming request
@@ -427,7 +427,7 @@ for cls in builtin_async_listener_classes:
         *,
         req: AsyncBoltRequest,
         resp: BoltResponse,
-    ) -&gt; Tuple[BoltResponse, bool]:
+    ) -&gt; Tuple[Optional[BoltResponse], bool]:
         &#34;&#34;&#34;Runs an async middleware.
 
         :param req: The incoming request
@@ -536,7 +536,7 @@ async def run_ack_function(
 </details>
 </dd>
 <dt id="slack_bolt.listener.async_listener.AsyncListener.run_async_middleware"><code class="name flex">
-<span>async def <span class="ident">run_async_middleware</span></span>(<span>self, *, req: <a title="slack_bolt.request.async_request.AsyncBoltRequest" href="../request/async_request.html#slack_bolt.request.async_request.AsyncBoltRequest">AsyncBoltRequest</a>, resp: <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>) ‑> Tuple[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, bool]</span>
+<span>async def <span class="ident">run_async_middleware</span></span>(<span>self, *, req: <a title="slack_bolt.request.async_request.AsyncBoltRequest" href="../request/async_request.html#slack_bolt.request.async_request.AsyncBoltRequest">AsyncBoltRequest</a>, resp: <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>) ‑> Tuple[Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>], bool]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Runs an async middleware.</p>
@@ -552,7 +552,7 @@ async def run_ack_function(
     *,
     req: AsyncBoltRequest,
     resp: BoltResponse,
-) -&gt; Tuple[BoltResponse, bool]:
+) -&gt; Tuple[Optional[BoltResponse], bool]:
     &#34;&#34;&#34;Runs an async middleware.
 
     :param req: The incoming request
