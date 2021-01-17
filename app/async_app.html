@@ -545,7 +545,9 @@ class AsyncApp:
 
     def event(
         self,
-        event: Union[str, Pattern, Dict[str, str]],
+        event: Union[
+            str, Pattern, Dict[str, Union[str, Sequence[Optional[Union[str, Pattern]]]]]
+        ],
         matchers: Optional[Sequence[Callable[..., Awaitable[bool]]]] = None,
         middleware: Optional[Sequence[Union[Callable, AsyncMiddleware]]] = None,
     ) -&gt; Optional[Callable[..., Awaitable[Optional[BoltResponse]]]]:
@@ -578,8 +580,11 @@ class AsyncApp:
 
         def __call__(*args, **kwargs):
             functions = self._to_listener_functions(kwargs) if kwargs else list(args)
+            # As of Jan 2021, most bot messages no longer have the subtype bot_message.
+            # By contrast, messages posted using class app&#39;s bot token still have the subtype.
+            constraints = {&#34;type&#34;: &#34;message&#34;, &#34;subtype&#34;: (None, &#34;bot_message&#34;)}
             primary_matcher = builtin_matchers.event(
-                {&#34;type&#34;: &#34;message&#34;, &#34;subtype&#34;: None}, True
+                constraints=constraints, asyncio=True
             )
             middleware.append(AsyncMessageListenerMatches(keyword))
             return self._register_listener(
@@ -1447,7 +1452,9 @@ This can used only for ssl_check requests.</p></div>
 
     def event(
         self,
-        event: Union[str, Pattern, Dict[str, str]],
+        event: Union[
+            str, Pattern, Dict[str, Union[str, Sequence[Optional[Union[str, Pattern]]]]]
+        ],
         matchers: Optional[Sequence[Callable[..., Awaitable[bool]]]] = None,
         middleware: Optional[Sequence[Union[Callable, AsyncMiddleware]]] = None,
     ) -&gt; Optional[Callable[..., Awaitable[Optional[BoltResponse]]]]:
@@ -1480,8 +1487,11 @@ This can used only for ssl_check requests.</p></div>
 
         def __call__(*args, **kwargs):
             functions = self._to_listener_functions(kwargs) if kwargs else list(args)
+            # As of Jan 2021, most bot messages no longer have the subtype bot_message.
+            # By contrast, messages posted using class app&#39;s bot token still have the subtype.
+            constraints = {&#34;type&#34;: &#34;message&#34;, &#34;subtype&#34;: (None, &#34;bot_message&#34;)}
             primary_matcher = builtin_matchers.event(
-                {&#34;type&#34;: &#34;message&#34;, &#34;subtype&#34;: None}, True
+                constraints=constraints, asyncio=True
             )
             middleware.append(AsyncMessageListenerMatches(keyword))
             return self._register_listener(
@@ -2308,7 +2318,7 @@ when getting an unhandled error in Bolt app.
 </details>
 </dd>
 <dt id="slack_bolt.app.async_app.AsyncApp.event"><code class="name flex">
-<span>def <span class="ident">event</span></span>(<span>self, event: Union[str, Pattern, Dict[str, str]], matchers: Optional[Sequence[Callable[..., Awaitable[bool]]]] = None, middleware: Optional[Sequence[Union[Callable, <a title="slack_bolt.middleware.async_middleware.AsyncMiddleware" href="../middleware/async_middleware.html#slack_bolt.middleware.async_middleware.AsyncMiddleware">AsyncMiddleware</a>]]] = None) ‑> Optional[Callable[..., Awaitable[Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]]]</span>
+<span>def <span class="ident">event</span></span>(<span>self, event: Union[str, Pattern, Dict[str, Union[str, Sequence[Union[str, Pattern, NoneType]]]]], matchers: Optional[Sequence[Callable[..., Awaitable[bool]]]] = None, middleware: Optional[Sequence[Union[Callable, <a title="slack_bolt.middleware.async_middleware.AsyncMiddleware" href="../middleware/async_middleware.html#slack_bolt.middleware.async_middleware.AsyncMiddleware">AsyncMiddleware</a>]]] = None) ‑> Optional[Callable[..., Awaitable[Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]]]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Registers a new event listener.</p>
@@ -2322,7 +2332,9 @@ when getting an unhandled error in Bolt app.
 </summary>
 <pre><code class="python">def event(
     self,
-    event: Union[str, Pattern, Dict[str, str]],
+    event: Union[
+        str, Pattern, Dict[str, Union[str, Sequence[Optional[Union[str, Pattern]]]]]
+    ],
     matchers: Optional[Sequence[Callable[..., Awaitable[bool]]]] = None,
     middleware: Optional[Sequence[Union[Callable, AsyncMiddleware]]] = None,
 ) -&gt; Optional[Callable[..., Awaitable[Optional[BoltResponse]]]]:
@@ -2392,8 +2404,11 @@ when getting an unhandled error in Bolt app.
 
     def __call__(*args, **kwargs):
         functions = self._to_listener_functions(kwargs) if kwargs else list(args)
+        # As of Jan 2021, most bot messages no longer have the subtype bot_message.
+        # By contrast, messages posted using class app&#39;s bot token still have the subtype.
+        constraints = {&#34;type&#34;: &#34;message&#34;, &#34;subtype&#34;: (None, &#34;bot_message&#34;)}
         primary_matcher = builtin_matchers.event(
-            {&#34;type&#34;: &#34;message&#34;, &#34;subtype&#34;: None}, True
+            constraints=constraints, asyncio=True
         )
         middleware.append(AsyncMessageListenerMatches(keyword))
         return self._register_listener(

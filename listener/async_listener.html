@@ -145,6 +145,7 @@ class AsyncCustomListener(AsyncListener):
                 required_arg_names=self.arg_names,
                 request=request,
                 response=response,
+                this_func=self.ack_function,
             )
         )
 
@@ -216,6 +217,7 @@ for cls in builtin_async_listener_classes:
                 required_arg_names=self.arg_names,
                 request=request,
                 response=response,
+                this_func=self.ack_function,
             )
         )</code></pre>
 </details>
@@ -284,6 +286,7 @@ for cls in builtin_async_listener_classes:
             required_arg_names=self.arg_names,
             request=request,
             response=response,
+            this_func=self.ack_function,
         )
     )</code></pre>
 </details>
@@ -341,6 +344,7 @@ for cls in builtin_async_listener_classes:
                 required_arg_names=self.arg_names,
                 request=request,
                 response=response,
+                this_func=self.ack_function,
             )
         )</code></pre>
 </details>

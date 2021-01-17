@@ -54,7 +54,7 @@ if sys.version_info.major == 3 and sys.version_info.minor &lt;= 6:
     from re import _pattern_type as Pattern
 else:
     from re import Pattern
-from typing import Callable, Awaitable, Any
+from typing import Callable, Awaitable, Any, Sequence, Optional, Union
 from typing import Union, Optional, Dict
 
 from slack_bolt.kwargs_injection import build_required_kwargs
@@ -78,6 +78,7 @@ class BuiltinListenerMatcher(ListenerMatcher):
                 required_arg_names=self.arg_names,
                 request=req,
                 response=resp,
+                this_func=self.func,
             )
         )
 
@@ -102,7 +103,9 @@ def build_listener_matcher(
 
 
 def event(
-    constraints: Union[str, Pattern, Dict[str, str]],
+    constraints: Union[
+        str, Pattern, Dict[str, Union[str, Sequence[Optional[Union[str, Pattern]]]]]
+    ],
     asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     if isinstance(constraints, (str, Pattern)):
@@ -121,10 +124,28 @@ def event(
                 if not _matches(constraints[&#34;type&#34;], event[&#34;type&#34;]):
                     return False
                 if &#34;subtype&#34; in constraints:
-                    expected_subtype = constraints[&#34;subtype&#34;]
+                    expected_subtype: Union[
+                        str, Sequence[Optional[Union[str, Pattern]]]
+                    ] = constraints[&#34;subtype&#34;]
                     if expected_subtype is None:
                         # &#34;subtype&#34; in constraints is intentionally None for this pattern
                         return &#34;subtype&#34; not in event
+                    elif isinstance(expected_subtype, (str, Pattern)):
+                        return &#34;subtype&#34; in event and _matches(
+                            expected_subtype, event[&#34;subtype&#34;]
+                        )
+                    elif isinstance(expected_subtype, Sequence):
+                        subtypes: Sequence[
+                            Optional[Union[str, Pattern]]
+                        ] = expected_subtype
+                        for expected in subtypes:
+                            actual: Optional[str] = event.get(&#34;subtype&#34;)
+                            if expected is None:
+                                if actual is None:
+                                    return True
+                            elif actual is not None and _matches(expected, actual):
+                                return True
+                        return False
                     else:
                         return &#34;subtype&#34; in event and _matches(
                             expected_subtype, event[&#34;subtype&#34;]
@@ -711,7 +732,7 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 </details>
 </dd>
 <dt id="slack_bolt.listener_matcher.builtins.event"><code class="name flex">
-<span>def <span class="ident">event</span></span>(<span>constraints: Union[str, re.Pattern, Dict[str, str]], asyncio: bool = False) ‑> Union[<a title="slack_bolt.listener_matcher.listener_matcher.ListenerMatcher" href="listener_matcher.html#slack_bolt.listener_matcher.listener_matcher.ListenerMatcher">ListenerMatcher</a>, AsyncListenerMatcher]</span>
+<span>def <span class="ident">event</span></span>(<span>constraints: Union[str, re.Pattern, Dict[str, Union[str, Sequence[Union[str, re.Pattern, NoneType]]]]], asyncio: bool = False) ‑> Union[<a title="slack_bolt.listener_matcher.listener_matcher.ListenerMatcher" href="listener_matcher.html#slack_bolt.listener_matcher.listener_matcher.ListenerMatcher">ListenerMatcher</a>, AsyncListenerMatcher]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -720,7 +741,9 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def event(
-    constraints: Union[str, Pattern, Dict[str, str]],
+    constraints: Union[
+        str, Pattern, Dict[str, Union[str, Sequence[Optional[Union[str, Pattern]]]]]
+    ],
     asyncio: bool = False,
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     if isinstance(constraints, (str, Pattern)):
@@ -739,10 +762,28 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
                 if not _matches(constraints[&#34;type&#34;], event[&#34;type&#34;]):
                     return False
                 if &#34;subtype&#34; in constraints:
-                    expected_subtype = constraints[&#34;subtype&#34;]
+                    expected_subtype: Union[
+                        str, Sequence[Optional[Union[str, Pattern]]]
+                    ] = constraints[&#34;subtype&#34;]
                     if expected_subtype is None:
                         # &#34;subtype&#34; in constraints is intentionally None for this pattern
                         return &#34;subtype&#34; not in event
+                    elif isinstance(expected_subtype, (str, Pattern)):
+                        return &#34;subtype&#34; in event and _matches(
+                            expected_subtype, event[&#34;subtype&#34;]
+                        )
+                    elif isinstance(expected_subtype, Sequence):
+                        subtypes: Sequence[
+                            Optional[Union[str, Pattern]]
+                        ] = expected_subtype
+                        for expected in subtypes:
+                            actual: Optional[str] = event.get(&#34;subtype&#34;)
+                            if expected is None:
+                                if actual is None:
+                                    return True
+                            elif actual is not None and _matches(expected, actual):
+                                return True
+                        return False
                     else:
                         return &#34;subtype&#34; in event and _matches(
                             expected_subtype, event[&#34;subtype&#34;]
@@ -1019,6 +1060,7 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
                 required_arg_names=self.arg_names,
                 request=req,
                 response=resp,
+                this_func=self.func,
             )
         )</code></pre>
 </details>

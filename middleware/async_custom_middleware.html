@@ -67,6 +67,7 @@ class AsyncCustomMiddleware(AsyncMiddleware):
                 request=req,
                 response=resp,
                 next_func=next,
+                this_func=self.func,
             )
         )
 
@@ -124,6 +125,7 @@ class AsyncCustomMiddleware(AsyncMiddleware):
                 request=req,
                 response=resp,
                 next_func=next,
+                this_func=self.func,
             )
         )
 
@@ -194,6 +196,7 @@ def name(self) -&gt; str:
             request=req,
             response=resp,
             next_func=next,
+            this_func=self.func,
         )
     )</code></pre>
 </details>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
 <meta name="generator" content="pdoc 0.9.2" />
-<title>slack_bolt.middleware.custom_middleware API documentation</title>
+<title>slack_bolt.adapter.socket_mode.base_handler API documentation</title>
 <meta name="description" content="" />
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
 <link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
@@ -19,57 +19,46 @@
 <main>
 <article id="content">
 <header>
-<h1 class="title">Module <code>slack_bolt.middleware.custom_middleware</code></h1>
+<h1 class="title">Module <code>slack_bolt.adapter.socket_mode.base_handler</code></h1>
 </header>
 <section id="section-intro">
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">import inspect
-from logging import Logger
-from typing import Callable, Any, Sequence
+<pre><code class="python">import logging
+from threading import Event
 
-from slack_bolt.kwargs_injection import build_required_kwargs
-from slack_bolt.logger import get_bolt_app_logger
-from slack_bolt.request import BoltRequest
-from slack_bolt.response import BoltResponse
-from .middleware import Middleware
+from slack_sdk.socket_mode.client import BaseSocketModeClient
+from slack_sdk.socket_mode.request import SocketModeRequest
+
+from slack_bolt import App
+from slack_bolt.util.utils import get_boot_message
 
 
-class CustomMiddleware(Middleware):
-    app_name: str
-    func: Callable[..., Any]
-    arg_names: Sequence[str]
-    logger: Logger
+class BaseSocketModeHandler:
+    app: App  # type: ignore
+    client: BaseSocketModeClient
 
-    def __init__(self, *, app_name: str, func: Callable):
-        self.app_name = app_name
-        self.func = func
-        self.arg_names = inspect.getfullargspec(func).args
-        self.logger = get_bolt_app_logger(self.app_name, self.func)
+    def handle(self, client: BaseSocketModeClient, req: SocketModeRequest) -&gt; None:
+        raise NotImplementedError()
 
-    def process(
-        self,
-        *,
-        req: BoltRequest,
-        resp: BoltResponse,
-        next: Callable[[], BoltResponse],
-    ) -&gt; BoltResponse:
-        return self.func(
-            **build_required_kwargs(
-                logger=self.logger,
-                required_arg_names=self.arg_names,
-                request=req,
-                response=resp,
-                next_func=next,
-                this_func=self.func,
-            )
-        )
+    def connect(self):
+        self.client.connect()
 
-    @property
-    def name(self) -&gt; str:
-        return f&#34;CustomMiddleware(func={self.func.__name__})&#34;</code></pre>
+    def disconnect(self):
+        self.client.disconnect()
+
+    def close(self):
+        self.client.close()
+
+    def start(self):
+        self.connect()
+        if self.app.logger.level &gt; logging.INFO:
+            print(get_boot_message())
+        else:
+            self.app.logger.info(get_boot_message())
+        Event().wait()</code></pre>
 </details>
 </section>
 <section>
@@ -81,9 +70,8 @@ class CustomMiddleware(Middleware):
 <section>
 <h2 class="section-title" id="header-classes">Classes</h2>
 <dl>
-<dt id="slack_bolt.middleware.custom_middleware.CustomMiddleware"><code class="flex name class">
-<span>class <span class="ident">CustomMiddleware</span></span>
-<span>(</span><span>*, app_name: str, func: Callable)</span>
+<dt id="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler"><code class="flex name class">
+<span>class <span class="ident">BaseSocketModeHandler</span></span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -91,82 +79,50 @@ class CustomMiddleware(Middleware):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">class CustomMiddleware(Middleware):
-    app_name: str
-    func: Callable[..., Any]
-    arg_names: Sequence[str]
-    logger: Logger
+<pre><code class="python">class BaseSocketModeHandler:
+    app: App  # type: ignore
+    client: BaseSocketModeClient
 
-    def __init__(self, *, app_name: str, func: Callable):
-        self.app_name = app_name
-        self.func = func
-        self.arg_names = inspect.getfullargspec(func).args
-        self.logger = get_bolt_app_logger(self.app_name, self.func)
+    def handle(self, client: BaseSocketModeClient, req: SocketModeRequest) -&gt; None:
+        raise NotImplementedError()
 
-    def process(
-        self,
-        *,
-        req: BoltRequest,
-        resp: BoltResponse,
-        next: Callable[[], BoltResponse],
-    ) -&gt; BoltResponse:
-        return self.func(
-            **build_required_kwargs(
-                logger=self.logger,
-                required_arg_names=self.arg_names,
-                request=req,
-                response=resp,
-                next_func=next,
-                this_func=self.func,
-            )
-        )
+    def connect(self):
+        self.client.connect()
 
-    @property
-    def name(self) -&gt; str:
-        return f&#34;CustomMiddleware(func={self.func.__name__})&#34;</code></pre>
+    def disconnect(self):
+        self.client.disconnect()
+
+    def close(self):
+        self.client.close()
+
+    def start(self):
+        self.connect()
+        if self.app.logger.level &gt; logging.INFO:
+            print(get_boot_message())
+        else:
+            self.app.logger.info(get_boot_message())
+        Event().wait()</code></pre>
 </details>
-<h3>Ancestors</h3>
+<h3>Subclasses</h3>
 <ul class="hlist">
-<li><a title="slack_bolt.middleware.middleware.Middleware" href="middleware.html#slack_bolt.middleware.middleware.Middleware">Middleware</a></li>
+<li><a title="slack_bolt.adapter.socket_mode.builtin.SocketModeHandler" href="builtin/index.html#slack_bolt.adapter.socket_mode.builtin.SocketModeHandler">SocketModeHandler</a></li>
+<li><a title="slack_bolt.adapter.socket_mode.websocket_client.SocketModeHandler" href="websocket_client/index.html#slack_bolt.adapter.socket_mode.websocket_client.SocketModeHandler">SocketModeHandler</a></li>
 </ul>
 <h3>Class variables</h3>
 <dl>
-<dt id="slack_bolt.middleware.custom_middleware.CustomMiddleware.app_name"><code class="name">var <span class="ident">app_name</span> : str</code></dt>
+<dt id="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.app"><code class="name">var <span class="ident">app</span> : <a title="slack_bolt.app.app.App" href="../../app/app.html#slack_bolt.app.app.App">App</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt id="slack_bolt.middleware.custom_middleware.CustomMiddleware.arg_names"><code class="name">var <span class="ident">arg_names</span> : Sequence[str]</code></dt>
+<dt id="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.client"><code class="name">var <span class="ident">client</span> : slack_sdk.socket_mode.client.BaseSocketModeClient</code></dt>
 <dd>
 <div class="desc"></div>
-</dd>
-<dt id="slack_bolt.middleware.custom_middleware.CustomMiddleware.func"><code class="name">var <span class="ident">func</span> : Callable[..., Any]</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt id="slack_bolt.middleware.custom_middleware.CustomMiddleware.logger"><code class="name">var <span class="ident">logger</span> : logging.Logger</code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-</dl>
-<h3>Instance variables</h3>
-<dl>
-<dt id="slack_bolt.middleware.custom_middleware.CustomMiddleware.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">@property
-def name(self) -&gt; str:
-    return f&#34;CustomMiddleware(func={self.func.__name__})&#34;</code></pre>
-</details>
 </dd>
 </dl>
 <h3>Methods</h3>
 <dl>
-<dt id="slack_bolt.middleware.custom_middleware.CustomMiddleware.process"><code class="name flex">
-<span>def <span class="ident">process</span></span>(<span>self, *, req: <a title="slack_bolt.request.request.BoltRequest" href="../request/request.html#slack_bolt.request.request.BoltRequest">BoltRequest</a>, resp: <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, next: Callable[[], <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]) ‑> <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a></span>
+<dt id="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.close"><code class="name flex">
+<span>def <span class="ident">close</span></span>(<span>self)</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -174,23 +130,65 @@ def name(self) -&gt; str:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def process(
-    self,
-    *,
-    req: BoltRequest,
-    resp: BoltResponse,
-    next: Callable[[], BoltResponse],
-) -&gt; BoltResponse:
-    return self.func(
-        **build_required_kwargs(
-            logger=self.logger,
-            required_arg_names=self.arg_names,
-            request=req,
-            response=resp,
-            next_func=next,
-            this_func=self.func,
-        )
-    )</code></pre>
+<pre><code class="python">def close(self):
+    self.client.close()</code></pre>
+</details>
+</dd>
+<dt id="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.connect"><code class="name flex">
+<span>def <span class="ident">connect</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def connect(self):
+    self.client.connect()</code></pre>
+</details>
+</dd>
+<dt id="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.disconnect"><code class="name flex">
+<span>def <span class="ident">disconnect</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def disconnect(self):
+    self.client.disconnect()</code></pre>
+</details>
+</dd>
+<dt id="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.handle"><code class="name flex">
+<span>def <span class="ident">handle</span></span>(<span>self, client: slack_sdk.socket_mode.client.BaseSocketModeClient, req: slack_sdk.socket_mode.request.SocketModeRequest) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def handle(self, client: BaseSocketModeClient, req: SocketModeRequest) -&gt; None:
+    raise NotImplementedError()</code></pre>
+</details>
+</dd>
+<dt id="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.start"><code class="name flex">
+<span>def <span class="ident">start</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def start(self):
+    self.connect()
+    if self.app.logger.level &gt; logging.INFO:
+        print(get_boot_message())
+    else:
+        self.app.logger.info(get_boot_message())
+    Event().wait()</code></pre>
 </details>
 </dd>
 </dl>
@@ -206,20 +204,21 @@ def name(self) -&gt; str:
 <ul id="index">
 <li><h3>Super-module</h3>
 <ul>
-<li><code><a title="slack_bolt.middleware" href="index.html">slack_bolt.middleware</a></code></li>
+<li><code><a title="slack_bolt.adapter.socket_mode" href="index.html">slack_bolt.adapter.socket_mode</a></code></li>
 </ul>
 </li>
 <li><h3><a href="#header-classes">Classes</a></h3>
 <ul>
 <li>
-<h4><code><a title="slack_bolt.middleware.custom_middleware.CustomMiddleware" href="#slack_bolt.middleware.custom_middleware.CustomMiddleware">CustomMiddleware</a></code></h4>
+<h4><code><a title="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler" href="#slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler">BaseSocketModeHandler</a></code></h4>
 <ul class="two-column">
-<li><code><a title="slack_bolt.middleware.custom_middleware.CustomMiddleware.app_name" href="#slack_bolt.middleware.custom_middleware.CustomMiddleware.app_name">app_name</a></code></li>
-<li><code><a title="slack_bolt.middleware.custom_middleware.CustomMiddleware.arg_names" href="#slack_bolt.middleware.custom_middleware.CustomMiddleware.arg_names">arg_names</a></code></li>
-<li><code><a title="slack_bolt.middleware.custom_middleware.CustomMiddleware.func" href="#slack_bolt.middleware.custom_middleware.CustomMiddleware.func">func</a></code></li>
-<li><code><a title="slack_bolt.middleware.custom_middleware.CustomMiddleware.logger" href="#slack_bolt.middleware.custom_middleware.CustomMiddleware.logger">logger</a></code></li>
-<li><code><a title="slack_bolt.middleware.custom_middleware.CustomMiddleware.name" href="#slack_bolt.middleware.custom_middleware.CustomMiddleware.name">name</a></code></li>
-<li><code><a title="slack_bolt.middleware.custom_middleware.CustomMiddleware.process" href="#slack_bolt.middleware.custom_middleware.CustomMiddleware.process">process</a></code></li>
+<li><code><a title="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.app" href="#slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.app">app</a></code></li>
+<li><code><a title="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.client" href="#slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.client">client</a></code></li>
+<li><code><a title="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.close" href="#slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.close">close</a></code></li>
+<li><code><a title="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.connect" href="#slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.connect">connect</a></code></li>
+<li><code><a title="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.disconnect" href="#slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.disconnect">disconnect</a></code></li>
+<li><code><a title="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.handle" href="#slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.handle">handle</a></code></li>
+<li><code><a title="slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.start" href="#slack_bolt.adapter.socket_mode.base_handler.BaseSocketModeHandler.start">start</a></code></li>
 </ul>
 </li>
 </ul>

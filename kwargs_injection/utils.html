@@ -27,6 +27,7 @@
 <span>Expand source code</span>
 </summary>
 <pre><code class="python"># pytype: skip-file
+import inspect
 import logging
 from typing import Callable, Dict, Optional, Any, Sequence
 
@@ -53,6 +54,7 @@ def build_required_kwargs(
     request: BoltRequest,
     response: Optional[BoltResponse],
     next_func: Callable[[], None] = None,
+    this_func: Optional[Callable] = None,
 ) -&gt; Dict[str, Any]:
     all_available_args = {
         &#34;logger&#34;: logger,
@@ -101,8 +103,12 @@ def build_required_kwargs(
         if first_arg_name in {&#34;self&#34;, &#34;cls&#34;}:
             required_arg_names.pop(0)
         elif first_arg_name not in all_available_args.keys():
-            logger.warning(warning_skip_uncommon_arg_name(first_arg_name))
-            required_arg_names.pop(0)
+            if this_func is None:
+                logger.warning(warning_skip_uncommon_arg_name(first_arg_name))
+                required_arg_names.pop(0)
+            elif inspect.ismethod(this_func):
+                # We are sure that we should skip manipulating this arg
+                required_arg_names.pop(0)
 
     kwargs: Dict[str, Any] = {
         k: v for k, v in all_available_args.items() if k in required_arg_names
@@ -131,7 +137,7 @@ def build_required_kwargs(
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="slack_bolt.kwargs_injection.utils.build_required_kwargs"><code class="name flex">
-<span>def <span class="ident">build_required_kwargs</span></span>(<span>*, logger: logging.Logger, required_arg_names: Sequence[str], request: <a title="slack_bolt.request.request.BoltRequest" href="../request/request.html#slack_bolt.request.request.BoltRequest">BoltRequest</a>, response: Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>], next_func: Callable[[], NoneType] = None) ‑> Dict[str, Any]</span>
+<span>def <span class="ident">build_required_kwargs</span></span>(<span>*, logger: logging.Logger, required_arg_names: Sequence[str], request: <a title="slack_bolt.request.request.BoltRequest" href="../request/request.html#slack_bolt.request.request.BoltRequest">BoltRequest</a>, response: Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>], next_func: Callable[[], NoneType] = None, this_func: Optional[Callable] = None) ‑> Dict[str, Any]</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -146,6 +152,7 @@ def build_required_kwargs(
     request: BoltRequest,
     response: Optional[BoltResponse],
     next_func: Callable[[], None] = None,
+    this_func: Optional[Callable] = None,
 ) -&gt; Dict[str, Any]:
     all_available_args = {
         &#34;logger&#34;: logger,
@@ -194,8 +201,12 @@ def build_required_kwargs(
         if first_arg_name in {&#34;self&#34;, &#34;cls&#34;}:
             required_arg_names.pop(0)
         elif first_arg_name not in all_available_args.keys():
-            logger.warning(warning_skip_uncommon_arg_name(first_arg_name))
-            required_arg_names.pop(0)
+            if this_func is None:
+                logger.warning(warning_skip_uncommon_arg_name(first_arg_name))
+                required_arg_names.pop(0)
+            elif inspect.ismethod(this_func):
+                # We are sure that we should skip manipulating this arg
+                required_arg_names.pop(0)
 
     kwargs: Dict[str, Any] = {
         k: v for k, v in all_available_args.items() if k in required_arg_names
