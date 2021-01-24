@@ -49,6 +49,7 @@ from slack_bolt.request.payload_utils import (
     to_action,
     is_workflow_step_save,
 )
+from ..logger.messages import error_message_event_type
 
 if sys.version_info.major == 3 and sys.version_info.minor &lt;= 6:
     from re import _pattern_type as Pattern
@@ -110,6 +111,7 @@ def event(
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     if isinstance(constraints, (str, Pattern)):
         event_type: Union[str, Pattern] = constraints
+        _verify_message_event_type(event_type)
 
         def func(body: Dict[str, Any]) -&gt; bool:
             return is_event(body) and _matches(event_type, body[&#34;event&#34;][&#34;type&#34;])
@@ -117,6 +119,7 @@ def event(
         return build_listener_matcher(func, asyncio)
 
     elif &#34;type&#34; in constraints:
+        _verify_message_event_type(constraints[&#34;type&#34;])
 
         def func(body: Dict[str, Any]) -&gt; bool:
             if is_event(body):
@@ -158,6 +161,13 @@ def event(
     raise BoltError(
         f&#34;event ({constraints}: {type(constraints)}) must be any of str, Pattern, and dict&#34;
     )
+
+
+def _verify_message_event_type(event_type: str) -&gt; None:
+    if isinstance(event_type, str) and event_type.startswith(&#34;message.&#34;):
+        raise ValueError(error_message_event_type(event_type))
+    if isinstance(event_type, Pattern) and &#34;message\\.&#34; in event_type.pattern:
+        raise ValueError(error_message_event_type(event_type))
 
 
 def workflow_step_execute(
@@ -748,6 +758,7 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
 ) -&gt; Union[ListenerMatcher, &#34;AsyncListenerMatcher&#34;]:
     if isinstance(constraints, (str, Pattern)):
         event_type: Union[str, Pattern] = constraints
+        _verify_message_event_type(event_type)
 
         def func(body: Dict[str, Any]) -&gt; bool:
             return is_event(body) and _matches(event_type, body[&#34;event&#34;][&#34;type&#34;])
@@ -755,6 +766,7 @@ def _matches(str_or_pattern: Union[str, Pattern], input: Optional[str]) -&gt; bo
         return build_listener_matcher(func, asyncio)
 
     elif &#34;type&#34; in constraints:
+        _verify_message_event_type(constraints[&#34;type&#34;])
 
         def func(body: Dict[str, Any]) -&gt; bool:
             if is_event(body):

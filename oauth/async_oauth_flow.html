@@ -336,6 +336,9 @@ class AsyncOAuthFlow:
             installed_enterprise: Dict[str, str] = (
                 oauth_response.get(&#34;enterprise&#34;) or {}
             )
+            is_enterprise_install: bool = (
+                oauth_response.get(&#34;is_enterprise_install&#34;) or False
+            )
             installed_team: Dict[str, str] = oauth_response.get(&#34;team&#34;) or {}
             installer: Dict[str, str] = oauth_response.get(&#34;authed_user&#34;) or {}
             incoming_webhook: Dict[str, str] = (
@@ -345,14 +348,20 @@ class AsyncOAuthFlow:
             bot_token: Optional[str] = oauth_response.get(&#34;access_token&#34;)
             # NOTE: oauth.v2.access doesn&#39;t include bot_id in response
             bot_id: Optional[str] = None
+            enterprise_url: Optional[str] = None
             if bot_token is not None:
                 auth_test = await self.client.auth_test(token=bot_token)
                 bot_id = auth_test[&#34;bot_id&#34;]
+            if is_enterprise_install is True:
+                enterprise_url = auth_test.get(&#34;url&#34;)
 
             return Installation(
                 app_id=oauth_response.get(&#34;app_id&#34;),
                 enterprise_id=installed_enterprise.get(&#34;id&#34;),
+                enterprise_name=installed_enterprise.get(&#34;name&#34;),
+                enterprise_url=enterprise_url,
                 team_id=installed_team.get(&#34;id&#34;),
+                team_name=installed_team.get(&#34;name&#34;),
                 bot_token=bot_token,
                 bot_id=bot_id,
                 bot_user_id=oauth_response.get(&#34;bot_user_id&#34;),
@@ -361,10 +370,13 @@ class AsyncOAuthFlow:
                 user_token=installer.get(&#34;access_token&#34;),
                 user_scopes=installer.get(&#34;scope&#34;),  # comma-separated string
                 incoming_webhook_url=incoming_webhook.get(&#34;url&#34;),
+                incoming_webhook_channel=incoming_webhook.get(&#34;channel&#34;),
                 incoming_webhook_channel_id=incoming_webhook.get(&#34;channel_id&#34;),
                 incoming_webhook_configuration_url=incoming_webhook.get(
-                    &#34;configuration_url&#34;, None
+                    &#34;configuration_url&#34;
                 ),
+                is_enterprise_install=is_enterprise_install,
+                token_type=oauth_response.get(&#34;token_type&#34;),
             )
 
         except SlackApiError as e:
@@ -685,6 +697,9 @@ class AsyncOAuthFlow:
             installed_enterprise: Dict[str, str] = (
                 oauth_response.get(&#34;enterprise&#34;) or {}
             )
+            is_enterprise_install: bool = (
+                oauth_response.get(&#34;is_enterprise_install&#34;) or False
+            )
             installed_team: Dict[str, str] = oauth_response.get(&#34;team&#34;) or {}
             installer: Dict[str, str] = oauth_response.get(&#34;authed_user&#34;) or {}
             incoming_webhook: Dict[str, str] = (
@@ -694,14 +709,20 @@ class AsyncOAuthFlow:
             bot_token: Optional[str] = oauth_response.get(&#34;access_token&#34;)
             # NOTE: oauth.v2.access doesn&#39;t include bot_id in response
             bot_id: Optional[str] = None
+            enterprise_url: Optional[str] = None
             if bot_token is not None:
                 auth_test = await self.client.auth_test(token=bot_token)
                 bot_id = auth_test[&#34;bot_id&#34;]
+            if is_enterprise_install is True:
+                enterprise_url = auth_test.get(&#34;url&#34;)
 
             return Installation(
                 app_id=oauth_response.get(&#34;app_id&#34;),
                 enterprise_id=installed_enterprise.get(&#34;id&#34;),
+                enterprise_name=installed_enterprise.get(&#34;name&#34;),
+                enterprise_url=enterprise_url,
                 team_id=installed_team.get(&#34;id&#34;),
+                team_name=installed_team.get(&#34;name&#34;),
                 bot_token=bot_token,
                 bot_id=bot_id,
                 bot_user_id=oauth_response.get(&#34;bot_user_id&#34;),
@@ -710,10 +731,13 @@ class AsyncOAuthFlow:
                 user_token=installer.get(&#34;access_token&#34;),
                 user_scopes=installer.get(&#34;scope&#34;),  # comma-separated string
                 incoming_webhook_url=incoming_webhook.get(&#34;url&#34;),
+                incoming_webhook_channel=incoming_webhook.get(&#34;channel&#34;),
                 incoming_webhook_channel_id=incoming_webhook.get(&#34;channel_id&#34;),
                 incoming_webhook_configuration_url=incoming_webhook.get(
-                    &#34;configuration_url&#34;, None
+                    &#34;configuration_url&#34;
                 ),
+                is_enterprise_install=is_enterprise_install,
+                token_type=oauth_response.get(&#34;token_type&#34;),
             )
 
         except SlackApiError as e:
@@ -1070,6 +1094,9 @@ def logger(self) -&gt; Logger:
         installed_enterprise: Dict[str, str] = (
             oauth_response.get(&#34;enterprise&#34;) or {}
         )
+        is_enterprise_install: bool = (
+            oauth_response.get(&#34;is_enterprise_install&#34;) or False
+        )
         installed_team: Dict[str, str] = oauth_response.get(&#34;team&#34;) or {}
         installer: Dict[str, str] = oauth_response.get(&#34;authed_user&#34;) or {}
         incoming_webhook: Dict[str, str] = (
@@ -1079,14 +1106,20 @@ def logger(self) -&gt; Logger:
         bot_token: Optional[str] = oauth_response.get(&#34;access_token&#34;)
         # NOTE: oauth.v2.access doesn&#39;t include bot_id in response
         bot_id: Optional[str] = None
+        enterprise_url: Optional[str] = None
         if bot_token is not None:
             auth_test = await self.client.auth_test(token=bot_token)
             bot_id = auth_test[&#34;bot_id&#34;]
+        if is_enterprise_install is True:
+            enterprise_url = auth_test.get(&#34;url&#34;)
 
         return Installation(
             app_id=oauth_response.get(&#34;app_id&#34;),
             enterprise_id=installed_enterprise.get(&#34;id&#34;),
+            enterprise_name=installed_enterprise.get(&#34;name&#34;),
+            enterprise_url=enterprise_url,
             team_id=installed_team.get(&#34;id&#34;),
+            team_name=installed_team.get(&#34;name&#34;),
             bot_token=bot_token,
             bot_id=bot_id,
             bot_user_id=oauth_response.get(&#34;bot_user_id&#34;),
@@ -1095,10 +1128,13 @@ def logger(self) -&gt; Logger:
             user_token=installer.get(&#34;access_token&#34;),
             user_scopes=installer.get(&#34;scope&#34;),  # comma-separated string
             incoming_webhook_url=incoming_webhook.get(&#34;url&#34;),
+            incoming_webhook_channel=incoming_webhook.get(&#34;channel&#34;),
             incoming_webhook_channel_id=incoming_webhook.get(&#34;channel_id&#34;),
             incoming_webhook_configuration_url=incoming_webhook.get(
-                &#34;configuration_url&#34;, None
+                &#34;configuration_url&#34;
             ),
+            is_enterprise_install=is_enterprise_install,
+            token_type=oauth_response.get(&#34;token_type&#34;),
         )
 
     except SlackApiError as e:

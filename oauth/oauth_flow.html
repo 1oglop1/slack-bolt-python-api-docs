@@ -368,7 +368,7 @@ class OAuthFlow:
                 incoming_webhook_channel=incoming_webhook.get(&#34;channel&#34;),
                 incoming_webhook_channel_id=incoming_webhook.get(&#34;channel_id&#34;),
                 incoming_webhook_configuration_url=incoming_webhook.get(
-                    &#34;configuration_url&#34;, None
+                    &#34;configuration_url&#34;
                 ),
                 is_enterprise_install=is_enterprise_install,
                 token_type=oauth_response.get(&#34;token_type&#34;),
@@ -723,7 +723,7 @@ class OAuthFlow:
                 incoming_webhook_channel=incoming_webhook.get(&#34;channel&#34;),
                 incoming_webhook_channel_id=incoming_webhook.get(&#34;channel_id&#34;),
                 incoming_webhook_configuration_url=incoming_webhook.get(
-                    &#34;configuration_url&#34;, None
+                    &#34;configuration_url&#34;
                 ),
                 is_enterprise_install=is_enterprise_install,
                 token_type=oauth_response.get(&#34;token_type&#34;),
@@ -1122,7 +1122,7 @@ def logger(self) -&gt; Logger:
             incoming_webhook_channel=incoming_webhook.get(&#34;channel&#34;),
             incoming_webhook_channel_id=incoming_webhook.get(&#34;channel_id&#34;),
             incoming_webhook_configuration_url=incoming_webhook.get(
-                &#34;configuration_url&#34;, None
+                &#34;configuration_url&#34;
             ),
             is_enterprise_install=is_enterprise_install,
             token_type=oauth_response.get(&#34;token_type&#34;),

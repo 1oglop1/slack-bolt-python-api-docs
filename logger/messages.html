@@ -78,6 +78,14 @@ def error_authorize_conflicts() -&gt; str:
     return &#34;`authorize` in the top-level arguments is not allowed when you pass either `oauth_settings` or `oauth_flow`&#34;
 
 
+def error_message_event_type(event_type: str) -&gt; str:
+    return (
+        f&#39;Although the document mentions &#34;{event_type}&#34;, &#39;
+        &#39;it is not a valid event type. Use &#34;message&#34; instead. &#39;
+        &#34;If you want to filter message events, you can use `event.channel_type` for it.&#34;
+    )
+
+
 # -------------------------------
 # Warning
 # -------------------------------
@@ -309,6 +317,23 @@ def debug_return_listener_middleware_response(
     return f&#34;The listener function ({func_name}) is not a coroutine function.&#34;</code></pre>
 </details>
 </dd>
+<dt id="slack_bolt.logger.messages.error_message_event_type"><code class="name flex">
+<span>def <span class="ident">error_message_event_type</span></span>(<span>event_type: str) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def error_message_event_type(event_type: str) -&gt; str:
+    return (
+        f&#39;Although the document mentions &#34;{event_type}&#34;, &#39;
+        &#39;it is not a valid event type. Use &#34;message&#34; instead. &#39;
+        &#34;If you want to filter message events, you can use `event.channel_type` for it.&#34;
+    )</code></pre>
+</details>
+</dd>
 <dt id="slack_bolt.logger.messages.error_oauth_flow_invalid_type_async"><code class="name flex">
 <span>def <span class="ident">error_oauth_flow_invalid_type_async</span></span>(<span>) ‑> str</span>
 </code></dt>
@@ -492,6 +517,7 @@ def debug_return_listener_middleware_response(
 <li><code><a title="slack_bolt.logger.messages.error_client_invalid_type" href="#slack_bolt.logger.messages.error_client_invalid_type">error_client_invalid_type</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_client_invalid_type_async" href="#slack_bolt.logger.messages.error_client_invalid_type_async">error_client_invalid_type_async</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_listener_function_must_be_coro_func" href="#slack_bolt.logger.messages.error_listener_function_must_be_coro_func">error_listener_function_must_be_coro_func</a></code></li>
+<li><code><a title="slack_bolt.logger.messages.error_message_event_type" href="#slack_bolt.logger.messages.error_message_event_type">error_message_event_type</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_oauth_flow_invalid_type_async" href="#slack_bolt.logger.messages.error_oauth_flow_invalid_type_async">error_oauth_flow_invalid_type_async</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_oauth_settings_invalid_type_async" href="#slack_bolt.logger.messages.error_oauth_settings_invalid_type_async">error_oauth_settings_invalid_type_async</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_token_required" href="#slack_bolt.logger.messages.error_token_required">error_token_required</a></code></li>

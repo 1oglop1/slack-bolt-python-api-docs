@@ -35,6 +35,7 @@ from slack_bolt.logger import get_bolt_app_logger
 from slack_bolt.request import BoltRequest
 from slack_bolt.response import BoltResponse
 from .middleware import Middleware
+from slack_bolt.util.utils import get_name_for_callable
 
 
 class CustomMiddleware(Middleware):
@@ -69,7 +70,7 @@ class CustomMiddleware(Middleware):
 
     @property
     def name(self) -&gt; str:
-        return f&#34;CustomMiddleware(func={self.func.__name__})&#34;</code></pre>
+        return f&#34;CustomMiddleware(func={get_name_for_callable(self.func)})&#34;</code></pre>
 </details>
 </section>
 <section>
@@ -123,7 +124,7 @@ class CustomMiddleware(Middleware):
 
     @property
     def name(self) -&gt; str:
-        return f&#34;CustomMiddleware(func={self.func.__name__})&#34;</code></pre>
+        return f&#34;CustomMiddleware(func={get_name_for_callable(self.func)})&#34;</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">
@@ -159,7 +160,7 @@ class CustomMiddleware(Middleware):
 </summary>
 <pre><code class="python">@property
 def name(self) -&gt; str:
-    return f&#34;CustomMiddleware(func={self.func.__name__})&#34;</code></pre>
+    return f&#34;CustomMiddleware(func={get_name_for_callable(self.func)})&#34;</code></pre>
 </details>
 </dd>
 </dl>
