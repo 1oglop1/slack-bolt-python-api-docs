@@ -95,6 +95,7 @@ from slack_bolt.util.utils import (
     get_name_for_callable,
 )
 from slack_bolt.workflows.step import WorkflowStep, WorkflowStepMiddleware
+from slack_bolt.workflows.step.step import WorkflowStepBuilder
 
 
 class App:
@@ -450,7 +451,7 @@ class App:
 
     def step(
         self,
-        callback_id: Union[str, Pattern, WorkflowStep],
+        callback_id: Union[str, Pattern, WorkflowStep, WorkflowStepBuilder],
         edit: Optional[
             Union[Callable[..., Optional[BoltResponse]], Listener, Sequence[Callable]]
         ] = None,
@@ -461,7 +462,10 @@ class App:
             Union[Callable[..., Optional[BoltResponse]], Listener, Sequence[Callable]]
         ] = None,
     ):
-        &#34;&#34;&#34;Registers a new Workflow Step listener&#34;&#34;&#34;
+        &#34;&#34;&#34;Registers a new Workflow Step listener
+        Unlike others, this method doesn&#39;t behave as a decorator. If you want to register a workflow step
+        by a decorator, use WorkflowStepBuilder&#39;s methods.
+        &#34;&#34;&#34;
         step = callback_id
         if isinstance(callback_id, (str, Pattern)):
             step = WorkflowStep(
@@ -470,8 +474,10 @@ class App:
                 save=save,
                 execute=execute,
             )
+        elif isinstance(step, WorkflowStepBuilder):
+            step = step.build()
         elif not isinstance(step, WorkflowStep):
-            raise BoltError(&#34;Invalid step object&#34;)
+            raise BoltError(f&#34;Invalid step object ({type(step)})&#34;)
 
         self.use(WorkflowStepMiddleware(step, self.listener_runner))
 
@@ -1417,7 +1423,7 @@ This can used only for ssl_check requests.</p></div>
 
     def step(
         self,
-        callback_id: Union[str, Pattern, WorkflowStep],
+        callback_id: Union[str, Pattern, WorkflowStep, WorkflowStepBuilder],
         edit: Optional[
             Union[Callable[..., Optional[BoltResponse]], Listener, Sequence[Callable]]
         ] = None,
@@ -1428,7 +1434,10 @@ This can used only for ssl_check requests.</p></div>
             Union[Callable[..., Optional[BoltResponse]], Listener, Sequence[Callable]]
         ] = None,
     ):
-        &#34;&#34;&#34;Registers a new Workflow Step listener&#34;&#34;&#34;
+        &#34;&#34;&#34;Registers a new Workflow Step listener
+        Unlike others, this method doesn&#39;t behave as a decorator. If you want to register a workflow step
+        by a decorator, use WorkflowStepBuilder&#39;s methods.
+        &#34;&#34;&#34;
         step = callback_id
         if isinstance(callback_id, (str, Pattern)):
             step = WorkflowStep(
@@ -1437,8 +1446,10 @@ This can used only for ssl_check requests.</p></div>
                 save=save,
                 execute=execute,
             )
+        elif isinstance(step, WorkflowStepBuilder):
+            step = step.build()
         elif not isinstance(step, WorkflowStep):
-            raise BoltError(&#34;Invalid step object&#34;)
+            raise BoltError(f&#34;Invalid step object ({type(step)})&#34;)
 
         self.use(WorkflowStepMiddleware(step, self.listener_runner))
 
@@ -2574,17 +2585,19 @@ For production, consider using a production-ready WSGI server such as Gunicorn.<
 </details>
 </dd>
 <dt id="slack_bolt.app.app.App.step"><code class="name flex">
-<span>def <span class="ident">step</span></span>(<span>self, callback_id: Union[str, Pattern, <a title="slack_bolt.workflows.step.step.WorkflowStep" href="../workflows/step/step.html#slack_bolt.workflows.step.step.WorkflowStep">WorkflowStep</a>], edit: Union[Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]], <a title="slack_bolt.listener.listener.Listener" href="../listener/listener.html#slack_bolt.listener.listener.Listener">Listener</a>, Sequence[Callable], NoneType] = None, save: Union[Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]], <a title="slack_bolt.listener.listener.Listener" href="../listener/listener.html#slack_bolt.listener.listener.Listener">Listener</a>, Sequence[Callable], NoneType] = None, execute: Union[Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]], <a title="slack_bolt.listener.listener.Listener" href="../listener/listener.html#slack_bolt.listener.listener.Listener">Listener</a>, Sequence[Callable], NoneType] = None)</span>
+<span>def <span class="ident">step</span></span>(<span>self, callback_id: Union[str, Pattern, <a title="slack_bolt.workflows.step.step.WorkflowStep" href="../workflows/step/step.html#slack_bolt.workflows.step.step.WorkflowStep">WorkflowStep</a>, <a title="slack_bolt.workflows.step.step.WorkflowStepBuilder" href="../workflows/step/step.html#slack_bolt.workflows.step.step.WorkflowStepBuilder">WorkflowStepBuilder</a>], edit: Union[Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]], <a title="slack_bolt.listener.listener.Listener" href="../listener/listener.html#slack_bolt.listener.listener.Listener">Listener</a>, Sequence[Callable], NoneType] = None, save: Union[Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]], <a title="slack_bolt.listener.listener.Listener" href="../listener/listener.html#slack_bolt.listener.listener.Listener">Listener</a>, Sequence[Callable], NoneType] = None, execute: Union[Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]], <a title="slack_bolt.listener.listener.Listener" href="../listener/listener.html#slack_bolt.listener.listener.Listener">Listener</a>, Sequence[Callable], NoneType] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Registers a new Workflow Step listener</p></div>
+<div class="desc"><p>Registers a new Workflow Step listener
+Unlike others, this method doesn't behave as a decorator. If you want to register a workflow step
+by a decorator, use WorkflowStepBuilder's methods.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def step(
     self,
-    callback_id: Union[str, Pattern, WorkflowStep],
+    callback_id: Union[str, Pattern, WorkflowStep, WorkflowStepBuilder],
     edit: Optional[
         Union[Callable[..., Optional[BoltResponse]], Listener, Sequence[Callable]]
     ] = None,
@@ -2595,7 +2608,10 @@ For production, consider using a production-ready WSGI server such as Gunicorn.<
         Union[Callable[..., Optional[BoltResponse]], Listener, Sequence[Callable]]
     ] = None,
 ):
-    &#34;&#34;&#34;Registers a new Workflow Step listener&#34;&#34;&#34;
+    &#34;&#34;&#34;Registers a new Workflow Step listener
+    Unlike others, this method doesn&#39;t behave as a decorator. If you want to register a workflow step
+    by a decorator, use WorkflowStepBuilder&#39;s methods.
+    &#34;&#34;&#34;
     step = callback_id
     if isinstance(callback_id, (str, Pattern)):
         step = WorkflowStep(
@@ -2604,8 +2620,10 @@ For production, consider using a production-ready WSGI server such as Gunicorn.<
             save=save,
             execute=execute,
         )
+    elif isinstance(step, WorkflowStepBuilder):
+        step = step.build()
     elif not isinstance(step, WorkflowStep):
-        raise BoltError(&#34;Invalid step object&#34;)
+        raise BoltError(f&#34;Invalid step object ({type(step)})&#34;)
 
     self.use(WorkflowStepMiddleware(step, self.listener_runner))</code></pre>
 </details>
