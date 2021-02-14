@@ -545,7 +545,7 @@ class App:
             # By contrast, messages posted using class app&#39;s bot token still have the subtype.
             constraints = {&#34;type&#34;: &#34;message&#34;, &#34;subtype&#34;: (None, &#34;bot_message&#34;)}
             primary_matcher = builtin_matchers.event(constraints=constraints)
-            middleware.append(MessageListenerMatches(keyword))
+            middleware.insert(0, MessageListenerMatches(keyword))
             return self._register_listener(
                 list(functions), primary_matcher, matchers, middleware, True
             )
@@ -1517,7 +1517,7 @@ This can used only for ssl_check requests.</p></div>
             # By contrast, messages posted using class app&#39;s bot token still have the subtype.
             constraints = {&#34;type&#34;: &#34;message&#34;, &#34;subtype&#34;: (None, &#34;bot_message&#34;)}
             primary_matcher = builtin_matchers.event(constraints=constraints)
-            middleware.append(MessageListenerMatches(keyword))
+            middleware.insert(0, MessageListenerMatches(keyword))
             return self._register_listener(
                 list(functions), primary_matcher, matchers, middleware, True
             )
@@ -2410,7 +2410,7 @@ Check the #event method's docstring for details.</p></div>
         # By contrast, messages posted using class app&#39;s bot token still have the subtype.
         constraints = {&#34;type&#34;: &#34;message&#34;, &#34;subtype&#34;: (None, &#34;bot_message&#34;)}
         primary_matcher = builtin_matchers.event(constraints=constraints)
-        middleware.append(MessageListenerMatches(keyword))
+        middleware.insert(0, MessageListenerMatches(keyword))
         return self._register_listener(
             list(functions), primary_matcher, matchers, middleware, True
         )
