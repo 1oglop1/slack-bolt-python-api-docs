@@ -590,7 +590,7 @@ class AsyncApp:
         def __call__(*args, **kwargs):
             functions = self._to_listener_functions(kwargs) if kwargs else list(args)
             # As of Jan 2021, most bot messages no longer have the subtype bot_message.
-            # By contrast, messages posted using class app&#39;s bot token still have the subtype.
+            # By contrast, messages posted using classic app&#39;s bot token still have the subtype.
             constraints = {&#34;type&#34;: &#34;message&#34;, &#34;subtype&#34;: (None, &#34;bot_message&#34;)}
             primary_matcher = builtin_matchers.event(
                 constraints=constraints, asyncio=True
@@ -1502,7 +1502,7 @@ This can used only for ssl_check requests.</p></div>
         def __call__(*args, **kwargs):
             functions = self._to_listener_functions(kwargs) if kwargs else list(args)
             # As of Jan 2021, most bot messages no longer have the subtype bot_message.
-            # By contrast, messages posted using class app&#39;s bot token still have the subtype.
+            # By contrast, messages posted using classic app&#39;s bot token still have the subtype.
             constraints = {&#34;type&#34;: &#34;message&#34;, &#34;subtype&#34;: (None, &#34;bot_message&#34;)}
             primary_matcher = builtin_matchers.event(
                 constraints=constraints, asyncio=True
@@ -2419,7 +2419,7 @@ when getting an unhandled error in Bolt app.
     def __call__(*args, **kwargs):
         functions = self._to_listener_functions(kwargs) if kwargs else list(args)
         # As of Jan 2021, most bot messages no longer have the subtype bot_message.
-        # By contrast, messages posted using class app&#39;s bot token still have the subtype.
+        # By contrast, messages posted using classic app&#39;s bot token still have the subtype.
         constraints = {&#34;type&#34;: &#34;message&#34;, &#34;subtype&#34;: (None, &#34;bot_message&#34;)}
         primary_matcher = builtin_matchers.event(
             constraints=constraints, asyncio=True
