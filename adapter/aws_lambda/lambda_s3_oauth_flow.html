@@ -100,7 +100,7 @@ class LambdaS3OAuthFlow(OAuthFlow):
     @property
     def client(self) -&gt; WebClient:
         if self._client is None:
-            self._client = create_web_client()
+            self._client = create_web_client(logger=self.logger)
         return self._client
 
     @property
@@ -189,7 +189,7 @@ class LambdaS3OAuthFlow(OAuthFlow):
     @property
     def client(self) -&gt; WebClient:
         if self._client is None:
-            self._client = create_web_client()
+            self._client = create_web_client(logger=self.logger)
         return self._client
 
     @property
@@ -245,7 +245,7 @@ class LambdaS3OAuthFlow(OAuthFlow):
 <pre><code class="python">@property
 def client(self) -&gt; WebClient:
     if self._client is None:
-        self._client = create_web_client()
+        self._client = create_web_client(logger=self.logger)
     return self._client</code></pre>
 </details>
 </dd>

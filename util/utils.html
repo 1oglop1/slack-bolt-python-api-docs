@@ -28,6 +28,7 @@
 </summary>
 <pre><code class="python">import copy
 import sys
+from logging import Logger
 from typing import Optional, Union, Dict, Any, Sequence, Callable
 
 from slack_sdk import WebClient
@@ -37,9 +38,12 @@ from slack_bolt.error import BoltError
 from slack_bolt.version import __version__ as bolt_version
 
 
-def create_web_client(token: Optional[str] = None) -&gt; WebClient:
+def create_web_client(
+    token: Optional[str] = None, logger: Optional[Logger] = None
+) -&gt; WebClient:
     return WebClient(
         token=token,
+        logger=logger,
         user_agent_prefix=f&#34;Bolt/{bolt_version}&#34;,
     )
 
@@ -162,7 +166,7 @@ def get_name_for_callable(func: Callable) -&gt; str:
 </details>
 </dd>
 <dt id="slack_bolt.util.utils.create_web_client"><code class="name flex">
-<span>def <span class="ident">create_web_client</span></span>(<span>token: Optional[str] = None) ‑> slack_sdk.web.client.WebClient</span>
+<span>def <span class="ident">create_web_client</span></span>(<span>token: Optional[str] = None, logger: Optional[logging.Logger] = None) ‑> slack_sdk.web.client.WebClient</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -170,9 +174,12 @@ def get_name_for_callable(func: Callable) -&gt; str:
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def create_web_client(token: Optional[str] = None) -&gt; WebClient:
+<pre><code class="python">def create_web_client(
+    token: Optional[str] = None, logger: Optional[Logger] = None
+) -&gt; WebClient:
     return WebClient(
         token=token,
+        logger=logger,
         user_agent_prefix=f&#34;Bolt/{bolt_version}&#34;,
     )</code></pre>
 </details>

@@ -66,7 +66,7 @@ class OAuthFlow:
     @property
     def client(self) -&gt; WebClient:
         if self._client is None:
-            self._client = create_web_client()
+            self._client = create_web_client(logger=self.logger)
         return self._client
 
     @property
@@ -421,7 +421,7 @@ class OAuthFlow:
     @property
     def client(self) -&gt; WebClient:
         if self._client is None:
-            self._client = create_web_client()
+            self._client = create_web_client(logger=self.logger)
         return self._client
 
     @property
@@ -866,7 +866,7 @@ def sqlite3(
 <pre><code class="python">@property
 def client(self) -&gt; WebClient:
     if self._client is None:
-        self._client = create_web_client()
+        self._client = create_web_client(logger=self.logger)
     return self._client</code></pre>
 </details>
 </dd>
