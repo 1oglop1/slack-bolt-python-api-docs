@@ -70,7 +70,6 @@ class CallbackResponseBuilder:
             status=200,
             headers={
                 &#34;Content-Type&#34;: &#34;text/html; charset=utf-8&#34;,
-                &#34;Content-Length&#34;: len(bytes(html, &#34;utf-8&#34;)),
                 &#34;Set-Cookie&#34;: self._state_utils.build_set_cookie_for_deletion(),
             },
             body=html,
@@ -94,7 +93,6 @@ class CallbackResponseBuilder:
             status=status,
             headers={
                 &#34;Content-Type&#34;: &#34;text/html; charset=utf-8&#34;,
-                &#34;Content-Length&#34;: len(bytes(html, &#34;utf-8&#34;)),
                 &#34;Set-Cookie&#34;: self._state_utils.build_set_cookie_for_deletion(),
             },
             body=html,
@@ -260,7 +258,6 @@ def select_consistent_installation_store(
             status=200,
             headers={
                 &#34;Content-Type&#34;: &#34;text/html; charset=utf-8&#34;,
-                &#34;Content-Length&#34;: len(bytes(html, &#34;utf-8&#34;)),
                 &#34;Set-Cookie&#34;: self._state_utils.build_set_cookie_for_deletion(),
             },
             body=html,
@@ -284,7 +281,6 @@ def select_consistent_installation_store(
             status=status,
             headers={
                 &#34;Content-Type&#34;: &#34;text/html; charset=utf-8&#34;,
-                &#34;Content-Length&#34;: len(bytes(html, &#34;utf-8&#34;)),
                 &#34;Set-Cookie&#34;: self._state_utils.build_set_cookie_for_deletion(),
             },
             body=html,

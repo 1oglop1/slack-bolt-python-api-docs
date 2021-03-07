@@ -195,7 +195,6 @@ class OAuthFlow:
                 body=html,
                 headers={
                     &#34;Content-Type&#34;: &#34;text/html; charset=utf-8&#34;,
-                    &#34;Content-Length&#34;: len(bytes(html, &#34;utf-8&#34;)),
                     &#34;Set-Cookie&#34;: [set_cookie_value],
                 },
             )
@@ -550,7 +549,6 @@ class OAuthFlow:
                 body=html,
                 headers={
                     &#34;Content-Type&#34;: &#34;text/html; charset=utf-8&#34;,
-                    &#34;Content-Length&#34;: len(bytes(html, &#34;utf-8&#34;)),
                     &#34;Set-Cookie&#34;: [set_cookie_value],
                 },
             )
@@ -1036,7 +1034,6 @@ def logger(self) -&gt; Logger:
             body=html,
             headers={
                 &#34;Content-Type&#34;: &#34;text/html; charset=utf-8&#34;,
-                &#34;Content-Length&#34;: len(bytes(html, &#34;utf-8&#34;)),
                 &#34;Set-Cookie&#34;: [set_cookie_value],
             },
         )
