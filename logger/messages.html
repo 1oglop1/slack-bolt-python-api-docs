@@ -97,7 +97,8 @@ def warning_client_prioritized_and_token_skipped() -&gt; str:
 
 def warning_token_skipped() -&gt; str:
     return (
-        &#34;As you gave `installation_store`/`authorize` as well, `token` will be unused.&#34;
+        &#34;As `installation_store` or `authorize` has been used, &#34;
+        &#34;`token` (or SLACK_BOT_TOKEN env variable) will be ignored.&#34;
     )
 
 
@@ -130,6 +131,16 @@ def warning_skip_uncommon_arg_name(arg_name: str) -&gt; str:
 # -------------------------------
 # Info
 # -------------------------------
+
+
+def info_default_oauth_settings_loaded() -&gt; str:
+    return (
+        &#34;As you&#39;ve set SLACK_CLIENT_ID and SLACK_CLIENT_SECRET env variables, &#34;
+        &#34;Bolt has enabled the file-based InstallationStore/OAuthStateStore for you. &#34;
+        &#34;Note that these file-based stores are for local development. &#34;
+        &#34;If you&#39;d like to use a different data store, set the oauth_settings argument in the App constructor. &#34;
+        &#34;Please refer to https://slack.dev/bolt-python/concepts#authenticating-oauth for more details.&#34;
+    )
 
 
 # -------------------------------
@@ -389,6 +400,25 @@ def debug_return_listener_middleware_response(
     return f&#34;Unexpected value for a listener middleware: {middleware_type}&#34;</code></pre>
 </details>
 </dd>
+<dt id="slack_bolt.logger.messages.info_default_oauth_settings_loaded"><code class="name flex">
+<span>def <span class="ident">info_default_oauth_settings_loaded</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def info_default_oauth_settings_loaded() -&gt; str:
+    return (
+        &#34;As you&#39;ve set SLACK_CLIENT_ID and SLACK_CLIENT_SECRET env variables, &#34;
+        &#34;Bolt has enabled the file-based InstallationStore/OAuthStateStore for you. &#34;
+        &#34;Note that these file-based stores are for local development. &#34;
+        &#34;If you&#39;d like to use a different data store, set the oauth_settings argument in the App constructor. &#34;
+        &#34;Please refer to https://slack.dev/bolt-python/concepts#authenticating-oauth for more details.&#34;
+    )</code></pre>
+</details>
+</dd>
 <dt id="slack_bolt.logger.messages.warning_bot_only_conflicts"><code class="name flex">
 <span>def <span class="ident">warning_bot_only_conflicts</span></span>(<span>) ‑> str</span>
 </code></dt>
@@ -471,7 +501,8 @@ def debug_return_listener_middleware_response(
 </summary>
 <pre><code class="python">def warning_token_skipped() -&gt; str:
     return (
-        &#34;As you gave `installation_store`/`authorize` as well, `token` will be unused.&#34;
+        &#34;As `installation_store` or `authorize` has been used, &#34;
+        &#34;`token` (or SLACK_BOT_TOKEN env variable) will be ignored.&#34;
     )</code></pre>
 </details>
 </dd>
@@ -522,6 +553,7 @@ def debug_return_listener_middleware_response(
 <li><code><a title="slack_bolt.logger.messages.error_oauth_settings_invalid_type_async" href="#slack_bolt.logger.messages.error_oauth_settings_invalid_type_async">error_oauth_settings_invalid_type_async</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_token_required" href="#slack_bolt.logger.messages.error_token_required">error_token_required</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_unexpected_listener_middleware" href="#slack_bolt.logger.messages.error_unexpected_listener_middleware">error_unexpected_listener_middleware</a></code></li>
+<li><code><a title="slack_bolt.logger.messages.info_default_oauth_settings_loaded" href="#slack_bolt.logger.messages.info_default_oauth_settings_loaded">info_default_oauth_settings_loaded</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.warning_bot_only_conflicts" href="#slack_bolt.logger.messages.warning_bot_only_conflicts">warning_bot_only_conflicts</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.warning_client_prioritized_and_token_skipped" href="#slack_bolt.logger.messages.warning_client_prioritized_and_token_skipped">warning_client_prioritized_and_token_skipped</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.warning_did_not_call_ack" href="#slack_bolt.logger.messages.warning_did_not_call_ack">warning_did_not_call_ack</a></code></li>
