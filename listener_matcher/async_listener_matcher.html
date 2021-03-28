@@ -37,9 +37,12 @@ class AsyncListenerMatcher(metaclass=ABCMeta):
     async def async_matches(self, req: AsyncBoltRequest, resp: BoltResponse) -&gt; bool:
         &#34;&#34;&#34;Matches against the request and returns True if matched.
 
-        :param req: The request
-        :param resp: The response
-        :return: True if matched.
+        Args:
+            req: The request
+            resp: The response
+
+        Returns:
+            True if matched
         &#34;&#34;&#34;
         raise NotImplementedError()
 
@@ -157,9 +160,15 @@ for cls in builtin_async_listener_matcher_classes:
 </code></dt>
 <dd>
 <div class="desc"><p>Matches against the request and returns True if matched.</p>
-<p>:param req: The request
-:param resp: The response
-:return: True if matched.</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>req</code></strong></dt>
+<dd>The request</dd>
+<dt><strong><code>resp</code></strong></dt>
+<dd>The response</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>True if matched</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -257,9 +266,12 @@ for cls in builtin_async_listener_matcher_classes:
     async def async_matches(self, req: AsyncBoltRequest, resp: BoltResponse) -&gt; bool:
         &#34;&#34;&#34;Matches against the request and returns True if matched.
 
-        :param req: The request
-        :param resp: The response
-        :return: True if matched.
+        Args:
+            req: The request
+            resp: The response
+
+        Returns:
+            True if matched
         &#34;&#34;&#34;
         raise NotImplementedError()</code></pre>
 </details>
@@ -275,9 +287,15 @@ for cls in builtin_async_listener_matcher_classes:
 </code></dt>
 <dd>
 <div class="desc"><p>Matches against the request and returns True if matched.</p>
-<p>:param req: The request
-:param resp: The response
-:return: True if matched.</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>req</code></strong></dt>
+<dd>The request</dd>
+<dt><strong><code>resp</code></strong></dt>
+<dd>The response</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>True if matched</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -286,9 +304,12 @@ for cls in builtin_async_listener_matcher_classes:
 async def async_matches(self, req: AsyncBoltRequest, resp: BoltResponse) -&gt; bool:
     &#34;&#34;&#34;Matches against the request and returns True if matched.
 
-    :param req: The request
-    :param resp: The response
-    :return: True if matched.
+    Args:
+        req: The request
+        resp: The response
+
+    Returns:
+        True if matched
     &#34;&#34;&#34;
     raise NotImplementedError()</code></pre>
 </details>

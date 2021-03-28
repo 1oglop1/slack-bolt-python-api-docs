@@ -38,6 +38,7 @@ from slack_bolt.workflows.step.async_step import AsyncWorkflowStep
 
 
 class AsyncWorkflowStepMiddleware(AsyncMiddleware):  # type:ignore
+    &#34;&#34;&#34;Base middleware for workflow step specific ones&#34;&#34;&#34;
     def __init__(self, step: AsyncWorkflowStep, listener_runner: AsyncioListenerRunner):
         self.step = step
         self.listener_runner = listener_runner
@@ -99,12 +100,13 @@ class AsyncWorkflowStepMiddleware(AsyncMiddleware):  # type:ignore
 <span>(</span><span>step: <a title="slack_bolt.workflows.step.async_step.AsyncWorkflowStep" href="async_step.html#slack_bolt.workflows.step.async_step.AsyncWorkflowStep">AsyncWorkflowStep</a>, listener_runner: <a title="slack_bolt.listener.asyncio_runner.AsyncioListenerRunner" href="../../listener/asyncio_runner.html#slack_bolt.listener.asyncio_runner.AsyncioListenerRunner">AsyncioListenerRunner</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Base middleware for workflow step specific ones</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class AsyncWorkflowStepMiddleware(AsyncMiddleware):  # type:ignore
+    &#34;&#34;&#34;Base middleware for workflow step specific ones&#34;&#34;&#34;
     def __init__(self, step: AsyncWorkflowStep, listener_runner: AsyncioListenerRunner):
         self.step = step
         self.listener_runner = listener_runner
@@ -155,42 +157,15 @@ class AsyncWorkflowStepMiddleware(AsyncMiddleware):  # type:ignore
 <ul class="hlist">
 <li><a title="slack_bolt.middleware.async_middleware.AsyncMiddleware" href="../../middleware/async_middleware.html#slack_bolt.middleware.async_middleware.AsyncMiddleware">AsyncMiddleware</a></li>
 </ul>
-<h3>Methods</h3>
-<dl>
-<dt id="slack_bolt.workflows.step.async_step_middleware.AsyncWorkflowStepMiddleware.async_process"><code class="name flex">
-<span>async def <span class="ident">async_process</span></span>(<span>self, *, req: <a title="slack_bolt.request.async_request.AsyncBoltRequest" href="../../request/async_request.html#slack_bolt.request.async_request.AsyncBoltRequest">AsyncBoltRequest</a>, resp: <a title="slack_bolt.response.response.BoltResponse" href="../../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, next: Callable[[], Awaitable[<a title="slack_bolt.response.response.BoltResponse" href="../../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]) ‑> <a title="slack_bolt.response.response.BoltResponse" href="../../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a></span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">async def async_process(
-    self,
-    *,
-    req: AsyncBoltRequest,
-    resp: BoltResponse,
-    next: Callable[[], Awaitable[BoltResponse]],
-) -&gt; BoltResponse:
-
-    if await self.step.edit.async_matches(req=req, resp=resp):
-        resp = await self._run(self.step.edit, req, resp)
-        if resp is not None:
-            return resp
-    elif await self.step.save.async_matches(req=req, resp=resp):
-        resp = await self._run(self.step.save, req, resp)
-        if resp is not None:
-            return resp
-    elif await self.step.execute.async_matches(req=req, resp=resp):
-        resp = await self._run(self.step.execute, req, resp)
-        if resp is not None:
-            return resp
-
-    return await next()</code></pre>
-</details>
-</dd>
-</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="slack_bolt.middleware.async_middleware.AsyncMiddleware" href="../../middleware/async_middleware.html#slack_bolt.middleware.async_middleware.AsyncMiddleware">AsyncMiddleware</a></b></code>:
+<ul class="hlist">
+<li><code><a title="slack_bolt.middleware.async_middleware.AsyncMiddleware.async_process" href="../../middleware/async_middleware.html#slack_bolt.middleware.async_middleware.AsyncMiddleware.async_process">async_process</a></code></li>
+<li><code><a title="slack_bolt.middleware.async_middleware.AsyncMiddleware.name" href="../../middleware/async_middleware.html#slack_bolt.middleware.async_middleware.AsyncMiddleware.name">name</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -210,9 +185,6 @@ class AsyncWorkflowStepMiddleware(AsyncMiddleware):  # type:ignore
 <ul>
 <li>
 <h4><code><a title="slack_bolt.workflows.step.async_step_middleware.AsyncWorkflowStepMiddleware" href="#slack_bolt.workflows.step.async_step_middleware.AsyncWorkflowStepMiddleware">AsyncWorkflowStepMiddleware</a></code></h4>
-<ul class="">
-<li><code><a title="slack_bolt.workflows.step.async_step_middleware.AsyncWorkflowStepMiddleware.async_process" href="#slack_bolt.workflows.step.async_step_middleware.AsyncWorkflowStepMiddleware.async_process">async_process</a></code></li>
-</ul>
 </li>
 </ul>
 </li>

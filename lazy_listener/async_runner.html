@@ -43,9 +43,9 @@ class AsyncLazyListenerRunner(metaclass=ABCMeta):
     ) -&gt; None:
         &#34;&#34;&#34;Starts a new lazy listener execution.
 
-        :param function: The function to run.
-        :param request: The request to pass to the function. The object must be thread-safe.
-        :return: None
+        Args:
+            function: The function to run.
+            request: The request to pass to the function. The object must be thread-safe.
         &#34;&#34;&#34;
         raise NotImplementedError()
 
@@ -54,9 +54,9 @@ class AsyncLazyListenerRunner(metaclass=ABCMeta):
     ) -&gt; None:
         &#34;&#34;&#34;Synchronously run the function with a given request data.
 
-        :param function: The function to run.
-        :param request: The request to pass to the function. The object must be thread-safe.
-        :return: None
+        Args:
+            function: The function to run.
+            request: The request to pass to the function. The object must be thread-safe.
         &#34;&#34;&#34;
         func = to_runnable_function(
             internal_func=function,
@@ -93,9 +93,9 @@ class AsyncLazyListenerRunner(metaclass=ABCMeta):
     ) -&gt; None:
         &#34;&#34;&#34;Starts a new lazy listener execution.
 
-        :param function: The function to run.
-        :param request: The request to pass to the function. The object must be thread-safe.
-        :return: None
+        Args:
+            function: The function to run.
+            request: The request to pass to the function. The object must be thread-safe.
         &#34;&#34;&#34;
         raise NotImplementedError()
 
@@ -104,9 +104,9 @@ class AsyncLazyListenerRunner(metaclass=ABCMeta):
     ) -&gt; None:
         &#34;&#34;&#34;Synchronously run the function with a given request data.
 
-        :param function: The function to run.
-        :param request: The request to pass to the function. The object must be thread-safe.
-        :return: None
+        Args:
+            function: The function to run.
+            request: The request to pass to the function. The object must be thread-safe.
         &#34;&#34;&#34;
         func = to_runnable_function(
             internal_func=function,
@@ -133,9 +133,13 @@ class AsyncLazyListenerRunner(metaclass=ABCMeta):
 </code></dt>
 <dd>
 <div class="desc"><p>Synchronously run the function with a given request data.</p>
-<p>:param function: The function to run.
-:param request: The request to pass to the function. The object must be thread-safe.
-:return: None</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>function</code></strong></dt>
+<dd>The function to run.</dd>
+<dt><strong><code>request</code></strong></dt>
+<dd>The request to pass to the function. The object must be thread-safe.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -145,9 +149,9 @@ class AsyncLazyListenerRunner(metaclass=ABCMeta):
 ) -&gt; None:
     &#34;&#34;&#34;Synchronously run the function with a given request data.
 
-    :param function: The function to run.
-    :param request: The request to pass to the function. The object must be thread-safe.
-    :return: None
+    Args:
+        function: The function to run.
+        request: The request to pass to the function. The object must be thread-safe.
     &#34;&#34;&#34;
     func = to_runnable_function(
         internal_func=function,
@@ -162,9 +166,13 @@ class AsyncLazyListenerRunner(metaclass=ABCMeta):
 </code></dt>
 <dd>
 <div class="desc"><p>Starts a new lazy listener execution.</p>
-<p>:param function: The function to run.
-:param request: The request to pass to the function. The object must be thread-safe.
-:return: None</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>function</code></strong></dt>
+<dd>The function to run.</dd>
+<dt><strong><code>request</code></strong></dt>
+<dd>The request to pass to the function. The object must be thread-safe.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -175,9 +183,9 @@ def start(
 ) -&gt; None:
     &#34;&#34;&#34;Starts a new lazy listener execution.
 
-    :param function: The function to run.
-    :param request: The request to pass to the function. The object must be thread-safe.
-    :return: None
+    Args:
+        function: The function to run.
+        request: The request to pass to the function. The object must be thread-safe.
     &#34;&#34;&#34;
     raise NotImplementedError()</code></pre>
 </details>

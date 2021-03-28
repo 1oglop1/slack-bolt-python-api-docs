@@ -48,8 +48,7 @@ class AsyncAuthorization(AsyncMiddleware, ABC):
 <span>class <span class="ident">AsyncAuthorization</span></span>
 </code></dt>
 <dd>
-<div class="desc"><p>Helper class that provides a standard way to create an ABC using
-inheritance.</p></div>
+<div class="desc"><p>A middleware can process request data before other middleware and listener functions.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -66,6 +65,15 @@ inheritance.</p></div>
 <ul class="hlist">
 <li><a title="slack_bolt.middleware.authorization.async_multi_teams_authorization.AsyncMultiTeamsAuthorization" href="async_multi_teams_authorization.html#slack_bolt.middleware.authorization.async_multi_teams_authorization.AsyncMultiTeamsAuthorization">AsyncMultiTeamsAuthorization</a></li>
 <li><a title="slack_bolt.middleware.authorization.async_single_team_authorization.AsyncSingleTeamAuthorization" href="async_single_team_authorization.html#slack_bolt.middleware.authorization.async_single_team_authorization.AsyncSingleTeamAuthorization">AsyncSingleTeamAuthorization</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="slack_bolt.middleware.async_middleware.AsyncMiddleware" href="../async_middleware.html#slack_bolt.middleware.async_middleware.AsyncMiddleware">AsyncMiddleware</a></b></code>:
+<ul class="hlist">
+<li><code><a title="slack_bolt.middleware.async_middleware.AsyncMiddleware.async_process" href="../async_middleware.html#slack_bolt.middleware.async_middleware.AsyncMiddleware.async_process">async_process</a></code></li>
+<li><code><a title="slack_bolt.middleware.async_middleware.AsyncMiddleware.name" href="../async_middleware.html#slack_bolt.middleware.async_middleware.AsyncMiddleware.name">name</a></code></li>
+</ul>
+</li>
 </ul>
 </dd>
 </dl>

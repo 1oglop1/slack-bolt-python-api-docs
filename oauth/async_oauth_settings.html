@@ -110,24 +110,25 @@ class AsyncOAuthSettings:
     ):
         &#34;&#34;&#34;The settings for Slack App installation (OAuth flow).
 
-        :param client_id: Check the value in Settings &gt; Basic Information &gt; App Credentials
-        :param client_secret: Check the value in Settings &gt; Basic Information &gt; App Credentials
-        :param scopes: Check the value in Settings &gt; Manage Distribution
-        :param user_scopes: Check the value in Settings &gt; Manage Distribution
-        :param redirect_uri: Check the value in Features &gt; OAuth &amp; Permissions &gt; Redirect URLs
-        :param install_path: The endpoint to start an OAuth flow (Default: /slack/install)
-        :param install_page_rendering_enabled: Renders a web page for install_path access if True
-        :param redirect_uri_path: The path of Redirect URL (Default: /slack/oauth_redirect)
-        :param callback_options: Give success/failure functions f you want to customize callback functions.
-        :param success_url: Set a complete URL if you want to redirect end-users when an installation completes.
-        :param failure_url: Set a complete URL if you want to redirect end-users when an installation fails.
-        :param authorization_url: Set a URL if you want to customize the URL https://slack.com/oauth/v2/authorize
-        :param installation_store: Specify the instance of InstallationStore (Default: FileInstallationStore)
-        :param installation_store_bot_only: Use AsyncInstallationStore#find_bot if True (Default: False)
-        :param state_store: Specify the instance of InstallationStore (Default: FileOAuthStateStore)
-        :param state_cookie_name: The cookie name that is set for installers&#39; browser. (Default: slack-app-oauth-state)
-        :param state_expiration_seconds: The seconds that the state value is alive (Default: 600 seconds)
-        :param logger: The logger that will be used internally
+        Args:
+            client_id: Check the value in Settings &gt; Basic Information &gt; App Credentials
+            client_secret: Check the value in Settings &gt; Basic Information &gt; App Credentials
+            scopes: Check the value in Settings &gt; Manage Distribution
+            user_scopes: Check the value in Settings &gt; Manage Distribution
+            redirect_uri: Check the value in Features &gt; OAuth &amp; Permissions &gt; Redirect URLs
+            install_path: The endpoint to start an OAuth flow (Default: `/slack/install`)
+            install_page_rendering_enabled: Renders a web page for install_path access if True
+            redirect_uri_path: The path of Redirect URL (Default: `/slack/oauth_redirect`)
+            callback_options: Give success/failure functions f you want to customize callback functions.
+            success_url: Set a complete URL if you want to redirect end-users when an installation completes.
+            failure_url: Set a complete URL if you want to redirect end-users when an installation fails.
+            authorization_url: Set a URL if you want to customize the URL `https://slack.com/oauth/v2/authorize`
+            installation_store: Specify the instance of `InstallationStore` (Default: `FileInstallationStore`)
+            installation_store_bot_only: Use `InstallationStore#find_bot()` if True (Default: False)
+            state_store: Specify the instance of `InstallationStore` (Default: `FileOAuthStateStore`)
+            state_cookie_name: The cookie name that is set for installers&#39; browser. (Default: &#34;slack-app-oauth-state&#34;)
+            state_expiration_seconds: The seconds that the state value is alive (Default: 600 seconds)
+            logger: The logger that will be used internally
         &#34;&#34;&#34;
         # OAuth flow parameters/credentials
         self.client_id = client_id or os.environ.get(&#34;SLACK_CLIENT_ID&#34;)
@@ -212,24 +213,45 @@ class AsyncOAuthSettings:
 </code></dt>
 <dd>
 <div class="desc"><p>The settings for Slack App installation (OAuth flow).</p>
-<p>:param client_id: Check the value in Settings &gt; Basic Information &gt; App Credentials
-:param client_secret: Check the value in Settings &gt; Basic Information &gt; App Credentials
-:param scopes: Check the value in Settings &gt; Manage Distribution
-:param user_scopes: Check the value in Settings &gt; Manage Distribution
-:param redirect_uri: Check the value in Features &gt; OAuth &amp; Permissions &gt; Redirect URLs
-:param install_path: The endpoint to start an OAuth flow (Default: /slack/install)
-:param install_page_rendering_enabled: Renders a web page for install_path access if True
-:param redirect_uri_path: The path of Redirect URL (Default: /slack/oauth_redirect)
-:param callback_options: Give success/failure functions f you want to customize callback functions.
-:param success_url: Set a complete URL if you want to redirect end-users when an installation completes.
-:param failure_url: Set a complete URL if you want to redirect end-users when an installation fails.
-:param authorization_url: Set a URL if you want to customize the URL <a href="https://slack.com/oauth/v2/authorize">https://slack.com/oauth/v2/authorize</a>
-:param installation_store: Specify the instance of InstallationStore (Default: FileInstallationStore)
-:param installation_store_bot_only: Use AsyncInstallationStore#find_bot if True (Default: False)
-:param state_store: Specify the instance of InstallationStore (Default: FileOAuthStateStore)
-:param state_cookie_name: The cookie name that is set for installers' browser. (Default: slack-app-oauth-state)
-:param state_expiration_seconds: The seconds that the state value is alive (Default: 600 seconds)
-:param logger: The logger that will be used internally</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>client_id</code></strong></dt>
+<dd>Check the value in Settings &gt; Basic Information &gt; App Credentials</dd>
+<dt><strong><code>client_secret</code></strong></dt>
+<dd>Check the value in Settings &gt; Basic Information &gt; App Credentials</dd>
+<dt><strong><code>scopes</code></strong></dt>
+<dd>Check the value in Settings &gt; Manage Distribution</dd>
+<dt><strong><code>user_scopes</code></strong></dt>
+<dd>Check the value in Settings &gt; Manage Distribution</dd>
+<dt><strong><code>redirect_uri</code></strong></dt>
+<dd>Check the value in Features &gt; OAuth &amp; Permissions &gt; Redirect URLs</dd>
+<dt><strong><code>install_path</code></strong></dt>
+<dd>The endpoint to start an OAuth flow (Default: <code>/slack/install</code>)</dd>
+<dt><strong><code>install_page_rendering_enabled</code></strong></dt>
+<dd>Renders a web page for install_path access if True</dd>
+<dt><strong><code>redirect_uri_path</code></strong></dt>
+<dd>The path of Redirect URL (Default: <code>/slack/oauth_redirect</code>)</dd>
+<dt><strong><code>callback_options</code></strong></dt>
+<dd>Give success/failure functions f you want to customize callback functions.</dd>
+<dt><strong><code>success_url</code></strong></dt>
+<dd>Set a complete URL if you want to redirect end-users when an installation completes.</dd>
+<dt><strong><code>failure_url</code></strong></dt>
+<dd>Set a complete URL if you want to redirect end-users when an installation fails.</dd>
+<dt><strong><code>authorization_url</code></strong></dt>
+<dd>Set a URL if you want to customize the URL <code>https://slack.com/oauth/v2/authorize</code></dd>
+<dt><strong><code>installation_store</code></strong></dt>
+<dd>Specify the instance of <code>InstallationStore</code> (Default: <code>FileInstallationStore</code>)</dd>
+<dt><strong><code>installation_store_bot_only</code></strong></dt>
+<dd>Use <code>InstallationStore#find_bot()</code> if True (Default: False)</dd>
+<dt><strong><code>state_store</code></strong></dt>
+<dd>Specify the instance of <code>InstallationStore</code> (Default: <code>FileOAuthStateStore</code>)</dd>
+<dt><strong><code>state_cookie_name</code></strong></dt>
+<dd>The cookie name that is set for installers' browser. (Default: "slack-app-oauth-state")</dd>
+<dt><strong><code>state_expiration_seconds</code></strong></dt>
+<dd>The seconds that the state value is alive (Default: 600 seconds)</dd>
+<dt><strong><code>logger</code></strong></dt>
+<dd>The logger that will be used internally</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -293,24 +315,25 @@ class AsyncOAuthSettings:
     ):
         &#34;&#34;&#34;The settings for Slack App installation (OAuth flow).
 
-        :param client_id: Check the value in Settings &gt; Basic Information &gt; App Credentials
-        :param client_secret: Check the value in Settings &gt; Basic Information &gt; App Credentials
-        :param scopes: Check the value in Settings &gt; Manage Distribution
-        :param user_scopes: Check the value in Settings &gt; Manage Distribution
-        :param redirect_uri: Check the value in Features &gt; OAuth &amp; Permissions &gt; Redirect URLs
-        :param install_path: The endpoint to start an OAuth flow (Default: /slack/install)
-        :param install_page_rendering_enabled: Renders a web page for install_path access if True
-        :param redirect_uri_path: The path of Redirect URL (Default: /slack/oauth_redirect)
-        :param callback_options: Give success/failure functions f you want to customize callback functions.
-        :param success_url: Set a complete URL if you want to redirect end-users when an installation completes.
-        :param failure_url: Set a complete URL if you want to redirect end-users when an installation fails.
-        :param authorization_url: Set a URL if you want to customize the URL https://slack.com/oauth/v2/authorize
-        :param installation_store: Specify the instance of InstallationStore (Default: FileInstallationStore)
-        :param installation_store_bot_only: Use AsyncInstallationStore#find_bot if True (Default: False)
-        :param state_store: Specify the instance of InstallationStore (Default: FileOAuthStateStore)
-        :param state_cookie_name: The cookie name that is set for installers&#39; browser. (Default: slack-app-oauth-state)
-        :param state_expiration_seconds: The seconds that the state value is alive (Default: 600 seconds)
-        :param logger: The logger that will be used internally
+        Args:
+            client_id: Check the value in Settings &gt; Basic Information &gt; App Credentials
+            client_secret: Check the value in Settings &gt; Basic Information &gt; App Credentials
+            scopes: Check the value in Settings &gt; Manage Distribution
+            user_scopes: Check the value in Settings &gt; Manage Distribution
+            redirect_uri: Check the value in Features &gt; OAuth &amp; Permissions &gt; Redirect URLs
+            install_path: The endpoint to start an OAuth flow (Default: `/slack/install`)
+            install_page_rendering_enabled: Renders a web page for install_path access if True
+            redirect_uri_path: The path of Redirect URL (Default: `/slack/oauth_redirect`)
+            callback_options: Give success/failure functions f you want to customize callback functions.
+            success_url: Set a complete URL if you want to redirect end-users when an installation completes.
+            failure_url: Set a complete URL if you want to redirect end-users when an installation fails.
+            authorization_url: Set a URL if you want to customize the URL `https://slack.com/oauth/v2/authorize`
+            installation_store: Specify the instance of `InstallationStore` (Default: `FileInstallationStore`)
+            installation_store_bot_only: Use `InstallationStore#find_bot()` if True (Default: False)
+            state_store: Specify the instance of `InstallationStore` (Default: `FileOAuthStateStore`)
+            state_cookie_name: The cookie name that is set for installers&#39; browser. (Default: &#34;slack-app-oauth-state&#34;)
+            state_expiration_seconds: The seconds that the state value is alive (Default: 600 seconds)
+            logger: The logger that will be used internally
         &#34;&#34;&#34;
         # OAuth flow parameters/credentials
         self.client_id = client_id or os.environ.get(&#34;SLACK_CLIENT_ID&#34;)

@@ -38,6 +38,7 @@ from slack_bolt.workflows.step.step import WorkflowStep
 
 
 class WorkflowStepMiddleware(Middleware):  # type:ignore
+    &#34;&#34;&#34;Base middleware for workflow step specific ones&#34;&#34;&#34;
     def __init__(self, step: WorkflowStep, listener_runner: ThreadListenerRunner):
         self.step = step
         self.listener_runner = listener_runner
@@ -97,12 +98,13 @@ class WorkflowStepMiddleware(Middleware):  # type:ignore
 <span>(</span><span>step: <a title="slack_bolt.workflows.step.step.WorkflowStep" href="step.html#slack_bolt.workflows.step.step.WorkflowStep">WorkflowStep</a>, listener_runner: <a title="slack_bolt.listener.thread_runner.ThreadListenerRunner" href="../../listener/thread_runner.html#slack_bolt.listener.thread_runner.ThreadListenerRunner">ThreadListenerRunner</a>)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Base middleware for workflow step specific ones</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class WorkflowStepMiddleware(Middleware):  # type:ignore
+    &#34;&#34;&#34;Base middleware for workflow step specific ones&#34;&#34;&#34;
     def __init__(self, step: WorkflowStep, listener_runner: ThreadListenerRunner):
         self.step = step
         self.listener_runner = listener_runner
@@ -151,42 +153,15 @@ class WorkflowStepMiddleware(Middleware):  # type:ignore
 <ul class="hlist">
 <li><a title="slack_bolt.middleware.middleware.Middleware" href="../../middleware/middleware.html#slack_bolt.middleware.middleware.Middleware">Middleware</a></li>
 </ul>
-<h3>Methods</h3>
-<dl>
-<dt id="slack_bolt.workflows.step.step_middleware.WorkflowStepMiddleware.process"><code class="name flex">
-<span>def <span class="ident">process</span></span>(<span>self, *, req: <a title="slack_bolt.request.request.BoltRequest" href="../../request/request.html#slack_bolt.request.request.BoltRequest">BoltRequest</a>, resp: <a title="slack_bolt.response.response.BoltResponse" href="../../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, next: Callable[[], <a title="slack_bolt.response.response.BoltResponse" href="../../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]) ‑> Optional[<a title="slack_bolt.response.response.BoltResponse" href="../../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]</span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def process(
-    self,
-    *,
-    req: BoltRequest,
-    resp: BoltResponse,
-    next: Callable[[], BoltResponse],
-) -&gt; Optional[BoltResponse]:
-
-    if self.step.edit.matches(req=req, resp=resp):
-        resp = self._run(self.step.edit, req, resp)
-        if resp is not None:
-            return resp
-    elif self.step.save.matches(req=req, resp=resp):
-        resp = self._run(self.step.save, req, resp)
-        if resp is not None:
-            return resp
-    elif self.step.execute.matches(req=req, resp=resp):
-        resp = self._run(self.step.execute, req, resp)
-        if resp is not None:
-            return resp
-
-    return next()</code></pre>
-</details>
-</dd>
-</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="slack_bolt.middleware.middleware.Middleware" href="../../middleware/middleware.html#slack_bolt.middleware.middleware.Middleware">Middleware</a></b></code>:
+<ul class="hlist">
+<li><code><a title="slack_bolt.middleware.middleware.Middleware.name" href="../../middleware/middleware.html#slack_bolt.middleware.middleware.Middleware.name">name</a></code></li>
+<li><code><a title="slack_bolt.middleware.middleware.Middleware.process" href="../../middleware/middleware.html#slack_bolt.middleware.middleware.Middleware.process">process</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -206,9 +181,6 @@ class WorkflowStepMiddleware(Middleware):  # type:ignore
 <ul>
 <li>
 <h4><code><a title="slack_bolt.workflows.step.step_middleware.WorkflowStepMiddleware" href="#slack_bolt.workflows.step.step_middleware.WorkflowStepMiddleware">WorkflowStepMiddleware</a></code></h4>
-<ul class="">
-<li><code><a title="slack_bolt.workflows.step.step_middleware.WorkflowStepMiddleware.process" href="#slack_bolt.workflows.step.step_middleware.WorkflowStepMiddleware.process">process</a></code></li>
-</ul>
 </li>
 </ul>
 </li>

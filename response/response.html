@@ -45,9 +45,10 @@ class BoltResponse:
     ):
         &#34;&#34;&#34;The response from a Bolt app.
 
-        :param status: HTTP status code
-        :param body: The response body  (plain text response is supported)
-        :param headers: The response headers.
+        Args:
+            status: HTTP status code
+            body: The response body (dict and str are supported)
+            headers: The response headers.
         &#34;&#34;&#34;
         self.status: int = status
         self.body: str = json.dumps(body) if isinstance(body, dict) else body
@@ -101,10 +102,15 @@ class BoltResponse:
 </code></dt>
 <dd>
 <div class="desc"><p>The response from a Bolt app.</p>
-<p>:param status: HTTP status code
-:param body: The response body
-(plain text response is supported)
-:param headers: The response headers.</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>status</code></strong></dt>
+<dd>HTTP status code</dd>
+<dt><strong><code>body</code></strong></dt>
+<dd>The response body (dict and str are supported)</dd>
+<dt><strong><code>headers</code></strong></dt>
+<dd>The response headers.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -123,9 +129,10 @@ class BoltResponse:
     ):
         &#34;&#34;&#34;The response from a Bolt app.
 
-        :param status: HTTP status code
-        :param body: The response body  (plain text response is supported)
-        :param headers: The response headers.
+        Args:
+            status: HTTP status code
+            body: The response body (dict and str are supported)
+            headers: The response headers.
         &#34;&#34;&#34;
         self.status: int = status
         self.body: str = json.dumps(body) if isinstance(body, dict) else body

@@ -63,11 +63,12 @@ class BoltRequest:
     ):
         &#34;&#34;&#34;Request to a Bolt app.
 
-        :param body: The raw request body (only plain text is supported for &#34;http&#34; mode)
-        :param query: The query string data in any data format.
-        :param headers: The request headers.
-        :param context: The context in this request.
-        :param mode: The mode used for this request. (either &#34;http&#34; or &#34;socket_mode&#34;)
+        Args:
+            body: The raw request body (only plain text is supported for &#34;http&#34; mode)
+            query: The query string data in any data format.
+            headers: The request headers.
+            context: The context in this request.
+            mode: The mode used for this request. (either &#34;http&#34; or &#34;socket_mode&#34;)
         &#34;&#34;&#34;
         if mode == &#34;http&#34; and not isinstance(body, str):
             raise BoltError(error_message_raw_body_required_in_http_mode())
@@ -105,11 +106,19 @@ class BoltRequest:
 </code></dt>
 <dd>
 <div class="desc"><p>Request to a Bolt app.</p>
-<p>:param body: The raw request body (only plain text is supported for "http" mode)
-:param query: The query string data in any data format.
-:param headers: The request headers.
-:param context: The context in this request.
-:param mode: The mode used for this request. (either "http" or "socket_mode")</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>body</code></strong></dt>
+<dd>The raw request body (only plain text is supported for "http" mode)</dd>
+<dt><strong><code>query</code></strong></dt>
+<dd>The query string data in any data format.</dd>
+<dt><strong><code>headers</code></strong></dt>
+<dd>The request headers.</dd>
+<dt><strong><code>context</code></strong></dt>
+<dd>The context in this request.</dd>
+<dt><strong><code>mode</code></strong></dt>
+<dd>The mode used for this request. (either "http" or "socket_mode")</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -136,11 +145,12 @@ class BoltRequest:
     ):
         &#34;&#34;&#34;Request to a Bolt app.
 
-        :param body: The raw request body (only plain text is supported for &#34;http&#34; mode)
-        :param query: The query string data in any data format.
-        :param headers: The request headers.
-        :param context: The context in this request.
-        :param mode: The mode used for this request. (either &#34;http&#34; or &#34;socket_mode&#34;)
+        Args:
+            body: The raw request body (only plain text is supported for &#34;http&#34; mode)
+            query: The query string data in any data format.
+            headers: The request headers.
+            context: The context in this request.
+            mode: The mode used for this request. (either &#34;http&#34; or &#34;socket_mode&#34;)
         &#34;&#34;&#34;
         if mode == &#34;http&#34; and not isinstance(body, str):
             raise BoltError(error_message_raw_body_required_in_http_mode())

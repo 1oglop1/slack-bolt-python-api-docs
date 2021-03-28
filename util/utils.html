@@ -94,8 +94,11 @@ def get_boot_message(development_server: bool = False) -&gt; str:
 def get_name_for_callable(func: Callable) -&gt; str:
     &#34;&#34;&#34;Returns the name for the given Callable function object.
 
-    :param func: either a Callable instance or a function, which as __name__
-    :return: name of the given Callable object
+    Args:
+        func: Either a `Callable` instance or a function, which as `__name__`
+
+    Returns:
+        The name of the given Callable object
     &#34;&#34;&#34;
     if hasattr(func, &#34;__name__&#34;):
         return func.__name__
@@ -213,8 +216,13 @@ def get_name_for_callable(func: Callable) -&gt; str:
 </code></dt>
 <dd>
 <div class="desc"><p>Returns the name for the given Callable function object.</p>
-<p>:param func: either a Callable instance or a function, which as <strong>name</strong>
-:return: name of the given Callable object</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>func</code></strong></dt>
+<dd>Either a <code>Callable</code> instance or a function, which as <code>__name__</code></dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The name of the given Callable object</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -222,8 +230,11 @@ def get_name_for_callable(func: Callable) -&gt; str:
 <pre><code class="python">def get_name_for_callable(func: Callable) -&gt; str:
     &#34;&#34;&#34;Returns the name for the given Callable function object.
 
-    :param func: either a Callable instance or a function, which as __name__
-    :return: name of the given Callable object
+    Args:
+        func: Either a `Callable` instance or a function, which as `__name__`
+
+    Returns:
+        The name of the given Callable object
     &#34;&#34;&#34;
     if hasattr(func, &#34;__name__&#34;):
         return func.__name__

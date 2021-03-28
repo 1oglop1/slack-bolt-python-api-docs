@@ -33,36 +33,46 @@ from slack_bolt.authorization import AuthorizeResult
 
 
 class BaseContext(dict):
+    &#34;&#34;&#34;Context object associated with a request from Slack.&#34;&#34;&#34;
+
     @property
     def logger(self) -&gt; Logger:
+        &#34;&#34;&#34;The properly configured logger that is available for middleware/listeners.&#34;&#34;&#34;
         return self[&#34;logger&#34;]
 
     @property
     def token(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The (bot/user) token resolved for this request.&#34;&#34;&#34;
         return self.get(&#34;token&#34;)
 
     @property
     def enterprise_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The Enterprise Grid Organization ID of this request.&#34;&#34;&#34;
         return self.get(&#34;enterprise_id&#34;)
 
     @property
     def is_enterprise_install(self) -&gt; Optional[bool]:
+        &#34;&#34;&#34;True if the request is associated with an Org-wide installation.&#34;&#34;&#34;
         return self.get(&#34;is_enterprise_install&#34;)
 
     @property
     def team_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The Workspace ID of this request.&#34;&#34;&#34;
         return self.get(&#34;team_id&#34;)
 
     @property
     def user_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The user ID associated ith this request.&#34;&#34;&#34;
         return self.get(&#34;user_id&#34;)
 
     @property
     def channel_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The conversation ID associated with this request.&#34;&#34;&#34;
         return self.get(&#34;channel_id&#34;)
 
     @property
     def response_url(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The `response_url` associated with this request.&#34;&#34;&#34;
         return self.get(&#34;response_url&#34;)
 
     @property
@@ -74,22 +84,27 @@ class BaseContext(dict):
 
     @property
     def authorize_result(self) -&gt; Optional[AuthorizeResult]:
+        &#34;&#34;&#34;The authorize result resolved for this request.&#34;&#34;&#34;
         return self.get(&#34;authorize_result&#34;)
 
     @property
     def bot_token(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The bot token resolved for this request.&#34;&#34;&#34;
         return self.get(&#34;bot_token&#34;)
 
     @property
     def bot_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The bot ID resolved for this request.&#34;&#34;&#34;
         return self.get(&#34;bot_id&#34;)
 
     @property
     def bot_user_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The bot user ID resolved for this request.&#34;&#34;&#34;
         return self.get(&#34;bot_user_id&#34;)
 
     @property
     def user_token(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The user token resolved for this request.&#34;&#34;&#34;
         return self.get(&#34;user_token&#34;)
 
     def set_authorize_result(self, authorize_result: AuthorizeResult):
@@ -120,52 +135,52 @@ class BaseContext(dict):
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>dict() -&gt; new empty dictionary
-dict(mapping) -&gt; new dictionary initialized from a mapping object's
-(key, value) pairs
-dict(iterable) -&gt; new dictionary initialized as if via:
-d = {}
-for k, v in iterable:
-d[k] = v
-dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
-in the keyword argument list.
-For example:
-dict(one=1, two=2)</p></div>
+<div class="desc"><p>Context object associated with a request from Slack.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class BaseContext(dict):
+    &#34;&#34;&#34;Context object associated with a request from Slack.&#34;&#34;&#34;
+
     @property
     def logger(self) -&gt; Logger:
+        &#34;&#34;&#34;The properly configured logger that is available for middleware/listeners.&#34;&#34;&#34;
         return self[&#34;logger&#34;]
 
     @property
     def token(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The (bot/user) token resolved for this request.&#34;&#34;&#34;
         return self.get(&#34;token&#34;)
 
     @property
     def enterprise_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The Enterprise Grid Organization ID of this request.&#34;&#34;&#34;
         return self.get(&#34;enterprise_id&#34;)
 
     @property
     def is_enterprise_install(self) -&gt; Optional[bool]:
+        &#34;&#34;&#34;True if the request is associated with an Org-wide installation.&#34;&#34;&#34;
         return self.get(&#34;is_enterprise_install&#34;)
 
     @property
     def team_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The Workspace ID of this request.&#34;&#34;&#34;
         return self.get(&#34;team_id&#34;)
 
     @property
     def user_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The user ID associated ith this request.&#34;&#34;&#34;
         return self.get(&#34;user_id&#34;)
 
     @property
     def channel_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The conversation ID associated with this request.&#34;&#34;&#34;
         return self.get(&#34;channel_id&#34;)
 
     @property
     def response_url(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The `response_url` associated with this request.&#34;&#34;&#34;
         return self.get(&#34;response_url&#34;)
 
     @property
@@ -177,22 +192,27 @@ dict(one=1, two=2)</p></div>
 
     @property
     def authorize_result(self) -&gt; Optional[AuthorizeResult]:
+        &#34;&#34;&#34;The authorize result resolved for this request.&#34;&#34;&#34;
         return self.get(&#34;authorize_result&#34;)
 
     @property
     def bot_token(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The bot token resolved for this request.&#34;&#34;&#34;
         return self.get(&#34;bot_token&#34;)
 
     @property
     def bot_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The bot ID resolved for this request.&#34;&#34;&#34;
         return self.get(&#34;bot_id&#34;)
 
     @property
     def bot_user_id(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The bot user ID resolved for this request.&#34;&#34;&#34;
         return self.get(&#34;bot_user_id&#34;)
 
     @property
     def user_token(self) -&gt; Optional[str]:
+        &#34;&#34;&#34;The user token resolved for this request.&#34;&#34;&#34;
         return self.get(&#34;user_token&#34;)
 
     def set_authorize_result(self, authorize_result: AuthorizeResult):
@@ -221,97 +241,105 @@ dict(one=1, two=2)</p></div>
 <dl>
 <dt id="slack_bolt.context.base_context.BaseContext.authorize_result"><code class="name">var <span class="ident">authorize_result</span> : Optional[<a title="slack_bolt.authorization.authorize_result.AuthorizeResult" href="../authorization/authorize_result.html#slack_bolt.authorization.authorize_result.AuthorizeResult">AuthorizeResult</a>]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The authorize result resolved for this request.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def authorize_result(self) -&gt; Optional[AuthorizeResult]:
+    &#34;&#34;&#34;The authorize result resolved for this request.&#34;&#34;&#34;
     return self.get(&#34;authorize_result&#34;)</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.context.base_context.BaseContext.bot_id"><code class="name">var <span class="ident">bot_id</span> : Optional[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The bot ID resolved for this request.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def bot_id(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;The bot ID resolved for this request.&#34;&#34;&#34;
     return self.get(&#34;bot_id&#34;)</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.context.base_context.BaseContext.bot_token"><code class="name">var <span class="ident">bot_token</span> : Optional[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The bot token resolved for this request.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def bot_token(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;The bot token resolved for this request.&#34;&#34;&#34;
     return self.get(&#34;bot_token&#34;)</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.context.base_context.BaseContext.bot_user_id"><code class="name">var <span class="ident">bot_user_id</span> : Optional[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The bot user ID resolved for this request.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def bot_user_id(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;The bot user ID resolved for this request.&#34;&#34;&#34;
     return self.get(&#34;bot_user_id&#34;)</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.context.base_context.BaseContext.channel_id"><code class="name">var <span class="ident">channel_id</span> : Optional[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The conversation ID associated with this request.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def channel_id(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;The conversation ID associated with this request.&#34;&#34;&#34;
     return self.get(&#34;channel_id&#34;)</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.context.base_context.BaseContext.enterprise_id"><code class="name">var <span class="ident">enterprise_id</span> : Optional[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The Enterprise Grid Organization ID of this request.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def enterprise_id(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;The Enterprise Grid Organization ID of this request.&#34;&#34;&#34;
     return self.get(&#34;enterprise_id&#34;)</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.context.base_context.BaseContext.is_enterprise_install"><code class="name">var <span class="ident">is_enterprise_install</span> : Optional[bool]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>True if the request is associated with an Org-wide installation.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def is_enterprise_install(self) -&gt; Optional[bool]:
+    &#34;&#34;&#34;True if the request is associated with an Org-wide installation.&#34;&#34;&#34;
     return self.get(&#34;is_enterprise_install&#34;)</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.context.base_context.BaseContext.logger"><code class="name">var <span class="ident">logger</span> : logging.Logger</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The properly configured logger that is available for middleware/listeners.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def logger(self) -&gt; Logger:
+    &#34;&#34;&#34;The properly configured logger that is available for middleware/listeners.&#34;&#34;&#34;
     return self[&#34;logger&#34;]</code></pre>
 </details>
 </dd>
@@ -330,61 +358,66 @@ def matches(self) -&gt; Optional[Tuple]:
 </dd>
 <dt id="slack_bolt.context.base_context.BaseContext.response_url"><code class="name">var <span class="ident">response_url</span> : Optional[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The <code>response_url</code> associated with this request.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def response_url(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;The `response_url` associated with this request.&#34;&#34;&#34;
     return self.get(&#34;response_url&#34;)</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.context.base_context.BaseContext.team_id"><code class="name">var <span class="ident">team_id</span> : Optional[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The Workspace ID of this request.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def team_id(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;The Workspace ID of this request.&#34;&#34;&#34;
     return self.get(&#34;team_id&#34;)</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.context.base_context.BaseContext.token"><code class="name">var <span class="ident">token</span> : Optional[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The (bot/user) token resolved for this request.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def token(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;The (bot/user) token resolved for this request.&#34;&#34;&#34;
     return self.get(&#34;token&#34;)</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.context.base_context.BaseContext.user_id"><code class="name">var <span class="ident">user_id</span> : Optional[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The user ID associated ith this request.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def user_id(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;The user ID associated ith this request.&#34;&#34;&#34;
     return self.get(&#34;user_id&#34;)</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.context.base_context.BaseContext.user_token"><code class="name">var <span class="ident">user_token</span> : Optional[str]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The user token resolved for this request.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def user_token(self) -&gt; Optional[str]:
+    &#34;&#34;&#34;The user token resolved for this request.&#34;&#34;&#34;
     return self.get(&#34;user_token&#34;)</code></pre>
 </details>
 </dd>

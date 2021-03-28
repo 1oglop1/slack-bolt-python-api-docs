@@ -47,7 +47,8 @@ class SingleTeamAuthorization(Authorization):
     def __init__(self, *, auth_test_result: Optional[SlackResponse] = None):
         &#34;&#34;&#34;Single-workspace authorization.
 
-        :param auth_test_result: The initial `auth.test` API call result.
+        Args:
+            auth_test_result: The initial `auth.test` API call result.
         &#34;&#34;&#34;
         self.auth_test_result = auth_test_result
         self.logger = get_bolt_logger(SingleTeamAuthorization)
@@ -108,8 +109,13 @@ class SingleTeamAuthorization(Authorization):
 <span>(</span><span>*, auth_test_result: Optional[slack_sdk.web.slack_response.SlackResponse] = None)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Single-workspace authorization.</p>
-<p>:param auth_test_result: The initial <code>auth.test</code> API call result.</p></div>
+<div class="desc"><p>A middleware can process request data before other middleware and listener functions.</p>
+<p>Single-workspace authorization.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>auth_test_result</code></strong></dt>
+<dd>The initial <code>auth.test</code> API call result.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -118,7 +124,8 @@ class SingleTeamAuthorization(Authorization):
     def __init__(self, *, auth_test_result: Optional[SlackResponse] = None):
         &#34;&#34;&#34;Single-workspace authorization.
 
-        :param auth_test_result: The initial `auth.test` API call result.
+        Args:
+            auth_test_result: The initial `auth.test` API call result.
         &#34;&#34;&#34;
         self.auth_test_result = auth_test_result
         self.logger = get_bolt_logger(SingleTeamAuthorization)
@@ -169,60 +176,15 @@ class SingleTeamAuthorization(Authorization):
 <li><a title="slack_bolt.middleware.authorization.authorization.Authorization" href="authorization.html#slack_bolt.middleware.authorization.authorization.Authorization">Authorization</a></li>
 <li><a title="slack_bolt.middleware.middleware.Middleware" href="../middleware.html#slack_bolt.middleware.middleware.Middleware">Middleware</a></li>
 </ul>
-<h3>Methods</h3>
-<dl>
-<dt id="slack_bolt.middleware.authorization.single_team_authorization.SingleTeamAuthorization.process"><code class="name flex">
-<span>def <span class="ident">process</span></span>(<span>self, *, req: <a title="slack_bolt.request.request.BoltRequest" href="../../request/request.html#slack_bolt.request.request.BoltRequest">BoltRequest</a>, resp: <a title="slack_bolt.response.response.BoltResponse" href="../../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, next: Callable[[], <a title="slack_bolt.response.response.BoltResponse" href="../../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]) ‑> <a title="slack_bolt.response.response.BoltResponse" href="../../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a></span>
-</code></dt>
-<dd>
-<div class="desc"></div>
-<details class="source">
-<summary>
-<span>Expand source code</span>
-</summary>
-<pre><code class="python">def process(
-    self,
-    *,
-    req: BoltRequest,
-    resp: BoltResponse,
-    next: Callable[[], BoltResponse],
-) -&gt; BoltResponse:
-    if _is_no_auth_required(req):
-        return next()
-
-    if _is_no_auth_test_call_required(req):
-        req.context.set_authorize_result(
-            AuthorizeResult(
-                enterprise_id=req.context.enterprise_id,
-                team_id=req.context.team_id,
-                user_id=req.context.user_id,
-            )
-        )
-        return next()
-
-    try:
-        if not self.auth_test_result:
-            self.auth_test_result = req.context.client.auth_test()
-
-        if self.auth_test_result:
-            req.context.set_authorize_result(
-                _to_authorize_result(
-                    auth_test_result=self.auth_test_result,
-                    token=req.context.client.token,
-                    request_user_id=req.context.user_id,
-                )
-            )
-            return next()
-        else:
-            # Just in case
-            self.logger.error(&#34;auth.test API call result is unexpectedly None&#34;)
-            return _build_error_response()
-    except SlackApiError as e:
-        self.logger.error(f&#34;Failed to authorize with the given token ({e})&#34;)
-        return _build_error_response()</code></pre>
-</details>
-</dd>
-</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="slack_bolt.middleware.authorization.authorization.Authorization" href="authorization.html#slack_bolt.middleware.authorization.authorization.Authorization">Authorization</a></b></code>:
+<ul class="hlist">
+<li><code><a title="slack_bolt.middleware.authorization.authorization.Authorization.name" href="../middleware.html#slack_bolt.middleware.middleware.Middleware.name">name</a></code></li>
+<li><code><a title="slack_bolt.middleware.authorization.authorization.Authorization.process" href="../middleware.html#slack_bolt.middleware.middleware.Middleware.process">process</a></code></li>
+</ul>
+</li>
+</ul>
 </dd>
 </dl>
 </section>
@@ -242,9 +204,6 @@ class SingleTeamAuthorization(Authorization):
 <ul>
 <li>
 <h4><code><a title="slack_bolt.middleware.authorization.single_team_authorization.SingleTeamAuthorization" href="#slack_bolt.middleware.authorization.single_team_authorization.SingleTeamAuthorization">SingleTeamAuthorization</a></code></h4>
-<ul class="">
-<li><code><a title="slack_bolt.middleware.authorization.single_team_authorization.SingleTeamAuthorization.process" href="#slack_bolt.middleware.authorization.single_team_authorization.SingleTeamAuthorization.process">process</a></code></li>
-</ul>
 </li>
 </ul>
 </li>

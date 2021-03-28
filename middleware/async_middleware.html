@@ -34,6 +34,8 @@ from slack_bolt.response import BoltResponse
 
 
 class AsyncMiddleware(metaclass=ABCMeta):
+    &#34;&#34;&#34;A middleware can process request data before other middleware and listener functions.&#34;&#34;&#34;
+
     @abstractmethod
     async def async_process(
         self,
@@ -42,10 +44,27 @@ class AsyncMiddleware(metaclass=ABCMeta):
         resp: BoltResponse,
         next: Callable[[], Awaitable[BoltResponse]],
     ) -&gt; Optional[BoltResponse]:
+        &#34;&#34;&#34;Processes a request data before other middleware and listeners.
+        A middleware calls `next()` function if the chain should continue.
+
+            @app.middleware
+            async def simple_middleware(req, resp, next):
+                # do something here
+                await next()
+
+        Args:
+            req: The incoming request
+            resp: The response
+            next: The function to tell the chain that it can continue
+
+        Returns:
+            Processed response (optional)
+        &#34;&#34;&#34;
         raise NotImplementedError()
 
     @property
     def name(self) -&gt; str:
+        &#34;&#34;&#34;The name of this middleware&#34;&#34;&#34;
         return f&#34;{self.__module__}.{self.__class__.__name__}&#34;</code></pre>
 </details>
 </section>
@@ -62,12 +81,14 @@ class AsyncMiddleware(metaclass=ABCMeta):
 <span>class <span class="ident">AsyncMiddleware</span></span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>A middleware can process request data before other middleware and listener functions.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class AsyncMiddleware(metaclass=ABCMeta):
+    &#34;&#34;&#34;A middleware can process request data before other middleware and listener functions.&#34;&#34;&#34;
+
     @abstractmethod
     async def async_process(
         self,
@@ -76,10 +97,27 @@ class AsyncMiddleware(metaclass=ABCMeta):
         resp: BoltResponse,
         next: Callable[[], Awaitable[BoltResponse]],
     ) -&gt; Optional[BoltResponse]:
+        &#34;&#34;&#34;Processes a request data before other middleware and listeners.
+        A middleware calls `next()` function if the chain should continue.
+
+            @app.middleware
+            async def simple_middleware(req, resp, next):
+                # do something here
+                await next()
+
+        Args:
+            req: The incoming request
+            resp: The response
+            next: The function to tell the chain that it can continue
+
+        Returns:
+            Processed response (optional)
+        &#34;&#34;&#34;
         raise NotImplementedError()
 
     @property
     def name(self) -&gt; str:
+        &#34;&#34;&#34;The name of this middleware&#34;&#34;&#34;
         return f&#34;{self.__module__}.{self.__class__.__name__}&#34;</code></pre>
 </details>
 <h3>Subclasses</h3>
@@ -97,13 +135,14 @@ class AsyncMiddleware(metaclass=ABCMeta):
 <dl>
 <dt id="slack_bolt.middleware.async_middleware.AsyncMiddleware.name"><code class="name">var <span class="ident">name</span> : str</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The name of this middleware</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def name(self) -&gt; str:
+    &#34;&#34;&#34;The name of this middleware&#34;&#34;&#34;
     return f&#34;{self.__module__}.{self.__class__.__name__}&#34;</code></pre>
 </details>
 </dd>
@@ -114,7 +153,24 @@ def name(self) -&gt; str:
 <span>async def <span class="ident">async_process</span></span>(<span>self, *, req: <a title="slack_bolt.request.async_request.AsyncBoltRequest" href="../request/async_request.html#slack_bolt.request.async_request.AsyncBoltRequest">AsyncBoltRequest</a>, resp: <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, next: Callable[[], Awaitable[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]) ‑> Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Processes a request data before other middleware and listeners.
+A middleware calls <code>next()</code> function if the chain should continue.</p>
+<pre><code>@app.middleware
+async def simple_middleware(req, resp, next):
+    # do something here
+    await next()
+</code></pre>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>req</code></strong></dt>
+<dd>The incoming request</dd>
+<dt><strong><code>resp</code></strong></dt>
+<dd>The response</dd>
+<dt><strong><code>next</code></strong></dt>
+<dd>The function to tell the chain that it can continue</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>Processed response (optional)</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -127,6 +183,22 @@ async def async_process(
     resp: BoltResponse,
     next: Callable[[], Awaitable[BoltResponse]],
 ) -&gt; Optional[BoltResponse]:
+    &#34;&#34;&#34;Processes a request data before other middleware and listeners.
+    A middleware calls `next()` function if the chain should continue.
+
+        @app.middleware
+        async def simple_middleware(req, resp, next):
+            # do something here
+            await next()
+
+    Args:
+        req: The incoming request
+        resp: The response
+        next: The function to tell the chain that it can continue
+
+    Returns:
+        Processed response (optional)
+    &#34;&#34;&#34;
     raise NotImplementedError()</code></pre>
 </details>
 </dd>

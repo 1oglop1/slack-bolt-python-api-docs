@@ -37,9 +37,12 @@ class ListenerMatcher(metaclass=ABCMeta):
     def matches(self, req: BoltRequest, resp: BoltResponse) -&gt; bool:
         &#34;&#34;&#34;Matches against the request and returns True if matched.
 
-        :param req: The request
-        :param resp: The response
-        :return: True if matched.
+        Args:
+            req: The request
+            resp: The response
+
+        Returns:
+            True if matched.
         &#34;&#34;&#34;
         raise NotImplementedError()</code></pre>
 </details>
@@ -67,9 +70,12 @@ class ListenerMatcher(metaclass=ABCMeta):
     def matches(self, req: BoltRequest, resp: BoltResponse) -&gt; bool:
         &#34;&#34;&#34;Matches against the request and returns True if matched.
 
-        :param req: The request
-        :param resp: The response
-        :return: True if matched.
+        Args:
+            req: The request
+            resp: The response
+
+        Returns:
+            True if matched.
         &#34;&#34;&#34;
         raise NotImplementedError()</code></pre>
 </details>
@@ -85,9 +91,15 @@ class ListenerMatcher(metaclass=ABCMeta):
 </code></dt>
 <dd>
 <div class="desc"><p>Matches against the request and returns True if matched.</p>
-<p>:param req: The request
-:param resp: The response
-:return: True if matched.</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>req</code></strong></dt>
+<dd>The request</dd>
+<dt><strong><code>resp</code></strong></dt>
+<dd>The response</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>True if matched.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -96,9 +108,12 @@ class ListenerMatcher(metaclass=ABCMeta):
 def matches(self, req: BoltRequest, resp: BoltResponse) -&gt; bool:
     &#34;&#34;&#34;Matches against the request and returns True if matched.
 
-    :param req: The request
-    :param resp: The response
-    :return: True if matched.
+    Args:
+        req: The request
+        resp: The response
+
+    Returns:
+        True if matched.
     &#34;&#34;&#34;
     raise NotImplementedError()</code></pre>
 </details>

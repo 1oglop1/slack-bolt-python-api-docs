@@ -41,29 +41,65 @@ from slack_sdk import WebClient
 
 
 class Args:
+    &#34;&#34;&#34;All the arguments in this class are available in any middleware / listeners.
+    You can inject the named variables in the argument list in arbitrary order.
+
+        @app.action(&#34;link_button&#34;)
+        def handle_buttons(ack, respond, logger, context, body, client):
+            logger.info(f&#34;request body: {body}&#34;)
+            ack()
+            if context.channel_id is not None:
+                respond(&#34;Hi!&#34;)
+            client.views_open(
+                trigger_id=body[&#34;trigger_id&#34;],
+                view={ ... }
+            )
+
+    &#34;&#34;&#34;
+
     client: WebClient
+    &#34;&#34;&#34;`slack_sdk.web.WebClient` instance with a valid token&#34;&#34;&#34;
     logger: Logger
+    &#34;&#34;&#34;Logger instance&#34;&#34;&#34;
     req: BoltRequest
+    &#34;&#34;&#34;Incoming request from Slack&#34;&#34;&#34;
     resp: BoltResponse
+    &#34;&#34;&#34;Response representation&#34;&#34;&#34;
     request: BoltRequest
+    &#34;&#34;&#34;Incoming request from Slack&#34;&#34;&#34;
     response: BoltResponse
+    &#34;&#34;&#34;Response representation&#34;&#34;&#34;
     context: BoltContext
+    &#34;&#34;&#34;Context data associated with the incoming request&#34;&#34;&#34;
     body: Dict[str, Any]
+    &#34;&#34;&#34;Parsed request body data&#34;&#34;&#34;
     # payload
     payload: Dict[str, Any]
+    &#34;&#34;&#34;The unwrapped core data in the request body&#34;&#34;&#34;
     options: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.options` listener&#34;&#34;&#34;
     shortcut: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.shortcut` listener&#34;&#34;&#34;
     action: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.action` listener&#34;&#34;&#34;
     view: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.view` listener&#34;&#34;&#34;
     command: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.command` listener&#34;&#34;&#34;
     event: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.event` listener&#34;&#34;&#34;
     message: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.message` listener&#34;&#34;&#34;
     # utilities
     ack: Ack
+    &#34;&#34;&#34;`ack()` utility function, which returns acknowledgement to the Slack servers&#34;&#34;&#34;
     say: Say
+    &#34;&#34;&#34;`say()` utility function, which calls `chat.postMessage` API with the associated channel ID&#34;&#34;&#34;
     respond: Respond
+    &#34;&#34;&#34;`respond()` utility function, which utilizes the associated `response_url`&#34;&#34;&#34;
     # middleware
     next: Callable[[], None]
+    &#34;&#34;&#34;`next()` utility function, which tells the middleware chain that it can continue with the next one&#34;&#34;&#34;
 
     def __init__(
         self,
@@ -124,35 +160,83 @@ class Args:
 <span>(</span><span>*, logger: logging.Logger, client: slack_sdk.web.client.WebClient, req: <a title="slack_bolt.request.request.BoltRequest" href="../request/request.html#slack_bolt.request.request.BoltRequest">BoltRequest</a>, resp: <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>, context: <a title="slack_bolt.context.context.BoltContext" href="../context/context.html#slack_bolt.context.context.BoltContext">BoltContext</a>, body: Dict[str, Any], payload: Dict[str, Any], options: Optional[Dict[str, Any]] = None, shortcut: Optional[Dict[str, Any]] = None, action: Optional[Dict[str, Any]] = None, view: Optional[Dict[str, Any]] = None, command: Optional[Dict[str, Any]] = None, event: Optional[Dict[str, Any]] = None, message: Optional[Dict[str, Any]] = None, ack: <a title="slack_bolt.context.ack.ack.Ack" href="../context/ack/ack.html#slack_bolt.context.ack.ack.Ack">Ack</a>, say: <a title="slack_bolt.context.say.say.Say" href="../context/say/say.html#slack_bolt.context.say.say.Say">Say</a>, respond: <a title="slack_bolt.context.respond.respond.Respond" href="../context/respond/respond.html#slack_bolt.context.respond.respond.Respond">Respond</a>, next: Callable[[], NoneType], **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>All the arguments in this class are available in any middleware / listeners.
+You can inject the named variables in the argument list in arbitrary order.</p>
+<pre><code>@app.action("link_button")
+def handle_buttons(ack, respond, logger, context, body, client):
+    logger.info(f"request body: {body}")
+    ack()
+    if context.channel_id is not None:
+        respond("Hi!")
+    client.views_open(
+        trigger_id=body["trigger_id"],
+        view={ ... }
+    )
+</code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class Args:
+    &#34;&#34;&#34;All the arguments in this class are available in any middleware / listeners.
+    You can inject the named variables in the argument list in arbitrary order.
+
+        @app.action(&#34;link_button&#34;)
+        def handle_buttons(ack, respond, logger, context, body, client):
+            logger.info(f&#34;request body: {body}&#34;)
+            ack()
+            if context.channel_id is not None:
+                respond(&#34;Hi!&#34;)
+            client.views_open(
+                trigger_id=body[&#34;trigger_id&#34;],
+                view={ ... }
+            )
+
+    &#34;&#34;&#34;
+
     client: WebClient
+    &#34;&#34;&#34;`slack_sdk.web.WebClient` instance with a valid token&#34;&#34;&#34;
     logger: Logger
+    &#34;&#34;&#34;Logger instance&#34;&#34;&#34;
     req: BoltRequest
+    &#34;&#34;&#34;Incoming request from Slack&#34;&#34;&#34;
     resp: BoltResponse
+    &#34;&#34;&#34;Response representation&#34;&#34;&#34;
     request: BoltRequest
+    &#34;&#34;&#34;Incoming request from Slack&#34;&#34;&#34;
     response: BoltResponse
+    &#34;&#34;&#34;Response representation&#34;&#34;&#34;
     context: BoltContext
+    &#34;&#34;&#34;Context data associated with the incoming request&#34;&#34;&#34;
     body: Dict[str, Any]
+    &#34;&#34;&#34;Parsed request body data&#34;&#34;&#34;
     # payload
     payload: Dict[str, Any]
+    &#34;&#34;&#34;The unwrapped core data in the request body&#34;&#34;&#34;
     options: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.options` listener&#34;&#34;&#34;
     shortcut: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.shortcut` listener&#34;&#34;&#34;
     action: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.action` listener&#34;&#34;&#34;
     view: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.view` listener&#34;&#34;&#34;
     command: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.command` listener&#34;&#34;&#34;
     event: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.event` listener&#34;&#34;&#34;
     message: Optional[Dict[str, Any]]  # payload alias
+    &#34;&#34;&#34;An alias for payload in an `@app.message` listener&#34;&#34;&#34;
     # utilities
     ack: Ack
+    &#34;&#34;&#34;`ack()` utility function, which returns acknowledgement to the Slack servers&#34;&#34;&#34;
     say: Say
+    &#34;&#34;&#34;`say()` utility function, which calls `chat.postMessage` API with the associated channel ID&#34;&#34;&#34;
     respond: Respond
+    &#34;&#34;&#34;`respond()` utility function, which utilizes the associated `response_url`&#34;&#34;&#34;
     # middleware
     next: Callable[[], None]
+    &#34;&#34;&#34;`next()` utility function, which tells the middleware chain that it can continue with the next one&#34;&#34;&#34;
 
     def __init__(
         self,
@@ -202,83 +286,83 @@ class Args:
 <dl>
 <dt id="slack_bolt.kwargs_injection.args.Args.ack"><code class="name">var <span class="ident">ack</span> : <a title="slack_bolt.context.ack.ack.Ack" href="../context/ack/ack.html#slack_bolt.context.ack.ack.Ack">Ack</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p><code>ack()</code> utility function, which returns acknowledgement to the Slack servers</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.action"><code class="name">var <span class="ident">action</span> : Optional[Dict[str, Any]]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An alias for payload in an <code>@app.action</code> listener</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.body"><code class="name">var <span class="ident">body</span> : Dict[str, Any]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Parsed request body data</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.client"><code class="name">var <span class="ident">client</span> : slack_sdk.web.client.WebClient</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p><code>slack_sdk.web.WebClient</code> instance with a valid token</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.command"><code class="name">var <span class="ident">command</span> : Optional[Dict[str, Any]]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An alias for payload in an <code>@app.command</code> listener</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.context"><code class="name">var <span class="ident">context</span> : <a title="slack_bolt.context.context.BoltContext" href="../context/context.html#slack_bolt.context.context.BoltContext">BoltContext</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Context data associated with the incoming request</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.event"><code class="name">var <span class="ident">event</span> : Optional[Dict[str, Any]]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An alias for payload in an <code>@app.event</code> listener</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.logger"><code class="name">var <span class="ident">logger</span> : logging.Logger</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Logger instance</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.message"><code class="name">var <span class="ident">message</span> : Optional[Dict[str, Any]]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An alias for payload in an <code>@app.message</code> listener</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.next"><code class="name">var <span class="ident">next</span> : Callable[[], NoneType]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p><code>next()</code> utility function, which tells the middleware chain that it can continue with the next one</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.options"><code class="name">var <span class="ident">options</span> : Optional[Dict[str, Any]]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An alias for payload in an <code>@app.options</code> listener</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.payload"><code class="name">var <span class="ident">payload</span> : Dict[str, Any]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The unwrapped core data in the request body</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.req"><code class="name">var <span class="ident">req</span> : <a title="slack_bolt.request.request.BoltRequest" href="../request/request.html#slack_bolt.request.request.BoltRequest">BoltRequest</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Incoming request from Slack</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.request"><code class="name">var <span class="ident">request</span> : <a title="slack_bolt.request.request.BoltRequest" href="../request/request.html#slack_bolt.request.request.BoltRequest">BoltRequest</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Incoming request from Slack</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.resp"><code class="name">var <span class="ident">resp</span> : <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Response representation</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.respond"><code class="name">var <span class="ident">respond</span> : <a title="slack_bolt.context.respond.respond.Respond" href="../context/respond/respond.html#slack_bolt.context.respond.respond.Respond">Respond</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p><code>respond()</code> utility function, which utilizes the associated <code>response_url</code></p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.response"><code class="name">var <span class="ident">response</span> : <a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>Response representation</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.say"><code class="name">var <span class="ident">say</span> : <a title="slack_bolt.context.say.say.Say" href="../context/say/say.html#slack_bolt.context.say.say.Say">Say</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p><code>say()</code> utility function, which calls <code>chat.postMessage</code> API with the associated channel ID</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.shortcut"><code class="name">var <span class="ident">shortcut</span> : Optional[Dict[str, Any]]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An alias for payload in an <code>@app.shortcut</code> listener</p></div>
 </dd>
 <dt id="slack_bolt.kwargs_injection.args.Args.view"><code class="name">var <span class="ident">view</span> : Optional[Dict[str, Any]]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>An alias for payload in an <code>@app.view</code> listener</p></div>
 </dd>
 </dl>
 </dd>

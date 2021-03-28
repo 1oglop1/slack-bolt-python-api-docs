@@ -56,10 +56,10 @@ class ListenerErrorHandler(metaclass=ABCMeta):
     ) -&gt; None:
         &#34;&#34;&#34;Handles an unhandled exception.
 
-        :param error: The raised exception.
-        :param request: The request.
-        :param response: The response.
-        :return: None
+        Args:
+            error: The raised exception.
+            request: The request.
+            response: The response.
         &#34;&#34;&#34;
         raise NotImplementedError()
 
@@ -284,10 +284,10 @@ class DefaultListenerErrorHandler(ListenerErrorHandler):
     ) -&gt; None:
         &#34;&#34;&#34;Handles an unhandled exception.
 
-        :param error: The raised exception.
-        :param request: The request.
-        :param response: The response.
-        :return: None
+        Args:
+            error: The raised exception.
+            request: The request.
+            response: The response.
         &#34;&#34;&#34;
         raise NotImplementedError()</code></pre>
 </details>
@@ -303,10 +303,15 @@ class DefaultListenerErrorHandler(ListenerErrorHandler):
 </code></dt>
 <dd>
 <div class="desc"><p>Handles an unhandled exception.</p>
-<p>:param error: The raised exception.
-:param request: The request.
-:param response: The response.
-:return: None</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>error</code></strong></dt>
+<dd>The raised exception.</dd>
+<dt><strong><code>request</code></strong></dt>
+<dd>The request.</dd>
+<dt><strong><code>response</code></strong></dt>
+<dd>The response.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -320,10 +325,10 @@ def handle(
 ) -&gt; None:
     &#34;&#34;&#34;Handles an unhandled exception.
 
-    :param error: The raised exception.
-    :param request: The request.
-    :param response: The response.
-    :return: None
+    Args:
+        error: The raised exception.
+        request: The request.
+        response: The response.
     &#34;&#34;&#34;
     raise NotImplementedError()</code></pre>
 </details>

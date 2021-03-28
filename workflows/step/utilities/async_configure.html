@@ -33,6 +33,35 @@ from slack_sdk.models.blocks import Block
 
 
 class AsyncConfigure:
+    &#34;&#34;&#34;`configure()` utility to send the modal view in Workflow Builder.
+
+        async def edit(ack, step, configure):
+            await ack()
+
+            blocks = [
+                {
+                    &#34;type&#34;: &#34;input&#34;,
+                    &#34;block_id&#34;: &#34;task_name_input&#34;,
+                    &#34;element&#34;: {
+                        &#34;type&#34;: &#34;plain_text_input&#34;,
+                        &#34;action_id&#34;: &#34;name&#34;,
+                        &#34;placeholder&#34;: {&#34;type&#34;: &#34;plain_text&#34;, &#34;text&#34;: &#34;Add a task name&#34;},
+                    },
+                    &#34;label&#34;: {&#34;type&#34;: &#34;plain_text&#34;, &#34;text&#34;: &#34;Task name&#34;},
+                },
+            ]
+            await configure(blocks=blocks)
+
+        ws = AsyncWorkflowStep(
+            callback_id=&#34;add_task&#34;,
+            edit=edit,
+            save=save,
+            execute=execute,
+        )
+        app.step(ws)
+
+    Refer to https://api.slack.com/workflows/steps for details.
+    &#34;&#34;&#34;
     def __init__(self, *, callback_id: str, client: AsyncWebClient, body: dict):
         self.callback_id = callback_id
         self.client = client
@@ -67,12 +96,67 @@ class AsyncConfigure:
 <span>(</span><span>*, callback_id: str, client: slack_sdk.web.async_client.AsyncWebClient, body: dict)</span>
 </code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p><code>configure()</code> utility to send the modal view in Workflow Builder.</p>
+<pre><code>async def edit(ack, step, configure):
+    await ack()
+
+    blocks = [
+        {
+            "type": "input",
+            "block_id": "task_name_input",
+            "element": {
+                "type": "plain_text_input",
+                "action_id": "name",
+                "placeholder": {"type": "plain_text", "text": "Add a task name"},
+            },
+            "label": {"type": "plain_text", "text": "Task name"},
+        },
+    ]
+    await configure(blocks=blocks)
+
+ws = AsyncWorkflowStep(
+    callback_id="add_task",
+    edit=edit,
+    save=save,
+    execute=execute,
+)
+app.step(ws)
+</code></pre>
+<p>Refer to <a href="https://api.slack.com/workflows/steps">https://api.slack.com/workflows/steps</a> for details.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class AsyncConfigure:
+    &#34;&#34;&#34;`configure()` utility to send the modal view in Workflow Builder.
+
+        async def edit(ack, step, configure):
+            await ack()
+
+            blocks = [
+                {
+                    &#34;type&#34;: &#34;input&#34;,
+                    &#34;block_id&#34;: &#34;task_name_input&#34;,
+                    &#34;element&#34;: {
+                        &#34;type&#34;: &#34;plain_text_input&#34;,
+                        &#34;action_id&#34;: &#34;name&#34;,
+                        &#34;placeholder&#34;: {&#34;type&#34;: &#34;plain_text&#34;, &#34;text&#34;: &#34;Add a task name&#34;},
+                    },
+                    &#34;label&#34;: {&#34;type&#34;: &#34;plain_text&#34;, &#34;text&#34;: &#34;Task name&#34;},
+                },
+            ]
+            await configure(blocks=blocks)
+
+        ws = AsyncWorkflowStep(
+            callback_id=&#34;add_task&#34;,
+            edit=edit,
+            save=save,
+            execute=execute,
+        )
+        app.step(ws)
+
+    Refer to https://api.slack.com/workflows/steps for details.
+    &#34;&#34;&#34;
     def __init__(self, *, callback_id: str, client: AsyncWebClient, body: dict):
         self.callback_id = callback_id
         self.client = client

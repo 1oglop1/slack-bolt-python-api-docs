@@ -38,26 +38,94 @@ from slack_bolt.context.say import Say
 
 
 class BoltContext(BaseContext):
+    &#34;&#34;&#34;Context object associated with a request from Slack.&#34;&#34;&#34;
+
     @property
     def client(self) -&gt; Optional[WebClient]:
+        &#34;&#34;&#34;The `WebClient` instance available for this request.
+
+            @app.event(&#34;app_mention&#34;)
+            def handle_events(context):
+                context.client.chat_postMessage(
+                    channel=context.channel_id,
+                    text=&#34;Thanks!&#34;,
+                )
+
+            # You can access &#34;client&#34; this way too.
+            @app.event(&#34;app_mention&#34;)
+            def handle_events(client, context):
+                client.chat_postMessage(
+                    channel=context.channel_id,
+                    text=&#34;Thanks!&#34;,
+                )
+
+        Returns:
+            `WebClient` instance
+        &#34;&#34;&#34;
         if &#34;client&#34; not in self:
             self[&#34;client&#34;] = WebClient(token=None)
         return self[&#34;client&#34;]
 
     @property
     def ack(self) -&gt; Ack:
+        &#34;&#34;&#34;`ack()` function for this request.
+
+            @app.action(&#34;button&#34;)
+            def handle_button_clicks(context):
+                context.ack()
+
+            # You can access &#34;ack&#34; this way too.
+            @app.action(&#34;button&#34;)
+            def handle_button_clicks(ack):
+                ack()
+
+        Returns:
+            Callable `ack()` function
+        &#34;&#34;&#34;
         if &#34;ack&#34; not in self:
             self[&#34;ack&#34;] = Ack()
         return self[&#34;ack&#34;]
 
     @property
     def say(self) -&gt; Say:
+        &#34;&#34;&#34;`say()` function for this request.
+
+            @app.action(&#34;button&#34;)
+            def handle_button_clicks(context):
+                context.ack()
+                context.say(&#34;Hi!&#34;)
+
+            # You can access &#34;ack&#34; this way too.
+            @app.action(&#34;button&#34;)
+            def handle_button_clicks(ack, say):
+                ack()
+                say(&#34;Hi!&#34;)
+
+        Returns:
+            Callable `say()` function
+        &#34;&#34;&#34;
         if &#34;say&#34; not in self:
             self[&#34;say&#34;] = Say(client=self.client, channel=self.channel_id)
         return self[&#34;say&#34;]
 
     @property
     def respond(self) -&gt; Optional[Respond]:
+        &#34;&#34;&#34;`respond()` function for this request.
+
+            @app.action(&#34;button&#34;)
+            def handle_button_clicks(context):
+                context.ack()
+                context.respond(&#34;Hi!&#34;)
+
+            # You can access &#34;ack&#34; this way too.
+            @app.action(&#34;button&#34;)
+            def handle_button_clicks(ack, respond):
+                ack()
+                respond(&#34;Hi!&#34;)
+
+        Returns:
+            Callable `respond()` function
+        &#34;&#34;&#34;
         if &#34;respond&#34; not in self:
             self[&#34;respond&#34;] = Respond(response_url=self.response_url)
         return self[&#34;respond&#34;]</code></pre>
@@ -77,42 +145,100 @@ class BoltContext(BaseContext):
 <span>(</span><span>*args, **kwargs)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>dict() -&gt; new empty dictionary
-dict(mapping) -&gt; new dictionary initialized from a mapping object's
-(key, value) pairs
-dict(iterable) -&gt; new dictionary initialized as if via:
-d = {}
-for k, v in iterable:
-d[k] = v
-dict(**kwargs) -&gt; new dictionary initialized with the name=value pairs
-in the keyword argument list.
-For example:
-dict(one=1, two=2)</p></div>
+<div class="desc"><p>Context object associated with a request from Slack.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class BoltContext(BaseContext):
+    &#34;&#34;&#34;Context object associated with a request from Slack.&#34;&#34;&#34;
+
     @property
     def client(self) -&gt; Optional[WebClient]:
+        &#34;&#34;&#34;The `WebClient` instance available for this request.
+
+            @app.event(&#34;app_mention&#34;)
+            def handle_events(context):
+                context.client.chat_postMessage(
+                    channel=context.channel_id,
+                    text=&#34;Thanks!&#34;,
+                )
+
+            # You can access &#34;client&#34; this way too.
+            @app.event(&#34;app_mention&#34;)
+            def handle_events(client, context):
+                client.chat_postMessage(
+                    channel=context.channel_id,
+                    text=&#34;Thanks!&#34;,
+                )
+
+        Returns:
+            `WebClient` instance
+        &#34;&#34;&#34;
         if &#34;client&#34; not in self:
             self[&#34;client&#34;] = WebClient(token=None)
         return self[&#34;client&#34;]
 
     @property
     def ack(self) -&gt; Ack:
+        &#34;&#34;&#34;`ack()` function for this request.
+
+            @app.action(&#34;button&#34;)
+            def handle_button_clicks(context):
+                context.ack()
+
+            # You can access &#34;ack&#34; this way too.
+            @app.action(&#34;button&#34;)
+            def handle_button_clicks(ack):
+                ack()
+
+        Returns:
+            Callable `ack()` function
+        &#34;&#34;&#34;
         if &#34;ack&#34; not in self:
             self[&#34;ack&#34;] = Ack()
         return self[&#34;ack&#34;]
 
     @property
     def say(self) -&gt; Say:
+        &#34;&#34;&#34;`say()` function for this request.
+
+            @app.action(&#34;button&#34;)
+            def handle_button_clicks(context):
+                context.ack()
+                context.say(&#34;Hi!&#34;)
+
+            # You can access &#34;ack&#34; this way too.
+            @app.action(&#34;button&#34;)
+            def handle_button_clicks(ack, say):
+                ack()
+                say(&#34;Hi!&#34;)
+
+        Returns:
+            Callable `say()` function
+        &#34;&#34;&#34;
         if &#34;say&#34; not in self:
             self[&#34;say&#34;] = Say(client=self.client, channel=self.channel_id)
         return self[&#34;say&#34;]
 
     @property
     def respond(self) -&gt; Optional[Respond]:
+        &#34;&#34;&#34;`respond()` function for this request.
+
+            @app.action(&#34;button&#34;)
+            def handle_button_clicks(context):
+                context.ack()
+                context.respond(&#34;Hi!&#34;)
+
+            # You can access &#34;ack&#34; this way too.
+            @app.action(&#34;button&#34;)
+            def handle_button_clicks(ack, respond):
+                ack()
+                respond(&#34;Hi!&#34;)
+
+        Returns:
+            Callable `respond()` function
+        &#34;&#34;&#34;
         if &#34;respond&#34; not in self:
             self[&#34;respond&#34;] = Respond(response_url=self.response_url)
         return self[&#34;respond&#34;]</code></pre>
@@ -126,13 +252,38 @@ dict(one=1, two=2)</p></div>
 <dl>
 <dt id="slack_bolt.context.context.BoltContext.ack"><code class="name">var <span class="ident">ack</span> : <a title="slack_bolt.context.ack.ack.Ack" href="ack/ack.html#slack_bolt.context.ack.ack.Ack">Ack</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p><code>ack()</code> function for this request.</p>
+<pre><code>@app.action("button")
+def handle_button_clicks(context):
+    context.ack()
+
+# You can access "ack" this way too.
+@app.action("button")
+def handle_button_clicks(ack):
+    ack()
+</code></pre>
+<h2 id="returns">Returns</h2>
+<p>Callable <code>ack()</code> function</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def ack(self) -&gt; Ack:
+    &#34;&#34;&#34;`ack()` function for this request.
+
+        @app.action(&#34;button&#34;)
+        def handle_button_clicks(context):
+            context.ack()
+
+        # You can access &#34;ack&#34; this way too.
+        @app.action(&#34;button&#34;)
+        def handle_button_clicks(ack):
+            ack()
+
+    Returns:
+        Callable `ack()` function
+    &#34;&#34;&#34;
     if &#34;ack&#34; not in self:
         self[&#34;ack&#34;] = Ack()
     return self[&#34;ack&#34;]</code></pre>
@@ -140,13 +291,50 @@ def ack(self) -&gt; Ack:
 </dd>
 <dt id="slack_bolt.context.context.BoltContext.client"><code class="name">var <span class="ident">client</span> : Optional[slack_sdk.web.client.WebClient]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p>The <code>WebClient</code> instance available for this request.</p>
+<pre><code>@app.event("app_mention")
+def handle_events(context):
+    context.client.chat_postMessage(
+        channel=context.channel_id,
+        text="Thanks!",
+    )
+
+# You can access "client" this way too.
+@app.event("app_mention")
+def handle_events(client, context):
+    client.chat_postMessage(
+        channel=context.channel_id,
+        text="Thanks!",
+    )
+</code></pre>
+<h2 id="returns">Returns</h2>
+<p><code>WebClient</code> instance</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def client(self) -&gt; Optional[WebClient]:
+    &#34;&#34;&#34;The `WebClient` instance available for this request.
+
+        @app.event(&#34;app_mention&#34;)
+        def handle_events(context):
+            context.client.chat_postMessage(
+                channel=context.channel_id,
+                text=&#34;Thanks!&#34;,
+            )
+
+        # You can access &#34;client&#34; this way too.
+        @app.event(&#34;app_mention&#34;)
+        def handle_events(client, context):
+            client.chat_postMessage(
+                channel=context.channel_id,
+                text=&#34;Thanks!&#34;,
+            )
+
+    Returns:
+        `WebClient` instance
+    &#34;&#34;&#34;
     if &#34;client&#34; not in self:
         self[&#34;client&#34;] = WebClient(token=None)
     return self[&#34;client&#34;]</code></pre>
@@ -154,13 +342,42 @@ def client(self) -&gt; Optional[WebClient]:
 </dd>
 <dt id="slack_bolt.context.context.BoltContext.respond"><code class="name">var <span class="ident">respond</span> : Optional[<a title="slack_bolt.context.respond.respond.Respond" href="respond/respond.html#slack_bolt.context.respond.respond.Respond">Respond</a>]</code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p><code>respond()</code> function for this request.</p>
+<pre><code>@app.action("button")
+def handle_button_clicks(context):
+    context.ack()
+    context.respond("Hi!")
+
+# You can access "ack" this way too.
+@app.action("button")
+def handle_button_clicks(ack, respond):
+    ack()
+    respond("Hi!")
+</code></pre>
+<h2 id="returns">Returns</h2>
+<p>Callable <code>respond()</code> function</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def respond(self) -&gt; Optional[Respond]:
+    &#34;&#34;&#34;`respond()` function for this request.
+
+        @app.action(&#34;button&#34;)
+        def handle_button_clicks(context):
+            context.ack()
+            context.respond(&#34;Hi!&#34;)
+
+        # You can access &#34;ack&#34; this way too.
+        @app.action(&#34;button&#34;)
+        def handle_button_clicks(ack, respond):
+            ack()
+            respond(&#34;Hi!&#34;)
+
+    Returns:
+        Callable `respond()` function
+    &#34;&#34;&#34;
     if &#34;respond&#34; not in self:
         self[&#34;respond&#34;] = Respond(response_url=self.response_url)
     return self[&#34;respond&#34;]</code></pre>
@@ -168,13 +385,42 @@ def respond(self) -&gt; Optional[Respond]:
 </dd>
 <dt id="slack_bolt.context.context.BoltContext.say"><code class="name">var <span class="ident">say</span> : <a title="slack_bolt.context.say.say.Say" href="say/say.html#slack_bolt.context.say.say.Say">Say</a></code></dt>
 <dd>
-<div class="desc"></div>
+<div class="desc"><p><code>say()</code> function for this request.</p>
+<pre><code>@app.action("button")
+def handle_button_clicks(context):
+    context.ack()
+    context.say("Hi!")
+
+# You can access "ack" this way too.
+@app.action("button")
+def handle_button_clicks(ack, say):
+    ack()
+    say("Hi!")
+</code></pre>
+<h2 id="returns">Returns</h2>
+<p>Callable <code>say()</code> function</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">@property
 def say(self) -&gt; Say:
+    &#34;&#34;&#34;`say()` function for this request.
+
+        @app.action(&#34;button&#34;)
+        def handle_button_clicks(context):
+            context.ack()
+            context.say(&#34;Hi!&#34;)
+
+        # You can access &#34;ack&#34; this way too.
+        @app.action(&#34;button&#34;)
+        def handle_button_clicks(ack, say):
+            ack()
+            say(&#34;Hi!&#34;)
+
+    Returns:
+        Callable `say()` function
+    &#34;&#34;&#34;
     if &#34;say&#34; not in self:
         self[&#34;say&#34;] = Say(client=self.client, channel=self.channel_id)
     return self[&#34;say&#34;]</code></pre>
@@ -185,7 +431,20 @@ def say(self) -&gt; Say:
 <ul class="hlist">
 <li><code><b><a title="slack_bolt.context.base_context.BaseContext" href="base_context.html#slack_bolt.context.base_context.BaseContext">BaseContext</a></b></code>:
 <ul class="hlist">
+<li><code><a title="slack_bolt.context.base_context.BaseContext.authorize_result" href="base_context.html#slack_bolt.context.base_context.BaseContext.authorize_result">authorize_result</a></code></li>
+<li><code><a title="slack_bolt.context.base_context.BaseContext.bot_id" href="base_context.html#slack_bolt.context.base_context.BaseContext.bot_id">bot_id</a></code></li>
+<li><code><a title="slack_bolt.context.base_context.BaseContext.bot_token" href="base_context.html#slack_bolt.context.base_context.BaseContext.bot_token">bot_token</a></code></li>
+<li><code><a title="slack_bolt.context.base_context.BaseContext.bot_user_id" href="base_context.html#slack_bolt.context.base_context.BaseContext.bot_user_id">bot_user_id</a></code></li>
+<li><code><a title="slack_bolt.context.base_context.BaseContext.channel_id" href="base_context.html#slack_bolt.context.base_context.BaseContext.channel_id">channel_id</a></code></li>
+<li><code><a title="slack_bolt.context.base_context.BaseContext.enterprise_id" href="base_context.html#slack_bolt.context.base_context.BaseContext.enterprise_id">enterprise_id</a></code></li>
+<li><code><a title="slack_bolt.context.base_context.BaseContext.is_enterprise_install" href="base_context.html#slack_bolt.context.base_context.BaseContext.is_enterprise_install">is_enterprise_install</a></code></li>
+<li><code><a title="slack_bolt.context.base_context.BaseContext.logger" href="base_context.html#slack_bolt.context.base_context.BaseContext.logger">logger</a></code></li>
 <li><code><a title="slack_bolt.context.base_context.BaseContext.matches" href="base_context.html#slack_bolt.context.base_context.BaseContext.matches">matches</a></code></li>
+<li><code><a title="slack_bolt.context.base_context.BaseContext.response_url" href="base_context.html#slack_bolt.context.base_context.BaseContext.response_url">response_url</a></code></li>
+<li><code><a title="slack_bolt.context.base_context.BaseContext.team_id" href="base_context.html#slack_bolt.context.base_context.BaseContext.team_id">team_id</a></code></li>
+<li><code><a title="slack_bolt.context.base_context.BaseContext.token" href="base_context.html#slack_bolt.context.base_context.BaseContext.token">token</a></code></li>
+<li><code><a title="slack_bolt.context.base_context.BaseContext.user_id" href="base_context.html#slack_bolt.context.base_context.BaseContext.user_id">user_id</a></code></li>
+<li><code><a title="slack_bolt.context.base_context.BaseContext.user_token" href="base_context.html#slack_bolt.context.base_context.BaseContext.user_token">user_token</a></code></li>
 </ul>
 </li>
 </ul>

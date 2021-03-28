@@ -50,12 +50,13 @@ class AuthorizeArgs:
         team_id: Optional[str],  # can be None for org-wide installed apps
         user_id: Optional[str],
     ):
-        &#34;&#34;&#34;The whole arguments that are passed to Authorize functions.
+        &#34;&#34;&#34;The full list of the arguments passed to `authorize` function.
 
-        :param context: The request context
-        :param enterprise_id: The Organization ID (Enterprise Grid)
-        :param team_id: The workspace ID
-        :param user_id: The request user ID
+        Args:
+            context: The request context
+            enterprise_id: The Organization ID (Enterprise Grid)
+            team_id: The workspace ID
+            user_id: The request user ID
         &#34;&#34;&#34;
         self.context = context
         self.logger = context.logger
@@ -79,11 +80,18 @@ class AuthorizeArgs:
 <span>(</span><span>*, context: <a title="slack_bolt.context.context.BoltContext" href="../context/context.html#slack_bolt.context.context.BoltContext">BoltContext</a>, enterprise_id: Optional[str], team_id: Optional[str], user_id: Optional[str])</span>
 </code></dt>
 <dd>
-<div class="desc"><p>The whole arguments that are passed to Authorize functions.</p>
-<p>:param context: The request context
-:param enterprise_id: The Organization ID (Enterprise Grid)
-:param team_id: The workspace ID
-:param user_id: The request user ID</p></div>
+<div class="desc"><p>The full list of the arguments passed to <code>authorize</code> function.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>context</code></strong></dt>
+<dd>The request context</dd>
+<dt><strong><code>enterprise_id</code></strong></dt>
+<dd>The Organization ID (Enterprise Grid)</dd>
+<dt><strong><code>team_id</code></strong></dt>
+<dd>The workspace ID</dd>
+<dt><strong><code>user_id</code></strong></dt>
+<dd>The request user ID</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -104,12 +112,13 @@ class AuthorizeArgs:
         team_id: Optional[str],  # can be None for org-wide installed apps
         user_id: Optional[str],
     ):
-        &#34;&#34;&#34;The whole arguments that are passed to Authorize functions.
+        &#34;&#34;&#34;The full list of the arguments passed to `authorize` function.
 
-        :param context: The request context
-        :param enterprise_id: The Organization ID (Enterprise Grid)
-        :param team_id: The workspace ID
-        :param user_id: The request user ID
+        Args:
+            context: The request context
+            enterprise_id: The Organization ID (Enterprise Grid)
+            team_id: The workspace ID
+            user_id: The request user ID
         &#34;&#34;&#34;
         self.context = context
         self.logger = context.logger

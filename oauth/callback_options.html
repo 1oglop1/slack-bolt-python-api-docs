@@ -49,10 +49,11 @@ class SuccessArgs:
     ):
         &#34;&#34;&#34;The arguments for a success function.
 
-        :param request: The request.
-        :param installation: The installation data.
-        :param settings: The settings for OAuth flow.
-        :param default: The default CallbackOptions.
+        Args:
+            request: The request.
+            installation: The installation data.
+            settings: The settings for Slack OAuth flow.
+            default: The default `CallbackOptions`
         &#34;&#34;&#34;
         self.request = request
         self.installation = installation
@@ -73,12 +74,13 @@ class FailureArgs:
     ):
         &#34;&#34;&#34;The arguments for a failure function.
 
-        :param request: The request.
-        :param reason: The response.
-        :param error: An exception if exists.
-        :param suggested_status_code: The recommended HTTP status code for the failure.
-        :param settings: The settings for OAuth flow.
-        :param default: The default CallbackOptions.
+        Args:
+            request: The request.
+            reason: The response.
+            error: An exception if exists.
+            suggested_status_code: The recommended HTTP status code for the failure.
+            settings: The settings for Slack OAuth flow.
+            default: The default `CallbackOptions`.
         &#34;&#34;&#34;
         self.request = request
         self.reason = reason
@@ -99,8 +101,9 @@ class CallbackOptions:
     ):
         &#34;&#34;&#34;The configurations for OAuth flow.
 
-        :param success: A handler for successful installation.
-        :param failure: A handler for any types of installation failures.
+        Args:
+            success: A handler for successful installation.
+            failure: A handler for any types of installation failures.
         &#34;&#34;&#34;
         self.success = success
         self.failure = failure
@@ -158,8 +161,13 @@ class DefaultCallbackOptions(CallbackOptions):
 </code></dt>
 <dd>
 <div class="desc"><p>The configurations for OAuth flow.</p>
-<p>:param success: A handler for successful installation.
-:param failure: A handler for any types of installation failures.</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>success</code></strong></dt>
+<dd>A handler for successful installation.</dd>
+<dt><strong><code>failure</code></strong></dt>
+<dd>A handler for any types of installation failures.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -175,8 +183,9 @@ class DefaultCallbackOptions(CallbackOptions):
     ):
         &#34;&#34;&#34;The configurations for OAuth flow.
 
-        :param success: A handler for successful installation.
-        :param failure: A handler for any types of installation failures.
+        Args:
+            success: A handler for successful installation.
+            failure: A handler for any types of installation failures.
         &#34;&#34;&#34;
         self.success = success
         self.failure = failure</code></pre>
@@ -203,8 +212,13 @@ class DefaultCallbackOptions(CallbackOptions):
 </code></dt>
 <dd>
 <div class="desc"><p>The configurations for OAuth flow.</p>
-<p>:param success: A handler for successful installation.
-:param failure: A handler for any types of installation failures.</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>success</code></strong></dt>
+<dd>A handler for successful installation.</dd>
+<dt><strong><code>failure</code></strong></dt>
+<dd>A handler for any types of installation failures.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -267,12 +281,21 @@ class DefaultCallbackOptions(CallbackOptions):
 </code></dt>
 <dd>
 <div class="desc"><p>The arguments for a failure function.</p>
-<p>:param request: The request.
-:param reason: The response.
-:param error: An exception if exists.
-:param suggested_status_code: The recommended HTTP status code for the failure.
-:param settings: The settings for OAuth flow.
-:param default: The default CallbackOptions.</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>request</code></strong></dt>
+<dd>The request.</dd>
+<dt><strong><code>reason</code></strong></dt>
+<dd>The response.</dd>
+<dt><strong><code>error</code></strong></dt>
+<dd>An exception if exists.</dd>
+<dt><strong><code>suggested_status_code</code></strong></dt>
+<dd>The recommended HTTP status code for the failure.</dd>
+<dt><strong><code>settings</code></strong></dt>
+<dd>The settings for Slack OAuth flow.</dd>
+<dt><strong><code>default</code></strong></dt>
+<dd>The default <code><a title="slack_bolt.oauth.callback_options.CallbackOptions" href="#slack_bolt.oauth.callback_options.CallbackOptions">CallbackOptions</a></code>.</dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -290,12 +313,13 @@ class DefaultCallbackOptions(CallbackOptions):
     ):
         &#34;&#34;&#34;The arguments for a failure function.
 
-        :param request: The request.
-        :param reason: The response.
-        :param error: An exception if exists.
-        :param suggested_status_code: The recommended HTTP status code for the failure.
-        :param settings: The settings for OAuth flow.
-        :param default: The default CallbackOptions.
+        Args:
+            request: The request.
+            reason: The response.
+            error: An exception if exists.
+            suggested_status_code: The recommended HTTP status code for the failure.
+            settings: The settings for Slack OAuth flow.
+            default: The default `CallbackOptions`.
         &#34;&#34;&#34;
         self.request = request
         self.reason = reason
@@ -311,10 +335,17 @@ class DefaultCallbackOptions(CallbackOptions):
 </code></dt>
 <dd>
 <div class="desc"><p>The arguments for a success function.</p>
-<p>:param request: The request.
-:param installation: The installation data.
-:param settings: The settings for OAuth flow.
-:param default: The default CallbackOptions.</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>request</code></strong></dt>
+<dd>The request.</dd>
+<dt><strong><code>installation</code></strong></dt>
+<dd>The installation data.</dd>
+<dt><strong><code>settings</code></strong></dt>
+<dd>The settings for Slack OAuth flow.</dd>
+<dt><strong><code>default</code></strong></dt>
+<dd>The default <code><a title="slack_bolt.oauth.callback_options.CallbackOptions" href="#slack_bolt.oauth.callback_options.CallbackOptions">CallbackOptions</a></code></dd>
+</dl></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -330,10 +361,11 @@ class DefaultCallbackOptions(CallbackOptions):
     ):
         &#34;&#34;&#34;The arguments for a success function.
 
-        :param request: The request.
-        :param installation: The installation data.
-        :param settings: The settings for OAuth flow.
-        :param default: The default CallbackOptions.
+        Args:
+            request: The request.
+            installation: The installation data.
+            settings: The settings for Slack OAuth flow.
+            default: The default `CallbackOptions`
         &#34;&#34;&#34;
         self.request = request
         self.installation = installation

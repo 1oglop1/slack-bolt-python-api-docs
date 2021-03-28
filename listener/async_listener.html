@@ -64,9 +64,12 @@ class AsyncListener(metaclass=ABCMeta):
     ) -&gt; Tuple[Optional[BoltResponse], bool]:
         &#34;&#34;&#34;Runs an async middleware.
 
-        :param req: The incoming request
-        :param resp: Thee current response
-        :return: A tuple of the processed response and a flag indicating termination
+        Args:
+            req: The incoming request
+            resp: The current response
+
+        Returns:
+            A tuple of the processed response and a flag indicating termination
         &#34;&#34;&#34;
         for m in self.middleware:
             middleware_state = {&#34;next_called&#34;: False}
@@ -86,9 +89,12 @@ class AsyncListener(metaclass=ABCMeta):
     ) -&gt; BoltResponse:
         &#34;&#34;&#34;Runs all the registered middleware and then run the listener function.
 
-        :param request: The incoming request
-        :param response: The current response
-        :return: The processed response
+        Args:
+            request: The incoming request
+            response: The current response
+
+        Returns:
+            The processed response
         &#34;&#34;&#34;
         raise NotImplementedError()
 
@@ -267,9 +273,15 @@ for cls in builtin_async_listener_classes:
 </code></dt>
 <dd>
 <div class="desc"><p>Runs all the registered middleware and then run the listener function.</p>
-<p>:param request: The incoming request
-:param response: The current response
-:return: The processed response</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>request</code></strong></dt>
+<dd>The incoming request</dd>
+<dt><strong><code>response</code></strong></dt>
+<dd>The current response</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The processed response</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -434,9 +446,12 @@ for cls in builtin_async_listener_classes:
     ) -&gt; Tuple[Optional[BoltResponse], bool]:
         &#34;&#34;&#34;Runs an async middleware.
 
-        :param req: The incoming request
-        :param resp: Thee current response
-        :return: A tuple of the processed response and a flag indicating termination
+        Args:
+            req: The incoming request
+            resp: The current response
+
+        Returns:
+            A tuple of the processed response and a flag indicating termination
         &#34;&#34;&#34;
         for m in self.middleware:
             middleware_state = {&#34;next_called&#34;: False}
@@ -456,9 +471,12 @@ for cls in builtin_async_listener_classes:
     ) -&gt; BoltResponse:
         &#34;&#34;&#34;Runs all the registered middleware and then run the listener function.
 
-        :param request: The incoming request
-        :param response: The current response
-        :return: The processed response
+        Args:
+            request: The incoming request
+            response: The current response
+
+        Returns:
+            The processed response
         &#34;&#34;&#34;
         raise NotImplementedError()</code></pre>
 </details>
@@ -519,9 +537,15 @@ for cls in builtin_async_listener_classes:
 </code></dt>
 <dd>
 <div class="desc"><p>Runs all the registered middleware and then run the listener function.</p>
-<p>:param request: The incoming request
-:param response: The current response
-:return: The processed response</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>request</code></strong></dt>
+<dd>The incoming request</dd>
+<dt><strong><code>response</code></strong></dt>
+<dd>The current response</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>The processed response</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -532,9 +556,12 @@ async def run_ack_function(
 ) -&gt; BoltResponse:
     &#34;&#34;&#34;Runs all the registered middleware and then run the listener function.
 
-    :param request: The incoming request
-    :param response: The current response
-    :return: The processed response
+    Args:
+        request: The incoming request
+        response: The current response
+
+    Returns:
+        The processed response
     &#34;&#34;&#34;
     raise NotImplementedError()</code></pre>
 </details>
@@ -544,9 +571,15 @@ async def run_ack_function(
 </code></dt>
 <dd>
 <div class="desc"><p>Runs an async middleware.</p>
-<p>:param req: The incoming request
-:param resp: Thee current response
-:return: A tuple of the processed response and a flag indicating termination</p></div>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>req</code></strong></dt>
+<dd>The incoming request</dd>
+<dt><strong><code>resp</code></strong></dt>
+<dd>The current response</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<p>A tuple of the processed response and a flag indicating termination</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -559,9 +592,12 @@ async def run_ack_function(
 ) -&gt; Tuple[Optional[BoltResponse], bool]:
     &#34;&#34;&#34;Runs an async middleware.
 
-    :param req: The incoming request
-    :param resp: Thee current response
-    :return: A tuple of the processed response and a flag indicating termination
+    Args:
+        req: The incoming request
+        resp: The current response
+
+    Returns:
+        A tuple of the processed response and a flag indicating termination
     &#34;&#34;&#34;
     for m in self.middleware:
         middleware_state = {&#34;next_called&#34;: False}
