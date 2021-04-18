@@ -86,6 +86,13 @@ def error_message_event_type(event_type: str) -&gt; str:
     )
 
 
+def error_installation_store_required_for_builtin_listeners() -&gt; str:
+    return (
+        &#34;To use the event listeners for token revocation handling, &#34;
+        &#34;setting a valid `installation_store` to `App`/`AsyncApp` is required.&#34;
+    )
+
+
 # -------------------------------
 # Warning
 # -------------------------------
@@ -313,6 +320,22 @@ def debug_return_listener_middleware_response(
 </summary>
 <pre><code class="python">def error_client_invalid_type_async() -&gt; str:
     return &#34;`client` must be a slack_sdk.web.async_client.AsyncWebClient&#34;</code></pre>
+</details>
+</dd>
+<dt id="slack_bolt.logger.messages.error_installation_store_required_for_builtin_listeners"><code class="name flex">
+<span>def <span class="ident">error_installation_store_required_for_builtin_listeners</span></span>(<span>) ‑> str</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def error_installation_store_required_for_builtin_listeners() -&gt; str:
+    return (
+        &#34;To use the event listeners for token revocation handling, &#34;
+        &#34;setting a valid `installation_store` to `App`/`AsyncApp` is required.&#34;
+    )</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.logger.messages.error_listener_function_must_be_coro_func"><code class="name flex">
@@ -547,6 +570,7 @@ def debug_return_listener_middleware_response(
 <li><code><a title="slack_bolt.logger.messages.error_authorize_conflicts" href="#slack_bolt.logger.messages.error_authorize_conflicts">error_authorize_conflicts</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_client_invalid_type" href="#slack_bolt.logger.messages.error_client_invalid_type">error_client_invalid_type</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_client_invalid_type_async" href="#slack_bolt.logger.messages.error_client_invalid_type_async">error_client_invalid_type_async</a></code></li>
+<li><code><a title="slack_bolt.logger.messages.error_installation_store_required_for_builtin_listeners" href="#slack_bolt.logger.messages.error_installation_store_required_for_builtin_listeners">error_installation_store_required_for_builtin_listeners</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_listener_function_must_be_coro_func" href="#slack_bolt.logger.messages.error_listener_function_must_be_coro_func">error_listener_function_must_be_coro_func</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_message_event_type" href="#slack_bolt.logger.messages.error_message_event_type">error_message_event_type</a></code></li>
 <li><code><a title="slack_bolt.logger.messages.error_oauth_flow_invalid_type_async" href="#slack_bolt.logger.messages.error_oauth_flow_invalid_type_async">error_oauth_flow_invalid_type_async</a></code></li>

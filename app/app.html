@@ -47,6 +47,7 @@ from slack_bolt.authorization.authorize import (
 )
 from slack_bolt.error import BoltError
 from slack_bolt.lazy_listener.thread_runner import ThreadLazyListenerRunner
+from slack_bolt.listener.builtins import TokenRevocationListeners
 from slack_bolt.listener.custom_listener import CustomListener
 from slack_bolt.listener.listener import Listener
 from slack_bolt.listener.listener_completion_handler import (
@@ -76,6 +77,7 @@ from slack_bolt.logger.messages import (
     warning_bot_only_conflicts,
     debug_return_listener_middleware_response,
     info_default_oauth_settings_loaded,
+    error_installation_store_required_for_builtin_listeners,
 )
 from slack_bolt.middleware import (
     Middleware,
@@ -277,6 +279,12 @@ class App:
                 self.logger.warning(warning_bot_only_conflicts())
                 self._oauth_flow.settings.installation_store_bot_only = app_bot_only
                 self._authorize.bot_only = app_bot_only
+
+        self._tokens_revocation_listeners: Optional[TokenRevocationListeners] = None
+        if self._installation_store is not None:
+            self._tokens_revocation_listeners = TokenRevocationListeners(
+                self._installation_store
+            )
 
         # --------------------------------------
         # Middleware Initialization
@@ -1116,6 +1124,27 @@ class App:
             )
 
         return __call__
+
+    # -------------------------
+    # built-in listener functions
+
+    def default_tokens_revoked_event_listener(
+        self,
+    ) -&gt; Callable[..., Optional[BoltResponse]]:
+        if self._tokens_revocation_listeners is None:
+            raise BoltError(error_installation_store_required_for_builtin_listeners())
+        return self._tokens_revocation_listeners.handle_tokens_revoked_events
+
+    def default_app_uninstalled_event_listener(
+        self,
+    ) -&gt; Callable[..., Optional[BoltResponse]]:
+        if self._tokens_revocation_listeners is None:
+            raise BoltError(error_installation_store_required_for_builtin_listeners())
+        return self._tokens_revocation_listeners.handle_app_uninstalled_events
+
+    def enable_token_revocation_listeners(self) -&gt; None:
+        self.event(&#34;tokens_revoked&#34;)(self.default_tokens_revoked_event_listener())
+        self.event(&#34;app_uninstalled&#34;)(self.default_app_uninstalled_event_listener())
 
     # -------------------------
 
@@ -1550,6 +1579,12 @@ by checking if there is a team/user in the installation data.</dd>
                 self._oauth_flow.settings.installation_store_bot_only = app_bot_only
                 self._authorize.bot_only = app_bot_only
 
+        self._tokens_revocation_listeners: Optional[TokenRevocationListeners] = None
+        if self._installation_store is not None:
+            self._tokens_revocation_listeners = TokenRevocationListeners(
+                self._installation_store
+            )
+
         # --------------------------------------
         # Middleware Initialization
         # --------------------------------------
@@ -2390,6 +2425,27 @@ by checking if there is a team/user in the installation data.</dd>
         return __call__
 
     # -------------------------
+    # built-in listener functions
+
+    def default_tokens_revoked_event_listener(
+        self,
+    ) -&gt; Callable[..., Optional[BoltResponse]]:
+        if self._tokens_revocation_listeners is None:
+            raise BoltError(error_installation_store_required_for_builtin_listeners())
+        return self._tokens_revocation_listeners.handle_tokens_revoked_events
+
+    def default_app_uninstalled_event_listener(
+        self,
+    ) -&gt; Callable[..., Optional[BoltResponse]]:
+        if self._tokens_revocation_listeners is None:
+            raise BoltError(error_installation_store_required_for_builtin_listeners())
+        return self._tokens_revocation_listeners.handle_app_uninstalled_events
+
+    def enable_token_revocation_listeners(self) -&gt; None:
+        self.event(&#34;tokens_revoked&#34;)(self.default_tokens_revoked_event_listener())
+        self.event(&#34;app_uninstalled&#34;)(self.default_app_uninstalled_event_listener())
+
+    # -------------------------
 
     def _init_context(self, req: BoltRequest):
         req.context[&#34;logger&#34;] = get_bolt_app_logger(self.name)
@@ -2791,6 +2847,40 @@ Only when all the middleware call <code>next()</code> method, the listener funct
     return __call__</code></pre>
 </details>
 </dd>
+<dt id="slack_bolt.app.app.App.default_app_uninstalled_event_listener"><code class="name flex">
+<span>def <span class="ident">default_app_uninstalled_event_listener</span></span>(<span>self) ‑> Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def default_app_uninstalled_event_listener(
+    self,
+) -&gt; Callable[..., Optional[BoltResponse]]:
+    if self._tokens_revocation_listeners is None:
+        raise BoltError(error_installation_store_required_for_builtin_listeners())
+    return self._tokens_revocation_listeners.handle_app_uninstalled_events</code></pre>
+</details>
+</dd>
+<dt id="slack_bolt.app.app.App.default_tokens_revoked_event_listener"><code class="name flex">
+<span>def <span class="ident">default_tokens_revoked_event_listener</span></span>(<span>self) ‑> Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def default_tokens_revoked_event_listener(
+    self,
+) -&gt; Callable[..., Optional[BoltResponse]]:
+    if self._tokens_revocation_listeners is None:
+        raise BoltError(error_installation_store_required_for_builtin_listeners())
+    return self._tokens_revocation_listeners.handle_tokens_revoked_events</code></pre>
+</details>
+</dd>
 <dt id="slack_bolt.app.app.App.dialog_cancellation"><code class="name flex">
 <span>def <span class="ident">dialog_cancellation</span></span>(<span>self, callback_id: Union[str, Pattern], matchers: Optional[Sequence[Callable[..., bool]]] = None, middleware: Optional[Sequence[Union[Callable, <a title="slack_bolt.middleware.middleware.Middleware" href="../middleware/middleware.html#slack_bolt.middleware.middleware.Middleware">Middleware</a>]]] = None) ‑> Optional[Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]]</span>
 </code></dt>
@@ -2962,6 +3052,20 @@ Refer to <a href="https://api.slack.com/dialogs">https://api.slack.com/dialogs</
 
     self._framework_logger.warning(warning_unhandled_request(req))
     return BoltResponse(status=404, body={&#34;error&#34;: &#34;unhandled request&#34;})</code></pre>
+</details>
+</dd>
+<dt id="slack_bolt.app.app.App.enable_token_revocation_listeners"><code class="name flex">
+<span>def <span class="ident">enable_token_revocation_listeners</span></span>(<span>self) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def enable_token_revocation_listeners(self) -&gt; None:
+    self.event(&#34;tokens_revoked&#34;)(self.default_tokens_revoked_event_listener())
+    self.event(&#34;app_uninstalled&#34;)(self.default_app_uninstalled_event_listener())</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.app.app.App.error"><code class="name flex">
@@ -3966,10 +4070,13 @@ along with a production-grade server when running the app for end users.
 <li><code><a title="slack_bolt.app.app.App.block_suggestion" href="#slack_bolt.app.app.App.block_suggestion">block_suggestion</a></code></li>
 <li><code><a title="slack_bolt.app.app.App.client" href="#slack_bolt.app.app.App.client">client</a></code></li>
 <li><code><a title="slack_bolt.app.app.App.command" href="#slack_bolt.app.app.App.command">command</a></code></li>
+<li><code><a title="slack_bolt.app.app.App.default_app_uninstalled_event_listener" href="#slack_bolt.app.app.App.default_app_uninstalled_event_listener">default_app_uninstalled_event_listener</a></code></li>
+<li><code><a title="slack_bolt.app.app.App.default_tokens_revoked_event_listener" href="#slack_bolt.app.app.App.default_tokens_revoked_event_listener">default_tokens_revoked_event_listener</a></code></li>
 <li><code><a title="slack_bolt.app.app.App.dialog_cancellation" href="#slack_bolt.app.app.App.dialog_cancellation">dialog_cancellation</a></code></li>
 <li><code><a title="slack_bolt.app.app.App.dialog_submission" href="#slack_bolt.app.app.App.dialog_submission">dialog_submission</a></code></li>
 <li><code><a title="slack_bolt.app.app.App.dialog_suggestion" href="#slack_bolt.app.app.App.dialog_suggestion">dialog_suggestion</a></code></li>
 <li><code><a title="slack_bolt.app.app.App.dispatch" href="#slack_bolt.app.app.App.dispatch">dispatch</a></code></li>
+<li><code><a title="slack_bolt.app.app.App.enable_token_revocation_listeners" href="#slack_bolt.app.app.App.enable_token_revocation_listeners">enable_token_revocation_listeners</a></code></li>
 <li><code><a title="slack_bolt.app.app.App.error" href="#slack_bolt.app.app.App.error">error</a></code></li>
 <li><code><a title="slack_bolt.app.app.App.event" href="#slack_bolt.app.app.App.event">event</a></code></li>
 <li><code><a title="slack_bolt.app.app.App.global_shortcut" href="#slack_bolt.app.app.App.global_shortcut">global_shortcut</a></code></li>
