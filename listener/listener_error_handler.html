@@ -59,7 +59,7 @@ class ListenerErrorHandler(metaclass=ABCMeta):
 
 
 class CustomListenerErrorHandler(ListenerErrorHandler):
-    def __init__(self, logger: Logger, func: Callable[..., None]):
+    def __init__(self, logger: Logger, func: Callable[..., Optional[BoltResponse]]):
         self.func = func
         self.logger = logger
         self.arg_names = inspect.getfullargspec(func).args
@@ -81,7 +81,13 @@ class CustomListenerErrorHandler(ListenerErrorHandler):
             arg_names=self.arg_names,
             logger=self.logger,
         )
-        self.func(**kwargs)
+        returned_response = self.func(**kwargs)
+        if returned_response is not None and isinstance(
+            returned_response, BoltResponse
+        ):
+            response.status = returned_response.status
+            response.headers = returned_response.headers
+            response.body = returned_response.body
 
 
 class DefaultListenerErrorHandler(ListenerErrorHandler):
@@ -109,7 +115,7 @@ class DefaultListenerErrorHandler(ListenerErrorHandler):
 <dl>
 <dt id="slack_bolt.listener.listener_error_handler.CustomListenerErrorHandler"><code class="flex name class">
 <span>class <span class="ident">CustomListenerErrorHandler</span></span>
-<span>(</span><span>logger: logging.Logger, func: Callable[..., NoneType])</span>
+<span>(</span><span>logger: logging.Logger, func: Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]])</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -118,7 +124,7 @@ class DefaultListenerErrorHandler(ListenerErrorHandler):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class CustomListenerErrorHandler(ListenerErrorHandler):
-    def __init__(self, logger: Logger, func: Callable[..., None]):
+    def __init__(self, logger: Logger, func: Callable[..., Optional[BoltResponse]]):
         self.func = func
         self.logger = logger
         self.arg_names = inspect.getfullargspec(func).args
@@ -140,7 +146,13 @@ class DefaultListenerErrorHandler(ListenerErrorHandler):
             arg_names=self.arg_names,
             logger=self.logger,
         )
-        self.func(**kwargs)</code></pre>
+        returned_response = self.func(**kwargs)
+        if returned_response is not None and isinstance(
+            returned_response, BoltResponse
+        ):
+            response.status = returned_response.status
+            response.headers = returned_response.headers
+            response.body = returned_response.body</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">

@@ -61,7 +61,9 @@ class AsyncListenerErrorHandler(metaclass=ABCMeta):
 
 
 class AsyncCustomListenerErrorHandler(AsyncListenerErrorHandler):
-    def __init__(self, logger: Logger, func: Callable[..., Awaitable[None]]):
+    def __init__(
+        self, logger: Logger, func: Callable[..., Awaitable[Optional[BoltResponse]]]
+    ):
         self.func = func
         self.logger = logger
         self.arg_names = inspect.getfullargspec(func).args
@@ -83,7 +85,13 @@ class AsyncCustomListenerErrorHandler(AsyncListenerErrorHandler):
             arg_names=self.arg_names,
             logger=self.logger,
         )
-        await self.func(**kwargs)
+        returned_response = await self.func(**kwargs)
+        if returned_response is not None and isinstance(
+            returned_response, BoltResponse
+        ):
+            response.status = returned_response.status
+            response.headers = returned_response.headers
+            response.body = returned_response.body
 
 
 class AsyncDefaultListenerErrorHandler(AsyncListenerErrorHandler):
@@ -111,7 +119,7 @@ class AsyncDefaultListenerErrorHandler(AsyncListenerErrorHandler):
 <dl>
 <dt id="slack_bolt.listener.async_listener_error_handler.AsyncCustomListenerErrorHandler"><code class="flex name class">
 <span>class <span class="ident">AsyncCustomListenerErrorHandler</span></span>
-<span>(</span><span>logger: logging.Logger, func: Callable[..., Awaitable[NoneType]])</span>
+<span>(</span><span>logger: logging.Logger, func: Callable[..., Awaitable[Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]])</span>
 </code></dt>
 <dd>
 <div class="desc"></div>
@@ -120,7 +128,9 @@ class AsyncDefaultListenerErrorHandler(AsyncListenerErrorHandler):
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">class AsyncCustomListenerErrorHandler(AsyncListenerErrorHandler):
-    def __init__(self, logger: Logger, func: Callable[..., Awaitable[None]]):
+    def __init__(
+        self, logger: Logger, func: Callable[..., Awaitable[Optional[BoltResponse]]]
+    ):
         self.func = func
         self.logger = logger
         self.arg_names = inspect.getfullargspec(func).args
@@ -142,7 +152,13 @@ class AsyncDefaultListenerErrorHandler(AsyncListenerErrorHandler):
             arg_names=self.arg_names,
             logger=self.logger,
         )
-        await self.func(**kwargs)</code></pre>
+        returned_response = await self.func(**kwargs)
+        if returned_response is not None and isinstance(
+            returned_response, BoltResponse
+        ):
+            response.status = returned_response.status
+            response.headers = returned_response.headers
+            response.body = returned_response.body</code></pre>
 </details>
 <h3>Ancestors</h3>
 <ul class="hlist">

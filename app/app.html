@@ -45,7 +45,7 @@ from slack_bolt.authorization.authorize import (
     InstallationStoreAuthorize,
     CallableAuthorize,
 )
-from slack_bolt.error import BoltError
+from slack_bolt.error import BoltError, BoltUnhandledRequestError
 from slack_bolt.lazy_listener.thread_runner import ThreadLazyListenerRunner
 from slack_bolt.listener.builtins import TokenRevocationListeners
 from slack_bolt.listener.custom_listener import CustomListener
@@ -78,6 +78,7 @@ from slack_bolt.logger.messages import (
     debug_return_listener_middleware_response,
     info_default_oauth_settings_loaded,
     error_installation_store_required_for_builtin_listeners,
+    warning_unhandled_by_global_middleware,
 )
 from slack_bolt.middleware import (
     Middleware,
@@ -113,6 +114,8 @@ class App:
         name: Optional[str] = None,
         # Set True when you run this app on a FaaS platform
         process_before_response: bool = False,
+        # Set True if you want to handle an unhandled request as an exception
+        raise_error_for_unhandled_request: bool = False,
         # Basic Information &gt; Credentials &gt; Signing Secret
         signing_secret: Optional[str] = None,
         # for single-workspace apps
@@ -122,7 +125,7 @@ class App:
         # for multi-workspace apps
         authorize: Optional[Callable[..., AuthorizeResult]] = None,
         installation_store: Optional[InstallationStore] = None,
-        # for v1.0.x compatibility
+        # for either only bot scope usage or v1.0.x compatibility
         installation_store_bot_only: Optional[bool] = None,
         # for the OAuth flow
         oauth_settings: Optional[OAuthSettings] = None,
@@ -160,6 +163,9 @@ class App:
             logger: The custom logger that can be used in this app.
             name: The application name that will be used in logging. If absent, the source file name will be used.
             process_before_response: True if this app runs on Function as a Service. (Default: False)
+            raise_error_for_unhandled_request: True if you want to raise exceptions for unhandled requests
+                and use @app.error listeners instead of
+                the built-in handler, which pints warning logs and returns 404 to Slack (Default: False)
             signing_secret: The Signing Secret value used for verifying requests from Slack.
             token: The bot/user access token required only for single-workspace app.
             token_verification_enabled: Verifies the validity of the given token if True.
@@ -182,6 +188,7 @@ class App:
             &#34;SLACK_VERIFICATION_TOKEN&#34;, None
         )
         self._framework_logger = logger or get_bolt_logger(App)
+        self._raise_error_for_unhandled_request = raise_error_for_unhandled_request
 
         self._token: Optional[str] = token
 
@@ -439,9 +446,26 @@ class App:
             resp = middleware.process(req=req, resp=resp, next=middleware_next)
             if not middleware_state[&#34;next_called&#34;]:
                 if resp is None:
-                    return BoltResponse(
+                    # next() method was not called without providing the response to return to Slack
+                    # This should not be an intentional handling in usual use cases.
+                    resp = BoltResponse(
                         status=404, body={&#34;error&#34;: &#34;no next() calls in middleware&#34;}
                     )
+                    if self._raise_error_for_unhandled_request is True:
+                        self._listener_runner.listener_error_handler.handle(
+                            error=BoltUnhandledRequestError(
+                                request=req,
+                                current_response=resp,
+                                last_global_middleware_name=middleware.name,
+                            ),
+                            request=req,
+                            response=resp,
+                        )
+                        return resp
+                    self._framework_logger.warning(
+                        warning_unhandled_by_global_middleware(middleware.name, req)
+                    )
+                    return resp
                 return resp
 
         for listener in self._listeners:
@@ -480,8 +504,27 @@ class App:
                 if listener_response is not None:
                     return listener_response
 
+        if resp is None:
+            resp = BoltResponse(status=404, body={&#34;error&#34;: &#34;unhandled request&#34;})
+        if self._raise_error_for_unhandled_request is True:
+            self._listener_runner.listener_error_handler.handle(
+                error=BoltUnhandledRequestError(
+                    request=req,
+                    current_response=resp,
+                ),
+                request=req,
+                response=resp,
+            )
+            return resp
+        return self._handle_unmatched_requests(req, resp)
+
+    def _handle_unmatched_requests(
+        self, req: BoltRequest, resp: BoltResponse
+    ) -&gt; BoltResponse:
+        # TODO: provide more info like suggestion of listeners
+        # e.g., You can handle this type of message with @app.event(&#34;app_mention&#34;)
         self._framework_logger.warning(warning_unhandled_request(req))
-        return BoltResponse(status=404, body={&#34;error&#34;: &#34;unhandled request&#34;})
+        return resp
 
     # -------------------------
     # middleware
@@ -591,7 +634,7 @@ class App:
     # global error handler
 
     def error(
-        self, func: Callable[..., None]
+        self, func: Callable[..., Optional[BoltResponse]]
     ) -&gt; Optional[Callable[..., Optional[BoltResponse]]]:
         &#34;&#34;&#34;Updates the global error handler. This method can be used as either a decorator or a method.
 
@@ -1343,7 +1386,7 @@ class SlackAppDevelopmentServer:
 <dl>
 <dt id="slack_bolt.app.app.App"><code class="flex name class">
 <span>class <span class="ident">App</span></span>
-<span>(</span><span>*, logger: Optional[logging.Logger] = None, name: Optional[str] = None, process_before_response: bool = False, signing_secret: Optional[str] = None, token: Optional[str] = None, token_verification_enabled: bool = True, client: Optional[slack_sdk.web.client.WebClient] = None, authorize: Optional[Callable[..., <a title="slack_bolt.authorization.authorize_result.AuthorizeResult" href="../authorization/authorize_result.html#slack_bolt.authorization.authorize_result.AuthorizeResult">AuthorizeResult</a>]] = None, installation_store: Optional[slack_sdk.oauth.installation_store.installation_store.InstallationStore] = None, installation_store_bot_only: Optional[bool] = None, oauth_settings: Optional[<a title="slack_bolt.oauth.oauth_settings.OAuthSettings" href="../oauth/oauth_settings.html#slack_bolt.oauth.oauth_settings.OAuthSettings">OAuthSettings</a>] = None, oauth_flow: Optional[<a title="slack_bolt.oauth.oauth_flow.OAuthFlow" href="../oauth/oauth_flow.html#slack_bolt.oauth.oauth_flow.OAuthFlow">OAuthFlow</a>] = None, verification_token: Optional[str] = None)</span>
+<span>(</span><span>*, logger: Optional[logging.Logger] = None, name: Optional[str] = None, process_before_response: bool = False, raise_error_for_unhandled_request: bool = False, signing_secret: Optional[str] = None, token: Optional[str] = None, token_verification_enabled: bool = True, client: Optional[slack_sdk.web.client.WebClient] = None, authorize: Optional[Callable[..., <a title="slack_bolt.authorization.authorize_result.AuthorizeResult" href="../authorization/authorize_result.html#slack_bolt.authorization.authorize_result.AuthorizeResult">AuthorizeResult</a>]] = None, installation_store: Optional[slack_sdk.oauth.installation_store.installation_store.InstallationStore] = None, installation_store_bot_only: Optional[bool] = None, oauth_settings: Optional[<a title="slack_bolt.oauth.oauth_settings.OAuthSettings" href="../oauth/oauth_settings.html#slack_bolt.oauth.oauth_settings.OAuthSettings">OAuthSettings</a>] = None, oauth_flow: Optional[<a title="slack_bolt.oauth.oauth_flow.OAuthFlow" href="../oauth/oauth_flow.html#slack_bolt.oauth.oauth_flow.OAuthFlow">OAuthFlow</a>] = None, verification_token: Optional[str] = None)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Bolt App that provides functionalities to register middleware/listeners.</p>
@@ -1377,6 +1420,10 @@ refer to <a href="https://slack.dev/bolt-python/concepts#authenticating-oauth">h
 <dd>The application name that will be used in logging. If absent, the source file name will be used.</dd>
 <dt><strong><code>process_before_response</code></strong></dt>
 <dd>True if this app runs on Function as a Service. (Default: False)</dd>
+<dt><strong><code>raise_error_for_unhandled_request</code></strong></dt>
+<dd>True if you want to raise exceptions for unhandled requests
+and use @app.error listeners instead of
+the built-in handler, which pints warning logs and returns 404 to Slack (Default: False)</dd>
 <dt><strong><code>signing_secret</code></strong></dt>
 <dd>The Signing Secret value used for verifying requests from Slack.</dd>
 <dt><strong><code>token</code></strong></dt>
@@ -1412,6 +1459,8 @@ by checking if there is a team/user in the installation data.</dd>
         name: Optional[str] = None,
         # Set True when you run this app on a FaaS platform
         process_before_response: bool = False,
+        # Set True if you want to handle an unhandled request as an exception
+        raise_error_for_unhandled_request: bool = False,
         # Basic Information &gt; Credentials &gt; Signing Secret
         signing_secret: Optional[str] = None,
         # for single-workspace apps
@@ -1421,7 +1470,7 @@ by checking if there is a team/user in the installation data.</dd>
         # for multi-workspace apps
         authorize: Optional[Callable[..., AuthorizeResult]] = None,
         installation_store: Optional[InstallationStore] = None,
-        # for v1.0.x compatibility
+        # for either only bot scope usage or v1.0.x compatibility
         installation_store_bot_only: Optional[bool] = None,
         # for the OAuth flow
         oauth_settings: Optional[OAuthSettings] = None,
@@ -1459,6 +1508,9 @@ by checking if there is a team/user in the installation data.</dd>
             logger: The custom logger that can be used in this app.
             name: The application name that will be used in logging. If absent, the source file name will be used.
             process_before_response: True if this app runs on Function as a Service. (Default: False)
+            raise_error_for_unhandled_request: True if you want to raise exceptions for unhandled requests
+                and use @app.error listeners instead of
+                the built-in handler, which pints warning logs and returns 404 to Slack (Default: False)
             signing_secret: The Signing Secret value used for verifying requests from Slack.
             token: The bot/user access token required only for single-workspace app.
             token_verification_enabled: Verifies the validity of the given token if True.
@@ -1481,6 +1533,7 @@ by checking if there is a team/user in the installation data.</dd>
             &#34;SLACK_VERIFICATION_TOKEN&#34;, None
         )
         self._framework_logger = logger or get_bolt_logger(App)
+        self._raise_error_for_unhandled_request = raise_error_for_unhandled_request
 
         self._token: Optional[str] = token
 
@@ -1738,9 +1791,26 @@ by checking if there is a team/user in the installation data.</dd>
             resp = middleware.process(req=req, resp=resp, next=middleware_next)
             if not middleware_state[&#34;next_called&#34;]:
                 if resp is None:
-                    return BoltResponse(
+                    # next() method was not called without providing the response to return to Slack
+                    # This should not be an intentional handling in usual use cases.
+                    resp = BoltResponse(
                         status=404, body={&#34;error&#34;: &#34;no next() calls in middleware&#34;}
                     )
+                    if self._raise_error_for_unhandled_request is True:
+                        self._listener_runner.listener_error_handler.handle(
+                            error=BoltUnhandledRequestError(
+                                request=req,
+                                current_response=resp,
+                                last_global_middleware_name=middleware.name,
+                            ),
+                            request=req,
+                            response=resp,
+                        )
+                        return resp
+                    self._framework_logger.warning(
+                        warning_unhandled_by_global_middleware(middleware.name, req)
+                    )
+                    return resp
                 return resp
 
         for listener in self._listeners:
@@ -1779,8 +1849,27 @@ by checking if there is a team/user in the installation data.</dd>
                 if listener_response is not None:
                     return listener_response
 
+        if resp is None:
+            resp = BoltResponse(status=404, body={&#34;error&#34;: &#34;unhandled request&#34;})
+        if self._raise_error_for_unhandled_request is True:
+            self._listener_runner.listener_error_handler.handle(
+                error=BoltUnhandledRequestError(
+                    request=req,
+                    current_response=resp,
+                ),
+                request=req,
+                response=resp,
+            )
+            return resp
+        return self._handle_unmatched_requests(req, resp)
+
+    def _handle_unmatched_requests(
+        self, req: BoltRequest, resp: BoltResponse
+    ) -&gt; BoltResponse:
+        # TODO: provide more info like suggestion of listeners
+        # e.g., You can handle this type of message with @app.event(&#34;app_mention&#34;)
         self._framework_logger.warning(warning_unhandled_request(req))
-        return BoltResponse(status=404, body={&#34;error&#34;: &#34;unhandled request&#34;})
+        return resp
 
     # -------------------------
     # middleware
@@ -1890,7 +1979,7 @@ by checking if there is a team/user in the installation data.</dd>
     # global error handler
 
     def error(
-        self, func: Callable[..., None]
+        self, func: Callable[..., Optional[BoltResponse]]
     ) -&gt; Optional[Callable[..., Optional[BoltResponse]]]:
         &#34;&#34;&#34;Updates the global error handler. This method can be used as either a decorator or a method.
 
@@ -3009,9 +3098,26 @@ Refer to <a href="https://api.slack.com/dialogs">https://api.slack.com/dialogs</
         resp = middleware.process(req=req, resp=resp, next=middleware_next)
         if not middleware_state[&#34;next_called&#34;]:
             if resp is None:
-                return BoltResponse(
+                # next() method was not called without providing the response to return to Slack
+                # This should not be an intentional handling in usual use cases.
+                resp = BoltResponse(
                     status=404, body={&#34;error&#34;: &#34;no next() calls in middleware&#34;}
                 )
+                if self._raise_error_for_unhandled_request is True:
+                    self._listener_runner.listener_error_handler.handle(
+                        error=BoltUnhandledRequestError(
+                            request=req,
+                            current_response=resp,
+                            last_global_middleware_name=middleware.name,
+                        ),
+                        request=req,
+                        response=resp,
+                    )
+                    return resp
+                self._framework_logger.warning(
+                    warning_unhandled_by_global_middleware(middleware.name, req)
+                )
+                return resp
             return resp
 
     for listener in self._listeners:
@@ -3050,8 +3156,19 @@ Refer to <a href="https://api.slack.com/dialogs">https://api.slack.com/dialogs</
             if listener_response is not None:
                 return listener_response
 
-    self._framework_logger.warning(warning_unhandled_request(req))
-    return BoltResponse(status=404, body={&#34;error&#34;: &#34;unhandled request&#34;})</code></pre>
+    if resp is None:
+        resp = BoltResponse(status=404, body={&#34;error&#34;: &#34;unhandled request&#34;})
+    if self._raise_error_for_unhandled_request is True:
+        self._listener_runner.listener_error_handler.handle(
+            error=BoltUnhandledRequestError(
+                request=req,
+                current_response=resp,
+            ),
+            request=req,
+            response=resp,
+        )
+        return resp
+    return self._handle_unmatched_requests(req, resp)</code></pre>
 </details>
 </dd>
 <dt id="slack_bolt.app.app.App.enable_token_revocation_listeners"><code class="name flex">
@@ -3069,7 +3186,7 @@ Refer to <a href="https://api.slack.com/dialogs">https://api.slack.com/dialogs</
 </details>
 </dd>
 <dt id="slack_bolt.app.app.App.error"><code class="name flex">
-<span>def <span class="ident">error</span></span>(<span>self, func: Callable[..., NoneType]) ‑> Optional[Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]]</span>
+<span>def <span class="ident">error</span></span>(<span>self, func: Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]) ‑> Optional[Callable[..., Optional[<a title="slack_bolt.response.response.BoltResponse" href="../response/response.html#slack_bolt.response.response.BoltResponse">BoltResponse</a>]]]</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Updates the global error handler. This method can be used as either a decorator or a method.</p>
@@ -3094,7 +3211,7 @@ when getting an unhandled error in Bolt app.</dd>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def error(
-    self, func: Callable[..., None]
+    self, func: Callable[..., Optional[BoltResponse]]
 ) -&gt; Optional[Callable[..., Optional[BoltResponse]]]:
     &#34;&#34;&#34;Updates the global error handler. This method can be used as either a decorator or a method.
 
